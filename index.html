@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HonestWork | Encuentra trabajadores confiables cerca de ti</title>
+
+  <!-- Fuente Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Íconos (para pequeños detalles) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="hw-header">
+    <div class="hw-container hw-nav">
+      <div class="hw-logo">
+        <span class="logo-mark">HW</span>
+        <span class="logo-text">HonestWork</span>
+      </div>
+      <nav class="hw-nav-links">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#seguridad">Confianza</a>
+      </nav>
+      <div class="hw-nav-actions">
+        <a href="login.html" class="btn-link">Iniciar sesión</a>
+        <a href="register.html" class="btn-primary small">Registrarme</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hw-hero">
+    <div class="hw-container hw-hero-grid">
+      <div class="hw-hero-text">
+        <h1>
+          Encuentra <span class="highlight">trabajo honesto</span> o
+          <span class="highlight">trabajadores confiables</span> en un solo lugar.
+        </h1>
+        <p class="hero-subtitle">
+          HonestWork conecta personas que necesitan un servicio con plomeros, carpinteros,
+          electricistas, hoteleros, choferes, guías y más. Con perfiles reales, fotos de trabajos
+          y testimonios verificados.
+        </p>
+        <div class="hero-buttons">
+          <a href="register.html" class="btn-primary">Quiero ofrecer mis servicios</a>
+          <a href="#buscar" class="btn-secondary">Quiero encontrar un trabajador</a>
+        </div>
+        <div class="hero-badges">
+          <div><i class="fa-solid fa-shield-halved"></i> Perfiles verificados</div>
+          <div><i class="fa-solid fa-star"></i> Opiniones reales</div>
+          <div><i class="fa-solid fa-location-dot"></i> Cerca de tu zona</div>
+        </div>
+      </div>
+
+      <div class="hw-hero-card">
+        <h2>Ejemplo de perfil</h2>
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">JM</div>
+            <div>
+              <h3>Juan Martínez</h3>
+              <p class="profile-role">Plomero certificado · 8 años de experiencia</p>
+            </div>
+          </div>
+          <div class="profile-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-text">4.9 · 82 reseñas</span>
+          </div>
+          <p class="profile-location">
+            <i class="fa-solid fa-location-dot"></i> Cabo San Lucas, B.C.S.
+          </p>
+          <p class="profile-desc">
+            Especialista en fugas, instalaciones de baños completos y mantenimiento residencial.
+            Trabajo limpio, puntual y garantizado.
+          </p>
+          <div class="profile-tags">
+            <span>Instalación de baño</span>
+            <span>Reparación de fugas</span>
+            <span>Urgencias 24/7</span>
+          </div>
+          <button class="btn-primary full">Ver un perfil como este</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSCADOR -->
+  <section id="buscar" class="hw-section search-section">
+    <div class="hw-container">
+      <h2>Busca un trabajador para tu siguiente proyecto</h2>
+      <p class="section-subtitle">
+        Filtra por ciudad, categoría y nivel de confianza basado en reseñas reales.
+      </p>
+      <form class="search-grid">
+        <div class="field">
+          <label for="searchText">¿Qué necesitas?</label>
+          <input id="searchText" type="text" placeholder="Ej. plomero, carpintero, niñera..." />
+        </div>
+        <div class="field">
+          <label for="city">Ciudad</label>
+          <input id="city" type="text" placeholder="Ej. Cabo San Lucas" />
+        </div>
+        <div class="field">
+          <label for="category">Categoría</label>
+          <select id="category">
+            <option value="">Todas</option>
+            <option>Plomería</option>
+            <option>Carpintería</option>
+            <option>Electricidad</option>
+            <option>Hotelero / Turismo</option>
+            <option>Limpieza</option>
+            <option>Chofer / Transporte</option>
+          </select>
+        </div>
+        <button type="button" class="btn-primary full-mobile">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" class="hw-section">
+    <div class="hw-container">
+      <h2>¿Cómo funciona HonestWork?</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-user-plus"></i></div>
+          <h3>1. Crea tu perfil</h3>
+          <p>
+            Si eres trabajador, registras tus datos, subes fotos de tus trabajos, agregas tus
+            precios aproximados y lo que sabes hacer.
+          </p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>2. Te encuentran por confianza</h3>
+          <p>
+            Las personas te ubicán por ciudad, oficio y calificación. Entre más buenas reseñas
+            tengas, más aparecerás en las búsquedas.
+          </p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-star-half-stroke"></i></div>
+          <h3>3. Opiniones reales</h3>
+          <p>
+            Sólo usuarios con cuenta verificada pueden dejar testimonios. Así evitamos reseñas
+            falsas y protegemos tanto al cliente como al trabajador.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORÍAS -->
+  <section id="categorias" class="hw-section alt">
+    <div class="hw-container">
+      <h2>Categorías principales</h2>
+      <div class="categories-grid">
+        <div class="cat-card">
+          <i class="fa-solid fa-wrench"></i>
+          <h3>Plomería</h3>
+          <p>Instalaciones, fugas, baños, cocinas y emergencias.</p>
+        </div>
+        <div class="cat-card">
+          <i class="fa-solid fa-hammer"></i>
+          <h3>Carpintería</h3>
+          <p>Muebles a medida, puertas, closets y reparaciones.</p>
+        </div>
+        <div class="cat-card">
+          <i class="fa-solid fa-bolt"></i>
+          <h3>Electricidad</h3>
+          <p>Cableado, contactos, cortos, paneles y mantenimiento.</p>
+        </div>
+        <div class="cat-card">
+          <i class="fa-solid fa-person-walking-luggage"></i>
+          <h3>Hotelero / Turismo</h3>
+          <p>Guías, choferes privados, servicio al huésped y más.</p>
+        </div>
+        <div class="cat-card">
+          <i class="fa-solid fa-broom"></i>
+          <h3>Limpieza</h3>
+          <p>Casas, oficinas, departamentos vacacionales.</p>
+        </div>
+        <div class="cat-card">
+          <i class="fa-solid fa-truck"></i>
+          <h3>Transporte</h3>
+          <p>Choferes privados, fletes, traslados locales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIANZA / SEGURIDAD -->
+  <section id="seguridad" class="hw-section">
+    <div class="hw-container trust-grid">
+      <div>
+        <h2>Confianza primero. Opiniones reales.</h2>
+        <p class="section-subtitle">
+          HonestWork está pensado para que puedas contratar a alguien con más tranquilidad,
+          viendo reseñas, fotos y experiencia real antes de tomar una decisión.
+        </p>
+        <ul class="trust-list">
+          <li><i class="fa-solid fa-check-circle"></i> Reseñas sólo de cuentas verificadas.</li>
+          <li><i class="fa-solid fa-check-circle"></i> Historial de trabajos con evidencia.</li>
+          <li><i class="fa-solid fa-check-circle"></i> Posibilidad de reportar perfiles falsos.</li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <p class="quote">“Encontré a mi plomero de confianza gracias a HonestWork.”</p>
+        <p class="quote-author">— Cliente verificado</p>
+        <p class="quote-small">Caso real ilustrativo del objetivo de la plataforma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="hw-footer">
+    <div class="hw-container footer-content">
+      <div class="footer-left">
+        <div class="hw-logo">
+          <span class="logo-mark">HW</span>
+          <span class="logo-text">HonestWork</span>
+        </div>
+        <p>Conectando gente trabajadora honesta con personas que valoran su esfuerzo.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#seguridad">Seguridad</a>
+        <a href="login.html">Acceder</a>
+        <a href="register.html">Crear cuenta</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © <span id="year"></span> HonestWork. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico en el footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
