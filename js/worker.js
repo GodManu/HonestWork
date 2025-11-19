@@ -42,6 +42,32 @@ function renderWorker(data) {
 
   const initial = name.trim()[0] || "?";
 
+    const services = Array.isArray(data.services) ? data.services : [];
+
+  const servicesHTML = services.length
+    ? `
+      <ul style="list-style:none; padding:0; margin-top:0.5rem;">
+        ${services.map(svc => `
+          <li style="
+            padding:0.4rem 0;
+            border-bottom:1px solid #e5e7eb;
+            display:flex;
+            justify-content:space-between;
+            font-size:0.9rem;
+          ">
+            <span>${svc.name}</span>
+            <span style="font-weight:600;">$${svc.price} MXN</span>
+          </li>
+        `).join("")}
+      </ul>
+    `
+    : `
+      <p class="worker-placeholder">
+        Este trabajador aún no ha agregado sus servicios y precios.
+      </p>
+    `;
+
+
   workerContent.innerHTML = `
     <div class="worker-top">
       <div class="worker-avatar-big">
