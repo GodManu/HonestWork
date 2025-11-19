@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar trabajadores | HonestWork</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .workers-container {
+      max-width: 1100px;
+      margin: 2rem auto;
+    }
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .worker-card {
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 1.2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .worker-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .worker-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #374151;
+      overflow: hidden;
+      font-size: 1rem;
+    }
+    .worker-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .worker-oficio {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+    .worker-desc {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin: 0.4rem 0 0.8rem;
+    }
+    .worker-tags {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hw-header">
+    <div class="hw-container hw-nav">
+      <div class="hw-logo">
+        <span class="logo-mark">HW</span>
+        <span class="logo-text">HonestWork</span>
+      </div>
+      <div class="hw-nav-actions">
+        <a href="index.html" class="btn-link">Inicio</a>
+        <a href="profile.html" class="btn-primary small">Mi perfil</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hw-section">
+    <div class="hw-container workers-container">
+      <h2>Trabajadores disponibles</h2>
+      <p class="section-subtitle">
+        Estos son los perfiles de personas que activaron su cuenta como trabajadores en HonestWork.
+      </p>
+
+      <div id="workersList" class="workers-grid">
+        <!-- Aquí se inyectan las tarjetas desde JS -->
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/workers.js"></script>
+</body>
+</html>
