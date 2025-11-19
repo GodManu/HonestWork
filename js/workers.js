@@ -40,18 +40,23 @@ async function loadWorkers() {
       card.className = "worker-card";
 
       card.innerHTML = `
-        <div class="worker-header">
-          <div class="worker-avatar">
-            ${photoURL ? `<img src="${photoURL}" alt="Foto">` : initial}
-          </div>
-          <div>
-            <h3>${name}</h3>
-            <p class="worker-oficio">${oficio}</p>
-          </div>
-        </div>
-        <p class="worker-desc">${descripcion}</p>
-        <p class="worker-tags">Próximamente: ver perfil público, reseñas y más.</p>
-      `;
+  <div class="worker-header">
+    <div class="worker-avatar">
+      ${photoURL ? `<img src="${photoURL}" alt="Foto">` : initial}
+    </div>
+    <div>
+      <h3>${name}</h3>
+      <p class="worker-oficio">${oficio}</p>
+    </div>
+  </div>
+  <p class="worker-desc">${descripcion}</p>
+  <p class="worker-tags">
+    <a href="worker.html?id=${docSnap.id}" style="text-decoration:none; color:#2563eb; font-weight:600;">
+      Ver perfil público →
+    </a>
+  </p>
+`;
+
 
       workersList.appendChild(card);
     });
