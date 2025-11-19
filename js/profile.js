@@ -53,6 +53,7 @@ onAuthStateChanged(auth, async (user) => {
   // Rellenar campos
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
+  document.getElementById("isWorkerInput").checked = data.isWorker === true;
 });
 
 // —————————————————————————————
@@ -64,11 +65,13 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
 
   const oficio = document.getElementById("oficioInput").value.trim();
   const descripcion = document.getElementById("descInput").value.trim();
+  const isWorker = document.getElementById("isWorkerInput").checked;
 
   try {
     await updateDoc(doc(db, "users", user.uid), {
       oficio: oficio,
       descripcion: descripcion,
+      isWorker: isWorker
     });
 
     alert("Perfil actualizado correctamente ✔");
@@ -76,6 +79,7 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
     alert("Error al guardar: " + error.message);
   }
 });
+
 
 // —————————————————————————————
 // 3. SUBIR FOTO DE PERFIL
