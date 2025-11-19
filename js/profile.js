@@ -185,7 +185,7 @@ document.getElementById("profilePicInput").addEventListener("change", async (eve
   if (!file) return;
 
   try {
-    const storageRef = ref(storage, `profilePictures/${user.uid}.jpg`);
+    const storageRef = ref(storage, `profilePictures/${user.uid}/${file.name}`);
     await uploadBytes(storageRef, file);
 
     const downloadURL = await getDownloadURL(storageRef);
