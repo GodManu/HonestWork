@@ -19,8 +19,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 // —————————————————————————————
-// 1. DETECTAR AL USUARIO LOGEADO
+// CONTROL DE SERVICIOS
 // —————————————————————————————
+
 let services = [];
 let currentUserId = null;
 
@@ -62,7 +63,6 @@ function renderServices() {
 
   container.innerHTML = itemsHtml;
 
-  // listeners para eliminar
   container.querySelectorAll(".removeServiceBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       const idx = parseInt(btn.dataset.index, 10);
@@ -103,6 +103,9 @@ if (addServiceBtn) {
   });
 }
 
+// —————————————————————————————
+// 1. DETECTAR AL USUARIO LOGEADO
+// —————————————————————————————
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -111,6 +114,8 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   const userId = user.uid;
+  currentUserId = userId;
+
   const userDoc = await getDoc(doc(db, "users", userId));
 
   if (!userDoc.exists()) {
@@ -120,11 +125,11 @@ onAuthStateChanged(auth, async (user) => {
 
   const data = userDoc.data();
 
-  // Mostrar datos en pantalla
+  // Mostrar datos
   document.getElementById("profileName").textContent = data.name;
   document.getElementById("profileEmail").textContent = data.email;
-  
-  // Foto de perfil
+
+  // Foto
   const profilePic = document.getElementById("profilePicPreview");
   if (data.photoURL) {
     profilePic.innerHTML = `<img src="${data.photoURL}" alt="Foto de perfil">`;
@@ -136,11 +141,13 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
-});
 
-cargar servicios
+  // Cargar servicios
   services = Array.isArray(data.services) ? data.services : [];
   renderServices();
+});
+
+
 // —————————————————————————————
 // 2. GUARDAR CAMBIOS
 // —————————————————————————————
@@ -167,8 +174,6 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
   }
 });
 
-
-
 // —————————————————————————————
 // 3. SUBIR FOTO DE PERFIL
 // —————————————————————————————
@@ -185,7 +190,6 @@ document.getElementById("profilePicInput").addEventListener("change", async (eve
 
     const downloadURL = await getDownloadURL(storageRef);
 
-    // Guardar en Firebase Auth + Firestore
     await updateProfile(user, { photoURL: downloadURL });
     await updateDoc(doc(db, "users", user.uid), { photoURL: downloadURL });
 
