@@ -99,15 +99,44 @@
       <textarea id="descInput" placeholder="Cuéntale a la gente quién eres y qué sabes hacer..." rows="4"></textarea>
     </div>
 
-    <div class="profile-section" style="display:flex; align-items:center; gap:0.5rem;">
-  <input type="checkbox" id="isWorkerInput">
-  <label for="isWorkerInput" style="font-weight:600;">
-    Quiero ofrecer mis servicios en HonestWork (mostrar mi perfil al público)
-  </label>
+       <div class="profile-section">
+      <label style="font-weight:600;">Servicios que ofreces</label>
+      <p style="font-size:0.85rem; color:#6b7280; margin-bottom:0.5rem;">
+        Agrega los servicios principales que ofreces y un precio aproximado. Estos se mostrarán en tu perfil público.
+      </p>
 
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem;">
+        <input 
+          id="serviceNameInput" 
+          type="text" 
+          placeholder="Ej. Limpieza de casa" 
+          style="flex:1; min-width:140px; padding:0.6rem; border-radius:0.7rem; border:1px solid #d1d5db;">
+        <input 
+          id="servicePriceInput" 
+          type="number" 
+          placeholder="Precio aprox. (MXN)" 
+          style="width:160px; padding:0.6rem; border-radius:0.7rem; border:1px solid #d1d5db;">
+        <button type="button" id="addServiceBtn" class="btn-secondary" style="white-space:nowrap;">
+          Agregar
+        </button>
+      </div>
+
+      <div id="servicesList" style="border-radius:0.9rem; background:#f9fafb; padding:0.75rem;">
+        <p style="font-size:0.85rem; color:#9ca3af; margin:0;">
+          Aún no has agregado servicios.
+        </p>
+      </div>
+    </div>
+
+    <div class="profile-section" style="display:flex; align-items:center; gap:0.5rem;">
+      <input type="checkbox" id="isWorkerInput">
+      <label for="isWorkerInput" style="font-weight:600;">
+        Quiero ofrecer mis servicios en HonestWork (mostrar mi perfil al público)
+      </label>
     </div>
 
     <button class="btn-primary full" id="saveProfileBtn">Guardar cambios</button>
+
   </div>
 
   <script type="module" src="js/firebase-config.js"></script>
