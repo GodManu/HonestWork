@@ -19,7 +19,7 @@
     <div class="hw-container hw-nav">
       <div class="hw-logo">
         <span class="logo-mark">HW</span>
-        <span class="logo-text">HonestWork</span>
+        <span class="logo-text">HonestWork Los Cabos</span>
       </div>
       <nav class="hw-nav-links">
         <a href="#como-funciona">Cómo funciona</a>
@@ -27,9 +27,9 @@
         <a href="#seguridad">Confianza</a>
       </nav>
       <div class="hw-nav-actions">
-        <a href="profile.html" class="btn-primary">Mi Perfil</a>
-        <a href="login.html" class="btn-link">Iniciar sesión</a>
-        <a href="register.html" class="btn-primary small">Registrarme</a>
+         <a id="loginBtn" class="btn-secondary small" href="login.html">Iniciar sesión</a>
+         <a id="registerBtn" class="btn-secondary small" href="register.html">Registrarse</a>
+         <a id="profileBtn" class="btn-primary small" href="profile.html" style="display:none;">Mi perfil</a>
       </div>
     </div>
   </header>
@@ -241,6 +241,30 @@
   </footer>
 
   <script>
+<script type="module">
+import { auth } from "./js/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
+const profileBtn = document.getElementById("profileBtn");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Usuario logueado
+    loginBtn.style.display = "none";
+    registerBtn.style.display = "none";
+    profileBtn.style.display = "inline-block";
+  } else {
+    // Usuario NO logueado
+    loginBtn.style.display = "inline-block";
+    registerBtn.style.display = "inline-block";
+    profileBtn.style.display = "none";
+  }
+});
+</script>
+
+    
     // Año dinámico en el footer
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
