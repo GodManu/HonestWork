@@ -1,9 +1,4 @@
 // js/workers.js
-console.log("workers.js cargado ✔");
-
-import { auth } from "./firebase-config.js";
-console.log("Firebase cargado ✔", auth);
-
 
 import { db } from "./firebase-config.js";
 import {
@@ -15,10 +10,7 @@ import {
 
 const workersList = document.getElementById("workersList");
 
-console.log("Iniciando lectura de trabajadores...");
-
-async function loadWorkers() console.log("QuerySnapshot size:", querySnapshot.size);
- {
+async function loadWorkers() {
   try {
     // Buscar solo usuarios que marcaron isWorker = true
     const q = query(
