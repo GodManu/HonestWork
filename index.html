@@ -49,7 +49,7 @@
         </p>
         <div class="hero-buttons">
           <a href="register.html" class="btn-primary">Quiero ofrecer mis servicios</a>
-          <a href="#buscar" class="btn-secondary">Quiero encontrar un trabajador</a>
+         <a href="workers.html" class="btn-secondary">Quiero encontrar un trabajador</a>
         </div>
         <div class="hero-badges">
           <div><i class="fa-solid fa-shield-halved"></i> Perfiles verificados</div>
@@ -84,7 +84,7 @@
             <span>Reparación de fugas</span>
             <span>Urgencias 24/7</span>
           </div>
-          <button class="btn-primary full">Ver un perfil como este</button>
+          <a href="workers.html" class="btn-primary full">Ver un perfil como este</a>
         </div>
       </div>
     </div>
@@ -240,7 +240,7 @@
     </div>
   </footer>
 
-<!-- DETECTAR LOGIN Y MOSTRAR/OCULTAR BOTONES -->
+<!-- Detectar sesión -->
 <script type="module">
 import { auth } from "./js/firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -261,6 +261,23 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 </script>
+  <script>
+document.querySelector(".search-grid button").addEventListener("click", () => {
+  const search = document.getElementById("searchText").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const category = document.getElementById("category").value.trim();
+
+  const params = new URLSearchParams();
+
+  if (search) params.append("q", search);
+  if (city) params.append("city", city);
+  if (category) params.append("cat", category);
+
+  window.location.href = "workers.html?" + params.toString();
+});
+
+ <script>
+
 
 <!-- AÑO EN FOOTER -->
 <script>
