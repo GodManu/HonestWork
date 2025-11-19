@@ -270,6 +270,31 @@ onAuthStateChanged(auth, (user) => {
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+<script>
+const searchBtn = document.querySelector(".search-grid button");
 
+searchBtn.addEventListener("click", () => {
+  const text = document.getElementById("searchText").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const category = document.getElementById("category").value.trim();
+
+  const params = new URLSearchParams();
+
+  if (text) params.append("q", text);
+  if (city) params.append("city", city);
+  if (category) params.append("cat", category);
+
+  // Si no hay nada escrito, manda normal
+  if (!text && !city && !category) {
+    window.location.href = "workers.html";
+    return;
+  }
+
+  window.location.href = "workers.html?" + params.toString();
+});
+</script>
+
+  
+  
 </body>
 </html>
