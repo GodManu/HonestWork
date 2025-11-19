@@ -42,7 +42,8 @@ function renderWorker(data) {
 
   const initial = name.trim()[0] || "?";
 
-    const services = Array.isArray(data.services) ? data.services : [];
+  // Servicios del trabajador
+  const services = Array.isArray(data.services) ? data.services : [];
 
   const servicesHTML = services.length
     ? `
@@ -67,7 +68,7 @@ function renderWorker(data) {
       </p>
     `;
 
-
+  // HTML final del perfil público
   workerContent.innerHTML = `
     <div class="worker-top">
       <div class="worker-avatar-big">
@@ -90,9 +91,7 @@ function renderWorker(data) {
 
     <div class="worker-section">
       <div class="worker-section-title">Servicios y precios</div>
-      <p class="worker-placeholder">
-        Próximamente: listado de servicios, precios y disponibilidad.
-      </p>
+      ${servicesHTML}
     </div>
 
     <div class="worker-section">
