@@ -1,8 +1,13 @@
 // js/worker.js
 import { db } from "./firebase-config.js";
 import {
-  doc,
-  getDoc
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  addDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const workerContent = document.getElementById("workerContent");
@@ -113,5 +118,37 @@ function renderWorker(data) {
         Próximamente: botón de contacto directo por WhatsApp y más datos de contacto.
       </p>
     </div>
-  `;
+  async function loadReviews(workerId) {
+  const container = document.getElementById("reviewsContainer");
+
+  const q = query(
+    collection(db, "reviews"),
+    where("workerId", "==", workerId),
+    orderBy("timestamp", "desc")
+  );
+
+  const snap = await getDocs(q);
+
+  if (snap.empty) {
+    container.innerHTML = `<p class="worker-placeholder">Aún no hay reseñas.</p>`;
+    return;
+  }
+
+  let html = "";
+
+  snap.forEach(doc => {
+    const r = doc.data();
+    html += `
+      <div class="review-card">
+        <div class="review-header">
+          <span class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
+        </div>
+        <p class="review-comment">${r.comment}</p>
+        <p class="review-author">Reseña verificada por usuario</p>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
 }
+
