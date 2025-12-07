@@ -114,24 +114,29 @@ document.getElementById("addServiceBtn").addEventListener("click", () => {
 // ====================================================
 // GUARDAR PERFIL (AQUÍ SE GUARDA WHATSAPP)
 // ====================================================
-document.getElementById("saveProfileBtn").addEventListener("click", async () => {
+document.getElementById("saveProfileBtn").onclick = async () => {
   const user = auth.currentUser;
-  if (!user) return;
+  if (!user) return alert("Debes iniciar sesión");
 
-  const dataToSave = {
-    oficio: document.getElementById("oficioInput").value.trim(),
-    descripcion: document.getElementById("descInput").value.trim(),
-    phone: document.getElementById("phoneInput").value.trim(),       // 🔥 SE GUARDA AQUÍ
-    city: document.getElementById("cityInput").value.trim(),
-    category: document.getElementById("categoryInput").value.trim(),
-    isWorker: document.getElementById("isWorkerInput").checked,
-    services: services,
-  };
+  const phone = document.getElementById("phoneInput").value.trim();
+  const oficio = document.getElementById("oficioInput").value.trim();
+  const desc = document.getElementById("descInput").value.trim();
+  const city = document.getElementById("cityInput").value.trim();
+  const category = document.getElementById("categoryInput").value;
+  const isWorker = document.getElementById("isWorkerInput").checked;
 
-  await updateDoc(doc(db, "users", user.uid), dataToSave);
+  await updateDoc(doc(db, "users", user.uid), {
+    phone,
+    oficio,
+    descripcion: desc,
+    city,
+    category,
+    isWorker
+  });
 
   alert("Perfil actualizado correctamente ✔");
-});
+};
+
 
 // ====================================================
 // SUBIR FOTO DE PERFIL
