@@ -17,13 +17,57 @@ const cityFilter = params.get("city")?.toLowerCase() || "";
 const categoryFilter = params.get("cat")?.toLowerCase() || "";
 
 
-async function loadWorkers() {
-  try {
-    // TRAEMOS SOLO TRABAJADORES ACTIVOS
-    const q = query(
-      collection(db, "users"),
-      where("isWorker", "==", true)
-    );
+async function loadReviews(workerId) {
+  const container = document.getElementById("reviewsContainer");
+
+  const q = query(
+    collection(db, "reviews"),
+    where("workerId", "==", workerId),
+    orderBy("timestamp", "desc")
+  );
+
+  const snap = await getDocs(q);
+
+  if (snap.empty) {
+    container.innerHTML = `<p class="worker-placeholder">Aún no hay reseñas.</p>`;
+    return;
+  }
+
+  let html = "";
+
+  for (const reviewDoc of snap.docs) {
+    const r = reviewDoc.data();
+
+    // ================
+    // OBTENER NOMBRE DEL USUARIO QUE RESEÑÓ
+    // ================
+    let userName = "Usuario verificado";
+
+    try {
+      const userSnap = await getDoc(doc(db, "users", r.userId));
+      if (userSnap.exists()) {
+        userName = userSnap.data().name || "Usuario verificado";
+      }
+    } catch (e) {
+      console.log("Error leyendo usuario:", e);
+    }
+
+    html += `
+      <div class="review-card">
+        <span class="stars">
+          ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}
+        </span>
+        <p class="review-comment">${r.comment}</p>
+        <p class="review-author">
+          <strong>${userName}</strong> — Reseña verificada
+        </p>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+
 
     const querySnapshot = await getDocs(q);
 
