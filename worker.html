@@ -95,6 +95,13 @@
 
     <div id="workerContent" class="worker-card-public">Cargando perfil...</div>
 
+    <p class="worker-verification">
+  ${data.idStatus === "approved" 
+    ? "✔ Identidad verificada" 
+    : "⚠ Aún no verificado"}
+</p>
+</div>
+
     <div class="worker-section">
       <div class="worker-section-title">Reseñas verificadas</div>
 
