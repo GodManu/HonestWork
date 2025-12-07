@@ -33,7 +33,39 @@ async function loadWorker(id) {
 
   renderWorker(snap.data());
 
-  setTimeout(() => loadReviews(id), 100);
+  setTimeout(() => {
+  loadReviews(id);
+  loadRatingSummary(id);
+}, 100);
+}
+async function loadRatingSummary(workerId) {
+  const ratingBox = document.getElementById("ratingSummary");
+
+  const q = query(
+    collection(db, "reviews"),
+    where("workerId", "==", workerId)
+  );
+
+  const snap = await getDocs(q);
+
+  if (snap.empty) {
+    ratingBox.textContent = "Aún no hay reseñas.";
+    return;
+  }
+
+  let total = 0;
+  let count = snap.docs.length;
+
+  snap.forEach(doc => {
+    total += doc.data().rating;
+  });
+
+  const average = (total / count).toFixed(1);
+
+  ratingBox.innerHTML = `
+    ⭐ <span style="font-size:1.2rem;">${average}</span> 
+    <span style="color:#4b5563;"> · ${count} reseña${count === 1 ? "" : "s"}</span>
+  `;
 }
 
 function renderWorker(data) {
