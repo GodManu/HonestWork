@@ -44,6 +44,7 @@ async function loadWorkers() {
       const city = (data.city || "").toLowerCase();
       const category = (data.category || "").toLowerCase();
 
+
       // ===============================
       //        FILTROS DE BÚSQUEDA
       // ===============================
@@ -88,6 +89,9 @@ async function loadWorkers() {
         </div>
 
         <p class="worker-desc">${data.descripcion || ""}</p>
+        <p class="worker-city"><b>Ciudad:</b> ${data.city || "No especificada"}</p>
+        <p class="worker-cat"><b>Categoría:</b> ${data.category || "No especificada"}</p>
+
 
         <p class="worker-tags">
           <a href="worker.html?id=${docSnap.id}" style="text-decoration:none; color:#2563eb; font-weight:600;">
