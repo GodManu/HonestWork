@@ -13,43 +13,38 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const workerContent = document.getElementById("workerContent");
-const params = new URLSearchParams(window.location.search);
-const workerId = params.get("id");
+const workerId = new URLSearchParams(window.location.search).get("id");
 
-// =====================================
+// ================================
 // CARGAR PERFIL
-// =====================================
-
-if (!workerId) {
-  workerContent.innerHTML = "<p>No se especificó trabajador.</p>";
-} else {
-  loadWorker(workerId);
-}
+// ================================
+if (!workerId) workerContent.innerHTML = "No se especificó trabajador.";
+else loadWorker(workerId);
 
 async function loadWorker(id) {
   const snap = await getDoc(doc(db, "users", id));
 
   if (!snap.exists()) {
-    workerContent.innerHTML = "<p>Este perfil no existe.</p>";
+    workerContent.innerHTML = "Este trabajador no existe.";
     return;
   }
 
-  renderWorker(snap.data());
+  renderProfile(snap.data());
 
+  // cargar reseñas y promedio
   setTimeout(() => {
     loadReviews(id);
     loadRatingSummary(id);
   }, 150);
 }
 
-// =====================================
-// MOSTRAR PERFIL COMPLETO
-// =====================================
-
-function renderWorker(data) {
+// ================================
+// RENDER DEL PERFIL COMPLETO
+// ================================
+function renderProfile(data) {
   const name = data.name || "Sin nombre";
   const oficio = data.oficio || "Oficio no especificado";
-  const descripcion = data.descripcion || "Este trabajador aún no agregó descripción.";
+  const descripcion = data.descripcion || "Este trabajador no agregó descripción.";
   const email = data.email || "No disponible";
   const photoURL = data.photoURL || "";
   const initial = name[0] || "?";
@@ -59,18 +54,21 @@ function renderWorker(data) {
   const servicesHTML = services.length
     ? `
       <ul style="list-style:none;padding:0;">
-        ${services.map(s => `
-          <li style="
-            padding:.4rem 0;
-            border-bottom:1px solid #e5e7eb;
-            display:flex;
-            justify-content:space-between;">
-            <span>${s.name}</span>
-            <b>$${s.price} MXN</b>
-          </li>
-        `).join("")}
-      </ul>`
-    : `<p class="worker-placeholder">Aún no hay servicios agregados.</p>`;
+        ${services
+          .map(
+            (s) => `
+            <li style="
+              padding:0.4rem 0;
+              border-bottom:1px solid #e5e7eb;
+              display:flex; justify-content:space-between;">
+              <span>${s.name}</span>
+              <b>$${s.price} MXN</b>
+            </li>`
+          )
+          .join("")}
+      </ul>
+      `
+    : `<p class="worker-placeholder">Aún no hay servicios.</p>`;
 
   workerContent.innerHTML = `
     <div class="worker-top">
@@ -79,7 +77,7 @@ function renderWorker(data) {
       </div>
       <div>
         <h1>${name}</h1>
-        <p class="worker-oficio-big">${oficio}</p>
+        <p>${oficio}</p>
       </div>
     </div>
 
@@ -96,23 +94,17 @@ function renderWorker(data) {
     <div class="worker-section">
       <div class="worker-section-title">Contacto</div>
       <p><b>Correo:</b> ${email}</p>
-      <p class="worker-placeholder">Próximamente WhatsApp directo.</p>
     </div>
   `;
 }
 
-// =====================================
-// PROMEDIO DE CALIFICACIÓN
-// =====================================
-
+// ================================
+// CARGAR PROMEDIO DE RESEÑAS
+// ================================
 async function loadRatingSummary(workerId) {
   const box = document.getElementById("ratingSummary");
 
-  const q = query(
-    collection(db, "reviews"),
-    where("workerId", "==", workerId)
-  );
-
+  const q = query(collection(db, "reviews"), where("workerId", "==", workerId));
   const snap = await getDocs(q);
 
   if (snap.empty) {
@@ -123,20 +115,18 @@ async function loadRatingSummary(workerId) {
   let total = 0;
   const count = snap.docs.length;
 
-  snap.forEach(d => total += d.data().rating);
+  snap.forEach((d) => (total += d.data().rating));
 
   const avg = (total / count).toFixed(1);
 
-  box.innerHTML = `
-    ⭐ <span style="font-size:1.2rem;">${avg}</span>
-    <span style="color:#4b5563;"> · ${count} reseña${count === 1 ? "" : "s"}</span>
-  `;
+  box.innerHTML = `⭐ <span style="font-size:1.2rem;">${avg}</span> · ${count} reseña${
+    count === 1 ? "" : "s"
+  }`;
 }
 
-// =====================================
-// FORMATO FECHA
-// =====================================
-
+// ================================
+// FORMATEAR FECHA
+// ================================
 function formatDate(ts) {
   if (!ts) return "";
   return ts.toDate().toLocaleDateString("es-MX", {
@@ -146,12 +136,11 @@ function formatDate(ts) {
   });
 }
 
-// =====================================
+// ================================
 // CARGAR RESEÑAS
-// =====================================
-
+// ================================
 async function loadReviews(workerId) {
-  const container = document.getElementById("reviewsContainer");
+  const box = document.getElementById("reviewsContainer");
 
   const q = query(
     collection(db, "reviews"),
@@ -162,7 +151,7 @@ async function loadReviews(workerId) {
   const snap = await getDocs(q);
 
   if (snap.empty) {
-    container.innerHTML = `<p class="worker-placeholder">Aún no hay reseñas.</p>`;
+    box.innerHTML = `<p class="worker-placeholder">Aún no hay reseñas.</p>`;
     return;
   }
 
@@ -171,28 +160,27 @@ async function loadReviews(workerId) {
   for (const d of snap.docs) {
     const r = d.data();
 
-    let userName = "Usuario verificado";
-    let userPhoto = "";
-    let userInitial = "?";
+    // obtener info del usuario que dejó la reseña
+    let name = "Usuario verificado";
+    let photo = "";
+    let initial = "?";
 
     try {
-      const uSnap = await getDoc(doc(db, "users", r.userId));
-      if (uSnap.exists()) {
-        const u = uSnap.data();
-        userName = u.name || userName;
-        userPhoto = u.photoURL || "";
-        userInitial = u.name?.[0] || "?";
+      const userSnap = await getDoc(doc(db, "users", r.userId));
+      if (userSnap.exists()) {
+        const u = userSnap.data();
+        name = u.name || name;
+        photo = u.photoURL || "";
+        initial = u.name?.[0] || "?";
       }
     } catch {}
 
     html += `
       <div class="review-card">
         <div class="review-user">
-          <div class="review-avatar">
-            ${userPhoto ? `<img src="${userPhoto}">` : userInitial}
-          </div>
+          <div class="review-avatar">${photo ? `<img src="${photo}">` : initial}</div>
           <div>
-            <strong>${userName}</strong>
+            <strong>${name}</strong>
             <div class="review-date">${formatDate(r.timestamp)}</div>
           </div>
         </div>
@@ -206,13 +194,12 @@ async function loadReviews(workerId) {
     `;
   }
 
-  container.innerHTML = html;
+  box.innerHTML = html;
 }
 
-// =====================================
-// MODAL RESEÑA
-// =====================================
-
+// ================================
+// MODAL PARA ESCRIBIR RESEÑA
+// ================================
 document.getElementById("writeReviewBtn").onclick = () =>
   document.getElementById("reviewModal").classList.remove("hidden");
 
@@ -220,19 +207,15 @@ document.getElementById("closeReviewBtn").onclick = () =>
   document.getElementById("reviewModal").classList.add("hidden");
 
 document.getElementById("submitReviewBtn").onclick = async () => {
-
   if (!auth.currentUser) {
-    alert("Debes iniciar sesión para reseñar.");
+    alert("Debes iniciar sesión.");
     return;
   }
 
   const rating = Number(document.getElementById("ratingInput").value);
   const comment = document.getElementById("commentInput").value.trim();
 
-  if (!comment) {
-    alert("El comentario no puede ir vacío");
-    return;
-  }
+  if (!comment) return alert("Escribe un comentario.");
 
   await addDoc(collection(db, "reviews"), {
     userId: auth.currentUser.uid,
@@ -243,7 +226,6 @@ document.getElementById("submitReviewBtn").onclick = async () => {
   });
 
   alert("Reseña enviada ✔");
-
   document.getElementById("reviewModal").classList.add("hidden");
 
   loadReviews(workerId);
