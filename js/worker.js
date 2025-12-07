@@ -31,7 +31,6 @@ async function loadWorker(id) {
 
   renderProfile(snap.data());
 
-  // cargar reseñas y promedio
   setTimeout(() => {
     loadReviews(id);
     loadRatingSummary(id);
@@ -39,13 +38,14 @@ async function loadWorker(id) {
 }
 
 // ================================
-// RENDER DEL PERFIL COMPLETO
+// RENDER PERFIL COMPLETO + WHATSAPP
 // ================================
 function renderProfile(data) {
   const name = data.name || "Sin nombre";
   const oficio = data.oficio || "Oficio no especificado";
   const descripcion = data.descripcion || "Este trabajador no agregó descripción.";
   const email = data.email || "No disponible";
+  const phone = data.phone || "";
   const photoURL = data.photoURL || "";
   const initial = name[0] || "?";
 
@@ -94,12 +94,27 @@ function renderProfile(data) {
     <div class="worker-section">
       <div class="worker-section-title">Contacto</div>
       <p><b>Correo:</b> ${email}</p>
+
+      ${
+        phone
+          ? `
+            <p><b>WhatsApp:</b> ${phone}</p>
+            <a 
+              href="https://wa.me/52${phone}?text=Hola%20te%20vi%20en%20HonestWork%20y%20me%20interesa%20tu%20servicio."
+              target="_blank"
+              class="btn-primary"
+              style="margin-top:0.5rem; display:inline-block;">
+              Contactar por WhatsApp
+            </a>
+          `
+          : `<p class="worker-placeholder">Este trabajador no agregó su número de WhatsApp.</p>`
+      }
     </div>
   `;
 }
 
 // ================================
-// CARGAR PROMEDIO DE RESEÑAS
+// PROMEDIO DE RESEÑAS
 // ================================
 async function loadRatingSummary(workerId) {
   const box = document.getElementById("ratingSummary");
@@ -160,8 +175,7 @@ async function loadReviews(workerId) {
   for (const d of snap.docs) {
     const r = d.data();
 
-    // obtener info del usuario que dejó la reseña
-    let name = "Usuario verificado";
+    let userName = "Usuario verificado";
     let photo = "";
     let initial = "?";
 
@@ -169,7 +183,7 @@ async function loadReviews(workerId) {
       const userSnap = await getDoc(doc(db, "users", r.userId));
       if (userSnap.exists()) {
         const u = userSnap.data();
-        name = u.name || name;
+        userName = u.name || userName;
         photo = u.photoURL || "";
         initial = u.name?.[0] || "?";
       }
@@ -178,9 +192,11 @@ async function loadReviews(workerId) {
     html += `
       <div class="review-card">
         <div class="review-user">
-          <div class="review-avatar">${photo ? `<img src="${photo}">` : initial}</div>
+          <div class="review-avatar">
+            ${photo ? `<img src="${photo}">` : initial}
+          </div>
           <div>
-            <strong>${name}</strong>
+            <strong>${userName}</strong>
             <div class="review-date">${formatDate(r.timestamp)}</div>
           </div>
         </div>
@@ -198,7 +214,7 @@ async function loadReviews(workerId) {
 }
 
 // ================================
-// MODAL PARA ESCRIBIR RESEÑA
+// MODAL PARA RESEÑAS
 // ================================
 document.getElementById("writeReviewBtn").onclick = () =>
   document.getElementById("reviewModal").classList.remove("hidden");
