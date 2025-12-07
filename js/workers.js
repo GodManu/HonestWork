@@ -22,9 +22,11 @@ async function loadWorkers() {
   try {
     // Traemos SOLO los que marcaron isWorker = true
     const q = query(
-      collection(db, "users"),
-      where("isWorker", "==", true)
-    );
+  collection(db, "reviews"),
+  where("workerId", "==", workerId),
+  orderBy("timestamp", "desc")
+);
+
 
     const querySnapshot = await getDocs(q);
 
