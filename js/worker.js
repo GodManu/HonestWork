@@ -19,7 +19,7 @@ const params = new URLSearchParams(window.location.search);
 const workerId = params.get("id");
 
 if (!workerId) {
-  workerContent.innerHTML = "<p>No se especificó ningún trabajador.</p>";
+  workerContent.innerHTML = "<p>No se especificó trabajador.</p>";
 } else {
   loadWorker(workerId);
 }
@@ -32,12 +32,11 @@ async function loadWorker(id) {
     const snap = await getDoc(doc(db, "users", id));
 
     if (!snap.exists()) {
-      workerContent.innerHTML = "<p>El perfil de este trabajador no existe.</p>";
+      workerContent.innerHTML = "<p>El perfil no existe.</p>";
       return;
     }
 
-    const data = snap.data();
-    renderWorker(data);
+    renderWorker(snap.data());
     loadReviews(id);
 
   } catch (error) {
@@ -46,15 +45,13 @@ async function loadWorker(id) {
 }
 
 // =======================================================
-// MOSTRAR PERFIL EN PANTALLA
+// MOSTRAR PERFIL
 // =======================================================
 function renderWorker(data) {
-  const name = data.name || "Trabajador sin nombre";
+  const name = data.name || "Sin nombre";
   const oficio = data.oficio || "Oficio no especificado";
-  const descripcion = data.descripcion || "Este trabajador aún no ha agregado una descripción.";
+  const descripcion = data.descripcion || "Este trabajador aún no agregó descripción";
   const photoURL = data.photoURL || "";
-  const email = data.email || "";
-
   const initial = name.trim()[0] || "?";
 
   // Servicios
@@ -62,26 +59,26 @@ function renderWorker(data) {
 
   const servicesHTML = services.length
     ? `
-      <ul style="list-style:none; padding:0;">
-        ${services.map(svc => `
-          <li style="padding:0.4rem 0; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between;">
-            <span>${svc.name}</span>
-            <span style="font-weight:600;">$${svc.price} MXN</span>
+      <ul style="list-style:none;padding:0;">
+        ${services.map(s => `
+          <li style="padding:.4rem 0;border-bottom:1px solid #e5e7eb;
+                     display:flex;justify-content:space-between;">
+            <span>${s.name}</span>
+            <span><b>$${s.price} MXN</b></span>
           </li>
         `).join("")}
       </ul>
     `
-    : `<p class="worker-placeholder">Este trabajador aún no ha agregado servicios.</p>`;
+    : `<p class="worker-placeholder">Aún no hay servicios.</p>`;
 
-  // HTML principal
   workerContent.innerHTML = `
     <div class="worker-top">
       <div class="worker-avatar-big">
-        ${photoURL ? `<img src="${photoURL}" alt="Foto">` : initial}
+        ${photoURL ? `<img src="${photoURL}">` : initial}
       </div>
       <div>
         <h1>${name}</h1>
-        <p class="worker-oficio-big">${oficio}</p>
+        <p>${oficio}</p>
       </div>
     </div>
 
@@ -91,28 +88,12 @@ function renderWorker(data) {
     </div>
 
     <div class="worker-section">
-      <div class="worker-section-title">Servicios y precios</div>
+      <div class="worker-section-title">Servicios</div>
       ${servicesHTML}
-    </div>
-
-    <div class="worker-section">
-      <div class="worker-section-title">Reseñas verificadas</div>
-      <div id="reviewsContainer">
-        <p class="worker-placeholder">Cargando reseñas...</p>
-      </div>
-
-      <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
-        Escribir reseña
-      </button>
-    </div>
-
-    <div class="contact-box">
-      <div class="contact-label">Contacto</div>
-      ${email ? `<p><strong>${email}</strong></p>` : `<p>Email no disponible.</p>`}
     </div>
   `;
 
-  attachReviewEvents();
+  attachModalEvents();
 }
 
 // =======================================================
@@ -135,15 +116,12 @@ async function loadReviews(workerId) {
   }
 
   let html = "";
-
-  snap.forEach(docSnap => {
-    const r = docSnap.data();
+  snap.forEach(doc => {
+    const r = doc.data();
 
     html += `
       <div class="review-card">
-        <div class="review-header">
-          <span class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
-        </div>
+        <span class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>
         <p>${r.comment}</p>
         <small>Reseña verificada</small>
       </div>
@@ -154,33 +132,30 @@ async function loadReviews(workerId) {
 }
 
 // =======================================================
-// EVENTOS PARA ABRIR / CERRAR MODAL Y ENVIAR RESEÑA
+// EVENTOS DEL MODAL
 // =======================================================
-function attachReviewEvents() {
-  const writeBtn = document.getElementById("writeReviewBtn");
+function attachModalEvents() {
   const modal = document.getElementById("reviewModal");
-  const closeBtn = document.getElementById("closeReviewBtn");
-  const submitBtn = document.getElementById("submitReviewBtn");
 
-  writeBtn.addEventListener("click", () => {
+  document.getElementById("writeReviewBtn").onclick = () => {
     modal.classList.remove("hidden");
-  });
+  };
 
-  closeBtn.addEventListener("click", () => {
+  document.getElementById("closeReviewBtn").onclick = () => {
     modal.classList.add("hidden");
-  });
+  };
 
-  submitBtn.addEventListener("click", async () => {
+  document.getElementById("submitReviewBtn").onclick = async () => {
     const rating = Number(document.getElementById("ratingInput").value);
     const comment = document.getElementById("commentInput").value.trim();
 
     if (!auth.currentUser) {
-      alert("Necesitas iniciar sesión para dejar una reseña.");
+      alert("Debes iniciar sesión");
       return;
     }
 
     if (!comment) {
-      alert("Escribe un comentario.");
+      alert("El comentario no puede ir vacío");
       return;
     }
 
@@ -196,5 +171,5 @@ function attachReviewEvents() {
 
     modal.classList.add("hidden");
     loadReviews(workerId);
-  });
+  };
 }
