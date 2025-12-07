@@ -10,23 +10,20 @@ import {
 
 const workersList = document.getElementById("workersList");
 
-// === LEER PARAMETROS DE BÚSQUEDA ===
+// Leer parámetros de búsqueda
 const params = new URLSearchParams(window.location.search);
 const textFilter = params.get("q")?.toLowerCase() || "";
 const cityFilter = params.get("city")?.toLowerCase() || "";
 const categoryFilter = params.get("cat")?.toLowerCase() || "";
 
-// ===================================
 
 async function loadWorkers() {
   try {
-    // Traemos SOLO los que marcaron isWorker = true
+    // TRAEMOS SOLO TRABAJADORES ACTIVOS
     const q = query(
-  collection(db, "reviews"),
-  where("workerId", "==", workerId),
-  orderBy("timestamp", "desc")
-);
-
+      collection(db, "users"),
+      where("isWorker", "==", true)
+    );
 
     const querySnapshot = await getDocs(q);
 
@@ -46,12 +43,10 @@ async function loadWorkers() {
       const city = (data.city || "").toLowerCase();
       const category = (data.category || "").toLowerCase();
 
-
       // ===============================
-      //        FILTROS DE BÚSQUEDA
+      // FILTROS
       // ===============================
 
-      // FILTRO 1: texto general (oficio + descripción)
       if (textFilter) {
         const matchesText =
           oficio.includes(textFilter) ||
@@ -61,15 +56,9 @@ async function loadWorkers() {
         if (!matchesText) return;
       }
 
-      // FILTRO 2: ciudad
-      if (cityFilter && !city.includes(cityFilter)) {
-        return;
-      }
+      if (cityFilter && !city.includes(cityFilter)) return;
 
-      // FILTRO 3: categoría
-      if (categoryFilter && !category.includes(categoryFilter)) {
-        return;
-      }
+      if (categoryFilter && !category.includes(categoryFilter)) return;
 
       // ===============================
 
@@ -94,9 +83,8 @@ async function loadWorkers() {
         <p class="worker-city"><b>Ciudad:</b> ${data.city || "No especificada"}</p>
         <p class="worker-cat"><b>Categoría:</b> ${data.category || "No especificada"}</p>
 
-
         <p class="worker-tags">
-          <a href="worker.html?id=${docSnap.id}" style="text-decoration:none; color:#2563eb; font-weight:600;">
+          <a href="worker.html?id=${docSnap.id}" style="text-decoration:none;color:#2563eb;font-weight:600;">
             Ver perfil público →
           </a>
         </p>
@@ -110,5 +98,4 @@ async function loadWorkers() {
   }
 }
 
-// Ejecutar al cargar
 loadWorkers();
