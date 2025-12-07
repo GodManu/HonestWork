@@ -18,208 +18,146 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-// ====================================================================
-// VARIABLES GLOBALES DE SERVICIOS
-// ====================================================================
 let services = [];
-let currentUserId = null;
 
-// Renderizar servicios en pantalla
-function renderServices() {
-  const container = document.getElementById("servicesList");
-  if (!container) return;
-
-  if (services.length === 0) {
-    container.innerHTML = `
-      <p style="font-size:0.85rem; color:#9ca3af; margin:0;">
-        Aún no has agregado servicios.
-      </p>`;
-    return;
-  }
-
-  const itemsHtml = services.map((svc, index) => `
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0.4rem 0.2rem;
-      border-bottom:1px solid #e5e7eb;
-      font-size:0.9rem;
-    ">
-      <div>
-        <div style="font-weight:500;">${svc.name}</div>
-        <div style="font-size:0.8rem; color:#6b7280;">Aprox. $${svc.price} MXN</div>
-      </div>
-      <button 
-        type="button" 
-        data-index="${index}" 
-        class="removeServiceBtn"
-        style="border:none; background:none; color:#ef4444; font-size:0.8rem; cursor:pointer;">
-        Eliminar
-      </button>
-    </div>
-  `).join("");
-
-  container.innerHTML = itemsHtml;
-
-  // Eventos para eliminar servicios
-  container.querySelectorAll(".removeServiceBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const i = parseInt(btn.dataset.index);
-      services.splice(i, 1);
-      renderServices();
-    });
-  });
-}
-
-
-// ====================================================================
-// DETECTAR USUARIO LOGEADO Y CARGAR SUS DATOS
-// ====================================================================
+// ====================================================
+// CARGAR DATOS DEL USUARIO AL ABRIR EL PERFIL
+// ====================================================
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
     return;
   }
 
-  currentUserId = user.uid;
-
-  const userDoc = await getDoc(doc(db, "users", currentUserId));
-  if (!userDoc.exists()) {
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists()) {
     alert("Tu perfil no existe en Firestore.");
     return;
   }
 
-  const data = userDoc.data();
+  const data = snap.data();
 
   // Mostrar datos
   document.getElementById("profileName").textContent = data.name;
   document.getElementById("profileEmail").textContent = data.email;
 
-  const profilePic = document.getElementById("profilePicPreview");
-
+  // Foto
   if (data.photoURL) {
-    profilePic.innerHTML = `<img src="${data.photoURL}" alt="Foto de perfil">`;
+    document.getElementById("profilePicPreview").innerHTML = `<img src="${data.photoURL}">`;
   } else {
-    profilePic.textContent = data.name?.[0] ?? "?";
+    document.getElementById("profilePicPreview").textContent = data.name?.[0] ?? "?";
   }
 
-  // Llenar inputs
+  // Inputs normales
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
-  document.getElementById("isWorkerInput").checked = data.isWorker === true;
-  document.getElementById("phoneInput").value = data.phone || "";
+  document.getElementById("phoneInput").value = data.phone || "";      // 🔥 IMPORTANTE
   document.getElementById("cityInput").value = data.city || "";
-document.getElementById("categoryInput").value = data.category || "";
+  document.getElementById("categoryInput").value = data.category || "";
+  document.getElementById("isWorkerInput").checked = data.isWorker === true;
 
-
-  // Cargar servicios
+  // Servicios
   services = Array.isArray(data.services) ? data.services : [];
   renderServices();
 });
 
+// ====================================================
+// MOSTRAR SERVICIOS
+// ====================================================
+function renderServices() {
+  const box = document.getElementById("servicesList");
 
-// ====================================================================
-// AGREGAR SERVICIOS
-// ====================================================================
+  if (!services.length) {
+    box.innerHTML = `<p style="font-size:0.85rem; color:#9ca3af;">Aún no has agregado servicios.</p>`;
+    return;
+  }
+
+  box.innerHTML = services
+    .map(
+      (s, i) => `
+      <div style="display:flex; justify-content:space-between; padding:.3rem 0; border-bottom:1px solid #eee;">
+        <div>
+          <strong>${s.name}</strong>
+          <div style="color:#666; font-size:.85rem;">$${s.price} MXN</div>
+        </div>
+        <button class="removeServiceBtn" data-index="${i}" style="color:red; background:none; border:none;">Eliminar</button>
+      </div>
+    `
+    )
+    .join("");
+
+  document.querySelectorAll(".removeServiceBtn").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      services.splice(btn.dataset.index, 1);
+      renderServices();
+    })
+  );
+}
+
+// ====================================================
+// AGREGAR SERVICIO
+// ====================================================
 document.getElementById("addServiceBtn").addEventListener("click", () => {
-  const nameInput = document.getElementById("serviceNameInput");
-  const priceInput = document.getElementById("servicePriceInput");
+  const name = document.getElementById("serviceNameInput").value.trim();
+  const price = Number(document.getElementById("servicePriceInput").value.trim());
 
-  const name = nameInput.value.trim();
-  const priceValue = priceInput.value.trim();
-
-  if (!name || !priceValue) {
-    alert("Escribe el nombre del servicio y un precio aproximado.");
-    return;
-  }
-
-  const price = Number(priceValue);
-  if (isNaN(price) || price <= 0) {
-    alert("El precio debe ser un número válido.");
-    return;
-  }
+  if (!name || !price) return alert("Escribe servicio y precio válido.");
 
   services.push({ name, price });
 
-  nameInput.value = "";
-  priceInput.value = "";
+  document.getElementById("serviceNameInput").value = "";
+  document.getElementById("servicePriceInput").value = "";
 
   renderServices();
 });
 
-
-// ====================================================================
-// GUARDAR CAMBIOS DEL PERFIL
-// ====================================================================
+// ====================================================
+// GUARDAR PERFIL (AQUÍ SE GUARDA WHATSAPP)
+// ====================================================
 document.getElementById("saveProfileBtn").addEventListener("click", async () => {
   const user = auth.currentUser;
   if (!user) return;
 
-  const oficio = document.getElementById("oficioInput").value.trim();
-  const descripcion = document.getElementById("descInput").value.trim();
-  const isWorker = document.getElementById("isWorkerInput").checked;
+  const dataToSave = {
+    oficio: document.getElementById("oficioInput").value.trim(),
+    descripcion: document.getElementById("descInput").value.trim(),
+    phone: document.getElementById("phoneInput").value.trim(),       // 🔥 SE GUARDA AQUÍ
+    city: document.getElementById("cityInput").value.trim(),
+    category: document.getElementById("categoryInput").value.trim(),
+    isWorker: document.getElementById("isWorkerInput").checked,
+    services: services,
+  };
 
-  try {
-    await updateDoc(doc(db, "users", user.uid), {
-  oficio,
-  descripcion,
-  isWorker,
-  services,
-  city: document.getElementById("cityInput").value.trim(),
-  category: document.getElementById("categoryInput").value
+  await updateDoc(doc(db, "users", user.uid), dataToSave);
+
+  alert("Perfil actualizado correctamente ✔");
 });
 
-
-    alert("Perfil actualizado correctamente ✔");
-  } catch (error) {
-    alert("Error al guardar: " + error.message);
-  }
-});
-
-
-// ====================================================================
-// SUBIR FOTO DE PERFIL (COMPATIBLE CON LAS REGLAS NUEVAS)
-// ====================================================================
-document.getElementById("profilePicInput").addEventListener("change", async (event) => {
+// ====================================================
+// SUBIR FOTO DE PERFIL
+// ====================================================
+document.getElementById("profilePicInput").addEventListener("change", async (e) => {
   const user = auth.currentUser;
-  const file = event.target.files[0];
+  const file = e.target.files[0];
+  if (!file) return;
 
-  if (!user || !file) return;
+  const storageRef = ref(storage, `profilePictures/${user.uid}.jpg`);
+  await uploadBytes(storageRef, file);
 
-  try {
-    // ESTA ES LA RUTA CORRECTA PARA EL NUEVO FORMATO DE REGLAS
-    const storageRef = ref(storage, `profilePictures/${user.uid}/${file.name}`);
+  const url = await getDownloadURL(storageRef);
 
-    await uploadBytes(storageRef, file);
+  await updateProfile(user, { photoURL: url });
+  await updateDoc(doc(db, "users", user.uid), { photoURL: url });
 
-    const downloadURL = await getDownloadURL(storageRef);
+  document.getElementById("profilePicPreview").innerHTML = `<img src="${url}">`;
 
-    // Guardar en Auth
-    await updateProfile(user, { photoURL: downloadURL });
-
-    // Guardar en Firestore
-    await updateDoc(doc(db, "users", user.uid), { photoURL: downloadURL });
-
-    phone: document.getElementById("phoneInput").value.trim(),
-
-
-    // Mostrar en pantalla
-    document.getElementById("profilePicPreview").innerHTML = `<img src="${downloadURL}">`;
-
-    alert("Foto de perfil actualizada ✔");
-
-  } catch (error) {
-    alert("Error subiendo la foto: " + error.message);
-  }
+  alert("Foto actualizada ✔");
 });
 
-
-// ====================================================================
+// ====================================================
 // CERRAR SESIÓN
-// ====================================================================
+// ====================================================
 document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  });
+  signOut(auth);
+  window.location.href = "index.html";
 });
