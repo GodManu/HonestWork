@@ -37,7 +37,11 @@ async function loadWorker(id) {
     }
 
     renderWorker(snap.data());
-    loadReviews(id);
+
+// Esperar a que el DOM ya tenga renderizado reviewsContainer
+setTimeout(() => {
+  loadReviews(id);
+}, 80);
 
   } catch (error) {
     workerContent.innerHTML = `<p>Error cargando perfil: ${error.message}</p>`;
