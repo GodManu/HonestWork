@@ -18,23 +18,22 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-// —————————————————————————————
-// CONTROL DE SERVICIOS
-// —————————————————————————————
-
+// ====================================================================
+// VARIABLES GLOBALES DE SERVICIOS
+// ====================================================================
 let services = [];
 let currentUserId = null;
 
+// Renderizar servicios en pantalla
 function renderServices() {
   const container = document.getElementById("servicesList");
   if (!container) return;
 
-  if (!services.length) {
+  if (services.length === 0) {
     container.innerHTML = `
       <p style="font-size:0.85rem; color:#9ca3af; margin:0;">
         Aún no has agregado servicios.
-      </p>
-    `;
+      </p>`;
     return;
   }
 
@@ -63,61 +62,29 @@ function renderServices() {
 
   container.innerHTML = itemsHtml;
 
+  // Eventos para eliminar servicios
   container.querySelectorAll(".removeServiceBtn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const idx = parseInt(btn.dataset.index, 10);
-      services.splice(idx, 1);
+      const i = parseInt(btn.dataset.index);
+      services.splice(i, 1);
       renderServices();
     });
   });
 }
 
-const addServiceBtn = document.getElementById("addServiceBtn");
-if (addServiceBtn) {
-  addServiceBtn.addEventListener("click", () => {
-    const nameInput = document.getElementById("serviceNameInput");
-    const priceInput = document.getElementById("servicePriceInput");
 
-    const name = nameInput.value.trim();
-    const priceValue = priceInput.value.trim();
-
-    if (!name || !priceValue) {
-      alert("Escribe el nombre del servicio y un precio aproximado.");
-      return;
-    }
-
-    const price = Number(priceValue);
-    if (isNaN(price) || price < 0) {
-      alert("El precio debe ser un número válido.");
-      return;
-    }
-
-    services.push({
-      name,
-      price
-    });
-
-    nameInput.value = "";
-    priceInput.value = "";
-    renderServices();
-  });
-}
-
-// —————————————————————————————
-// 1. DETECTAR AL USUARIO LOGEADO
-// —————————————————————————————
-
+// ====================================================================
+// DETECTAR USUARIO LOGEADO Y CARGAR SUS DATOS
+// ====================================================================
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
     return;
   }
 
-  const userId = user.uid;
-  currentUserId = userId;
+  currentUserId = user.uid;
 
-  const userDoc = await getDoc(doc(db, "users", userId));
-
+  const userDoc = await getDoc(doc(db, "users", currentUserId));
   if (!userDoc.exists()) {
     alert("Tu perfil no existe en Firestore.");
     return;
@@ -129,15 +96,15 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("profileName").textContent = data.name;
   document.getElementById("profileEmail").textContent = data.email;
 
-  // Foto
   const profilePic = document.getElementById("profilePicPreview");
+
   if (data.photoURL) {
     profilePic.innerHTML = `<img src="${data.photoURL}" alt="Foto de perfil">`;
   } else {
     profilePic.textContent = data.name?.[0] ?? "?";
   }
 
-  // Rellenar campos
+  // Llenar inputs
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
@@ -148,10 +115,39 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// —————————————————————————————
-// 2. GUARDAR CAMBIOS
-// —————————————————————————————
+// ====================================================================
+// AGREGAR SERVICIOS
+// ====================================================================
+document.getElementById("addServiceBtn").addEventListener("click", () => {
+  const nameInput = document.getElementById("serviceNameInput");
+  const priceInput = document.getElementById("servicePriceInput");
 
+  const name = nameInput.value.trim();
+  const priceValue = priceInput.value.trim();
+
+  if (!name || !priceValue) {
+    alert("Escribe el nombre del servicio y un precio aproximado.");
+    return;
+  }
+
+  const price = Number(priceValue);
+  if (isNaN(price) || price <= 0) {
+    alert("El precio debe ser un número válido.");
+    return;
+  }
+
+  services.push({ name, price });
+
+  nameInput.value = "";
+  priceInput.value = "";
+
+  renderServices();
+});
+
+
+// ====================================================================
+// GUARDAR CAMBIOS DEL PERFIL
+// ====================================================================
 document.getElementById("saveProfileBtn").addEventListener("click", async () => {
   const user = auth.currentUser;
   if (!user) return;
@@ -162,10 +158,10 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
 
   try {
     await updateDoc(doc(db, "users", user.uid), {
-      oficio: oficio,
-      descripcion: descripcion,
-      isWorker: isWorker,
-      services: services
+      oficio,
+      descripcion,
+      isWorker,
+      services
     });
 
     alert("Perfil actualizado correctamente ✔");
@@ -174,25 +170,31 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
   }
 });
 
-// —————————————————————————————
-// 3. SUBIR FOTO DE PERFIL
-// —————————————————————————————
 
+// ====================================================================
+// SUBIR FOTO DE PERFIL (COMPATIBLE CON LAS REGLAS NUEVAS)
+// ====================================================================
 document.getElementById("profilePicInput").addEventListener("change", async (event) => {
   const user = auth.currentUser;
   const file = event.target.files[0];
 
-  if (!file) return;
+  if (!user || !file) return;
 
   try {
+    // ESTA ES LA RUTA CORRECTA PARA EL NUEVO FORMATO DE REGLAS
     const storageRef = ref(storage, `profilePictures/${user.uid}/${file.name}`);
+
     await uploadBytes(storageRef, file);
 
     const downloadURL = await getDownloadURL(storageRef);
 
+    // Guardar en Auth
     await updateProfile(user, { photoURL: downloadURL });
+
+    // Guardar en Firestore
     await updateDoc(doc(db, "users", user.uid), { photoURL: downloadURL });
 
+    // Mostrar en pantalla
     document.getElementById("profilePicPreview").innerHTML = `<img src="${downloadURL}">`;
 
     alert("Foto de perfil actualizada ✔");
@@ -202,10 +204,10 @@ document.getElementById("profilePicInput").addEventListener("change", async (eve
   }
 });
 
-// —————————————————————————————
-// 4. CERRAR SESIÓN
-// —————————————————————————————
 
+// ====================================================================
+// CERRAR SESIÓN
+// ====================================================================
 document.getElementById("logoutBtn").addEventListener("click", () => {
   signOut(auth).then(() => {
     window.location.href = "login.html";
