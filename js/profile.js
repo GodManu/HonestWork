@@ -108,6 +108,9 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
+  document.getElementById("cityInput").value = data.city || "";
+document.getElementById("categoryInput").value = data.category || "";
+
 
   // Cargar servicios
   services = Array.isArray(data.services) ? data.services : [];
@@ -158,11 +161,14 @@ document.getElementById("saveProfileBtn").addEventListener("click", async () => 
 
   try {
     await updateDoc(doc(db, "users", user.uid), {
-      oficio,
-      descripcion,
-      isWorker,
-      services
-    });
+  oficio,
+  descripcion,
+  isWorker,
+  services,
+  city: document.getElementById("cityInput").value.trim(),
+  category: document.getElementById("categoryInput").value
+});
+
 
     alert("Perfil actualizado correctamente ✔");
   } catch (error) {
