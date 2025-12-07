@@ -48,24 +48,6 @@
       object-fit: cover;
     }
 
-    .worker-oficio-big {
-      font-size: 0.95rem;
-      color: #6b7280;
-      margin-top: 0.25rem;
-    }
-
-    .worker-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.8rem;
-      color: #065f46;
-      background: #d1fae5;
-      border-radius: 999px;
-      padding: 0.25rem 0.8rem;
-      margin-top: 0.4rem;
-    }
-
     .worker-section-title {
       font-size: 1rem;
       font-weight: 600;
@@ -76,84 +58,8 @@
       margin-top: 1.5rem;
     }
 
-    .worker-description {
-      font-size: 0.95rem;
-      color: #4b5563;
-      white-space: pre-line;
-    }
-
     .worker-placeholder {
-      font-size: 0.9rem;
       color: #9ca3af;
-    }
-
-    .contact-box {
-      margin-top: 1.5rem;
-      padding: 1rem 1.25rem;
-      border-radius: 1rem;
-      background: #eff6ff;
-      font-size: 0.9rem;
-      color: #1f2937;
-    }
-
-    .contact-label {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      color: #4b5563;
-      text-decoration: none;
-    }
-
-    .back-link:hover {
-      color: #111827;
-    }
-
-    /* ===== MODAL DE RESEÑAS ===== */
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-
-    .modal.hidden {
-      display: none;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      width: 90%;
-      max-width: 420px;
-      border-radius: 1rem;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      animation: fadeIn .25s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.94); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-content select,
-    .modal-content textarea {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.7rem;
-      border: 1px solid #d1d5db;
-      border-radius: .5rem;
       font-size: .9rem;
     }
 
@@ -169,74 +75,92 @@
       font-size: 1.1rem;
       color: #f59e0b;
     }
+
+    /* ========== MODAL ========== */
+    .modal {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.55);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:3000;
+    }
+
+    .modal.hidden { display:none; }
+
+    .modal-content {
+      background:white;
+      padding:2rem;
+      border-radius:1rem;
+      width:90%;
+      max-width:420px;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header class="hw-header">
-    <div class="hw-container hw-nav">
-      <div class="hw-logo">
-        <span class="logo-mark">HW</span>
-        <span class="logo-text">HonestWork</span>
-      </div>
-      <div class="hw-nav-actions">
-        <a href="index.html" class="btn-link">Inicio</a>
-        <a href="workers.html" class="btn-link">Buscar trabajadores</a>
-        <a href="profile.html" class="btn-primary small">Mi perfil</a>
-      </div>
+<header class="hw-header">
+  <div class="hw-container hw-nav">
+    <div class="hw-logo">
+      <span class="logo-mark">HW</span>
+      <span class="logo-text">HonestWork</span>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Contenido -->
-  <section class="hw-section">
-    <div class="hw-container worker-page">
+<section class="hw-section">
+  <div class="hw-container worker-page">
 
-      <a href="workers.html" class="back-link">← Volver al listado</a>
+    <a href="workers.html" class="back-link">← Volver</a>
 
-      <div id="workerContent" class="worker-card-public">
-        Cargando perfil...
-      </div>
-
-      <!-- ===================== RESEÑAS ===================== -->
-      <div class="worker-section">
-        <div class="worker-section-title">Reseñas verificadas</div>
-
-        <div id="reviewsContainer">
-          <p class="worker-placeholder">Cargando reseñas...</p>
-        </div>
-
-        <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
-          Escribir una reseña
-        </button>
-      </div>
-
-      <!-- ===================== MODAL ===================== -->
-      <div id="reviewModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Escribe una reseña</h3>
-
-          <label>Calificación</label>
-          <select id="ratingInput">
-            <option value="5">5 estrellas</option>
-            <option value="4">4 estrellas</option>
-            <option value="3">3 estrellas</option>
-            <option value="2">2 estrellas</option>
-            <option value="1">1 estrella</option>
-          </select>
-
-          <label>Comentario</label>
-          <textarea id="commentInput" rows="4" placeholder="¿Qué tal fue el servicio?"></textarea>
-
-          <button id="submitReviewBtn" class="btn-primary" style="margin-top:1rem;">Enviar reseña</button>
-          <button id="closeReviewBtn" class="btn-secondary" style="margin-top:.5rem;">Cerrar</button>
-        </div>
-      </div>
-
+    <div id="workerContent" class="worker-card-public">
+      Cargando perfil...
     </div>
-  </section>
 
-  <script type="module" src="js/firebase-config.js"></script>
-  <script type="module" src="js/worker.js"></script>
+    <!-- RESEÑAS -->
+    <div class="worker-section">
+      <div class="worker-section-title">Reseñas verificadas</div>
+
+      <div id="reviewsContainer">
+        <p class="worker-placeholder">Cargando reseñas...</p>
+      </div>
+
+      <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
+        Escribir reseña
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL PARA RESEÑA -->
+<div id="reviewModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Escribe una reseña</h3>
+
+    <label>Calificación</label>
+    <select id="ratingInput">
+      <option value="5">5 estrellas</option>
+      <option value="4">4 estrellas</option>
+      <option value="3">3 estrellas</option>
+      <option value="2">2 estrellas</option>
+      <option value="1">1 estrella</option>
+    </select>
+
+    <label>Comentario</label>
+    <textarea id="commentInput" rows="4" placeholder="Describe tu experiencia"></textarea>
+
+    <button id="submitReviewBtn" class="btn-primary" style="margin-top:1rem;">Enviar reseña</button>
+    <button id="closeReviewBtn" class="btn-secondary" style="margin-top:.5rem;">Cerrar</button>
+  </div>
+</div>
+
+<script type="module" src="js/firebase-config.js"></script>
+<script type="module" src="js/worker.js"></script>
+
 </body>
 </html>
