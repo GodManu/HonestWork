@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile
+  
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -18,6 +19,47 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+// === SUBIR IDENTIFICACIÓN ===
+document.getElementById("uploadIdBtn").addEventListener("click", async () => {
+  const fileInput = document.getElementById("idUploadInput");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Selecciona una foto de tu identificación.");
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const storageRef = ref(storage, `ids/${user.uid}.jpg`);
+    await uploadBytes(storageRef, file);
+
+    const downloadURL = await getDownloadURL(storageRef);
+
+    await updateDoc(doc(db, "users", user.uid), {
+      idURL: downloadURL,
+      idStatus: "pending",
+      idUploadedAt: new Date()
+    });
+
+    document.getElementById("idStatusText").innerHTML =
+      "📄 Tu identificación ha sido enviada. Estado: <b>Pendiente de aprobación</b>.";
+
+    alert("Identificación enviada correctamente ✔");
+  } catch (error) {
+    alert("Error subiendo identificación: " + error.message);
+  }
+});
+
+
 let services = [];
 
 // ====================================================
@@ -28,6 +70,14 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = "login.html";
     return;
   }
+
+  document.getElementById("idStatusText").innerHTML = 
+  data.idStatus === "approved"
+  ? "✔ Identidad verificada"
+  : data.idStatus === "pending"
+  ? "⏳ Verificación en proceso"
+  : "📄 Aún no has enviado tu identificación.";
+
 
   const snap = await getDoc(doc(db, "users", user.uid));
   if (!snap.exists()) {
