@@ -10,73 +10,30 @@ import {
 
 const workersList = document.getElementById("workersList");
 
-// Leer parámetros de búsqueda
+// Parámetros de búsqueda
 const params = new URLSearchParams(window.location.search);
 const textFilter = params.get("q")?.toLowerCase() || "";
 const cityFilter = params.get("city")?.toLowerCase() || "";
 const categoryFilter = params.get("cat")?.toLowerCase() || "";
 
-
-async function loadReviews(workerId) {
-  const container = document.getElementById("reviewsContainer");
-
-  const q = query(
-    collection(db, "reviews"),
-    where("workerId", "==", workerId),
-    orderBy("timestamp", "desc")
-  );
-
-  const snap = await getDocs(q);
-
-  if (snap.empty) {
-    container.innerHTML = `<p class="worker-placeholder">Aún no hay reseñas.</p>`;
-    return;
-  }
-
-  let html = "";
-
-  for (const reviewDoc of snap.docs) {
-    const r = reviewDoc.data();
-
-    // ================
-    // OBTENER NOMBRE DEL USUARIO QUE RESEÑÓ
-    // ================
-    let userName = "Usuario verificado";
-
-    try {
-      const userSnap = await getDoc(doc(db, "users", r.userId));
-      if (userSnap.exists()) {
-        userName = userSnap.data().name || "Usuario verificado";
-      }
-    } catch (e) {
-      console.log("Error leyendo usuario:", e);
-    }
-
-    html += `
-      <div class="review-card">
-        <span class="stars">
-          ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}
-        </span>
-        <p class="review-comment">${r.comment}</p>
-        <p class="review-author">
-          <strong>${userName}</strong> — Reseña verificada
-        </p>
-      </div>
-    `;
-  }
-
-  container.innerHTML = html;
-}
-
+// ==========================================
+// CARGAR TRABAJADORES
+// ==========================================
+async function loadWorkers() {
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("isWorker", "==", true)
+    );
 
     const querySnapshot = await getDocs(q);
+
+    workersList.innerHTML = "";
 
     if (querySnapshot.empty) {
       workersList.innerHTML = "<p>No hay trabajadores activos todavía.</p>";
       return;
     }
-
-    workersList.innerHTML = "";
 
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
@@ -87,24 +44,20 @@ async function loadReviews(workerId) {
       const city = (data.city || "").toLowerCase();
       const category = (data.category || "").toLowerCase();
 
-      // ===============================
+      // -----------------------------
       // FILTROS
-      // ===============================
-
+      // -----------------------------
       if (textFilter) {
-        const matchesText =
+        const matches =
           oficio.includes(textFilter) ||
           descripcion.includes(textFilter) ||
           name.toLowerCase().includes(textFilter);
 
-        if (!matchesText) return;
+        if (!matches) return;
       }
 
       if (cityFilter && !city.includes(cityFilter)) return;
-
       if (categoryFilter && !category.includes(categoryFilter)) return;
-
-      // ===============================
 
       const photoURL = data.photoURL || "";
       const initial = name.trim()[0] || "?";
@@ -115,7 +68,7 @@ async function loadReviews(workerId) {
       card.innerHTML = `
         <div class="worker-header">
           <div class="worker-avatar">
-            ${photoURL ? `<img src="${photoURL}" alt="Foto">` : initial}
+            ${photoURL ? `<img src="${photoURL}">` : initial}
           </div>
           <div>
             <h3>${name}</h3>
@@ -128,7 +81,8 @@ async function loadReviews(workerId) {
         <p class="worker-cat"><b>Categoría:</b> ${data.category || "No especificada"}</p>
 
         <p class="worker-tags">
-          <a href="worker.html?id=${docSnap.id}" style="text-decoration:none;color:#2563eb;font-weight:600;">
+          <a href="worker.html?id=${docSnap.id}" 
+             style="text-decoration:none;color:#2563eb;font-weight:600;">
             Ver perfil público →
           </a>
         </p>
