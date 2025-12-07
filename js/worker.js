@@ -108,8 +108,10 @@ async function loadReviews(workerId) {
 
   const q = query(
   collection(db, "reviews"),
-  where("workerId", "==", workerId)
+  where("workerId", "==", workerId),
+  orderBy("timestamp", "desc")
 );
+
 
 
   const snap = await getDocs(q);
