@@ -163,6 +163,26 @@
   <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
     Escribir una reseña
   </button>
+<div id="reviewModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Escribe una reseña</h3>
+
+    <label>Calificación</label>
+    <select id="ratingInput">
+      <option value="5">5 estrellas</option>
+      <option value="4">4 estrellas</option>
+      <option value="3">3 estrellas</option>
+      <option value="2">2 estrellas</option>
+      <option value="1">1 estrella</option>
+    </select>
+
+    <label>Comentario</label>
+    <textarea id="commentInput" rows="4" placeholder="¿Qué tal fue el servicio?"></textarea>
+
+    <button id="submitReviewBtn" class="btn-primary">Enviar reseña</button>
+    <button id="closeReviewBtn" class="btn-secondary">Cerrar</button>
+  </div>
+
 </div>
 
       
