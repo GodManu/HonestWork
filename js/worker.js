@@ -28,6 +28,7 @@ async function loadWorker(id) {
 
     const data = snap.data();
     renderWorker(data);
+    loadReviews(workerId);
   } catch (error) {
     workerContent.innerHTML = `<p>Error cargando perfil: ${error.message}</p>`;
   }
