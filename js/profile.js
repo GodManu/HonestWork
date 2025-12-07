@@ -108,6 +108,7 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
+  document.getElementById("phoneInput").value = data.phone || "";
   document.getElementById("cityInput").value = data.city || "";
 document.getElementById("categoryInput").value = data.category || "";
 
@@ -199,6 +200,9 @@ document.getElementById("profilePicInput").addEventListener("change", async (eve
 
     // Guardar en Firestore
     await updateDoc(doc(db, "users", user.uid), { photoURL: downloadURL });
+
+    phone: document.getElementById("phoneInput").value.trim(),
+
 
     // Mostrar en pantalla
     document.getElementById("profilePicPreview").innerHTML = `<img src="${downloadURL}">`;
