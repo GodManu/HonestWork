@@ -10,45 +10,50 @@
 
   <style>
     .worker-page {
-      max-width: 900px;
-      margin: 2rem auto;
-    }
+  max-width: 900px;
+  margin: 2rem auto;
+}
 
-    .worker-card-public {
-      background: #ffffff;
-      border-radius: 1.5rem;
-      padding: 2rem;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
-    }
+.worker-card-public {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
 
-    .modal {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: rgba(0,0,0,.5);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
+/* MODAL */
+.modal {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .modal.hidden {
-      display:none;
-    }
+.modal.hidden {
+  display:none;
+}
 
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      width: 90%;
-      max-width: 400px;
-    }
-    .worker-avatar-big img {
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* FOTO DE PERFIL GRANDE */
+.worker-avatar-big img {
   width: 88px !important;
   height: 88px !important;
   border-radius: 50%;
   object-fit: cover;
 }
-    .review-card {
+
+/* TARJETA DE RESEÑA */
+.review-card {
   background: #f9fafb;
   padding: 1rem 1.2rem;
   border-radius: 0.9rem;
@@ -56,16 +61,54 @@
   border: 1px solid #e5e7eb;
 }
 
-.review-card p {
-  margin: .25rem 0;
+/* CABECERA DE LA RESEÑA (foto + nombre + fecha) */
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.3rem;
 }
 
-.stars {
+/* FOTO DEL USUARIO QUE RESEÑA */
+.review-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  font-size:1rem;
+  color:#374151;
+  overflow:hidden;
+}
+
+.review-avatar img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* FECHA */
+.review-date {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-top: -2px;
+}
+
+/* ESTRELLAS */
+.review-stars {
   color: #f59e0b;
   font-size: 1.1rem;
-  margin-bottom: .25rem;
+  margin: 0.4rem 0;
 }
 
+/* TEXTO */
+.review-comment {
+  font-size: 0.95rem;
+  color: #374151;
+}
 
   </style>
 
