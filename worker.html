@@ -9,106 +9,128 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
+    /* --- CONTENEDOR PRINCIPAL --- */
     .worker-page {
-  max-width: 900px;
-  margin: 2rem auto;
-}
+      max-width: 900px;
+      margin: 2rem auto;
+    }
 
-.worker-card-public {
-  background: #ffffff;
-  border-radius: 1.5rem;
-  padding: 2rem;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
-}
+    /* --- TARJETA DEL PERFIL --- */
+    .worker-card-public {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+    }
 
-/* MODAL */
-.modal {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,.5);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    /* --- AVATAR GRANDE --- */
+    .worker-avatar-big {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2rem;
+      font-weight:600;
+      overflow:hidden;
+    }
 
-.modal.hidden {
-  display:none;
-}
+    .worker-avatar-big img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
 
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  width: 90%;
-  max-width: 400px;
-}
+    /* --- SECCIONES --- */
+    .worker-section {
+      margin-top: 1.8rem;
+    }
 
-/* FOTO DE PERFIL GRANDE */
-.worker-avatar-big img {
-  width: 88px !important;
-  height: 88px !important;
-  border-radius: 50%;
-  object-fit: cover;
-}
+    .worker-section-title {
+      font-size:1rem;
+      font-weight:600;
+      margin-bottom:0.4rem;
+    }
 
-/* TARJETA DE RESEÑA */
-.review-card {
-  background: #f9fafb;
-  padding: 1rem 1.2rem;
-  border-radius: 0.9rem;
-  margin-bottom: 1rem;
-  border: 1px solid #e5e7eb;
-}
+    .worker-placeholder {
+      color:#9ca3af;
+      font-size:0.9rem;
+    }
 
-/* CABECERA DE LA RESEÑA (foto + nombre + fecha) */
-.review-user {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.3rem;
-}
+    /* --- MODAL --- */
+    .modal {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,.5);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .modal.hidden { display:none; }
 
-/* FOTO DEL USUARIO QUE RESEÑA */
-.review-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #e5e7eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:600;
-  font-size:1rem;
-  color:#374151;
-  overflow:hidden;
-}
+    .modal-content {
+      background:white;
+      padding:1.8rem;
+      border-radius:1rem;
+      width:90%;
+      max-width:400px;
+    }
 
-.review-avatar img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+    /* --- RESEÑAS --- */
 
-/* FECHA */
-.review-date {
-  font-size: 0.78rem;
-  color: #6b7280;
-  margin-top: -2px;
-}
+    .review-card {
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius:0.9rem;
+      padding:1rem 1.2rem;
+      margin-bottom:1rem;
+    }
 
-/* ESTRELLAS */
-.review-stars {
-  color: #f59e0b;
-  font-size: 1.1rem;
-  margin: 0.4rem 0;
-}
+    .review-user {
+      display:flex;
+      align-items:center;
+      gap:0.7rem;
+      margin-bottom:0.2rem;
+    }
 
-/* TEXTO */
-.review-comment {
-  font-size: 0.95rem;
-  color: #374151;
-}
+    .review-avatar {
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:#e5e7eb;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:600;
+      color:#374151;
+      overflow:hidden;
+    }
+
+    .review-avatar img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .review-date {
+      font-size:0.78rem;
+      color:#6b7280;
+      margin-top:-2px;
+    }
+
+    .review-stars {
+      color:#f59e0b;
+      font-size:1.1rem;
+      margin:0.3rem 0;
+    }
+
+    .review-comment {
+      font-size:0.95rem;
+      color:#374151;
+    }
 
   </style>
 
@@ -121,62 +143,65 @@
       <span class="logo-mark">HW</span>
       <span class="logo-text">HonestWork</span>
     </div>
+    <div class="hw-nav-actions">
+      <a href="index.html" class="btn-link">Inicio</a>
+      <a href="workers.html" class="btn-link">Buscar trabajadores</a>
+      <a href="profile.html" class="btn-primary small">Mi perfil</a>
+    </div>
   </div>
 </header>
 
 <section class="hw-section">
   <div class="hw-container worker-page">
 
-    <a href="workers.html" class="back-link">← Volver</a>
+    <a href="workers.html" class="back-link">← Volver al listado</a>
 
-    <!-- PERFIL DEL TRABAJADOR -->
     <div id="workerContent" class="worker-card-public">
       Cargando perfil...
     </div>
 
-    <!-- ⭐⭐ ESTA SECCIÓN ES DONDE VAN LAS RESEÑAS (IMPORTANTE) ⭐⭐ -->
-    
-    
+    <!-- Reseñas -->
     <div class="worker-section">
+      
       <div class="worker-section-title">Reseñas verificadas</div>
 
-      <div id="ratingSummary" style="font-size:1rem; font-weight:600; margin-bottom:0.8rem; color:#111827;">
-  Cargando calificación...
-</div>
+      <div id="ratingSummary" style="font-size:1rem;font-weight:600;margin-bottom:0.8rem;color:#111827;">
+        Cargando calificación...
+      </div>
 
       <div id="reviewsContainer">
         <p class="worker-placeholder">Cargando reseñas...</p>
       </div>
 
       <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
-        Escribir reseña
+        Escribir una reseña
       </button>
+
+      <div id="reviewModal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Escribe una reseña</h3>
+
+          <label>Calificación</label>
+          <select id="ratingInput">
+            <option value="5">5 estrellas</option>
+            <option value="4">4 estrellas</option>
+            <option value="3">3 estrellas</option>
+            <option value="2">2 estrellas</option>
+            <option value="1">1 estrella</option>
+          </select>
+
+          <label>Comentario</label>
+          <textarea id="commentInput" rows="4" placeholder="¿Qué tal fue el servicio?"></textarea>
+
+          <button id="submitReviewBtn" class="btn-primary">Enviar reseña</button>
+          <button id="closeReviewBtn" class="btn-secondary">Cerrar</button>
+        </div>
+      </div>
+
     </div>
 
   </div>
 </section>
-
-<!-- MODAL PARA ENVIAR RESEÑA -->
-<div id="reviewModal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Escribe una reseña</h3>
-
-    <label>Calificación</label>
-    <select id="ratingInput">
-      <option value="5">5 estrellas</option>
-      <option value="4">4 estrellas</option>
-      <option value="3">3 estrellas</option>
-      <option value="2">2 estrellas</option>
-      <option value="1">1 estrella</option>
-    </select>
-
-    <label>Comentario</label>
-    <textarea id="commentInput" rows="4" placeholder="Describe tu experiencia"></textarea>
-
-    <button id="submitReviewBtn" class="btn-primary" style="margin-top:1rem;">Enviar reseña</button>
-    <button id="closeReviewBtn" class="btn-secondary" style="margin-top:.5rem;">Cerrar</button>
-  </div>
-</div>
 
 <script type="module" src="js/firebase-config.js"></script>
 <script type="module" src="js/worker.js"></script>
