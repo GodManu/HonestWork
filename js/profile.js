@@ -4,7 +4,6 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile
-  
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -19,47 +18,6 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-
-// === SUBIR IDENTIFICACIÓN ===
-document.getElementById("uploadIdBtn").addEventListener("click", async () => {
-  const fileInput = document.getElementById("idUploadInput");
-  const file = fileInput.files[0];
-
-  if (!file) {
-    alert("Selecciona una foto de tu identificación.");
-    return;
-  }
-
-  const user = auth.currentUser;
-  if (!user) return;
-
-  try {
-    const storageRef = ref(storage, `ids/${user.uid}.jpg`);
-    await uploadBytes(storageRef, file);
-
-    const downloadURL = await getDownloadURL(storageRef);
-
-    await updateDoc(doc(db, "users", user.uid), {
-      idURL: downloadURL,
-      idStatus: "pending",
-      idUploadedAt: new Date()
-    });
-
-    document.getElementById("idStatusText").innerHTML =
-      "📄 Tu identificación ha sido enviada. Estado: <b>Pendiente de aprobación</b>.";
-
-    alert("Identificación enviada correctamente ✔");
-  } catch (error) {
-    alert("Error subiendo identificación: " + error.message);
-  }
-});
-
-
 let services = [];
 
 // ====================================================
@@ -70,14 +28,6 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = "login.html";
     return;
   }
-
-  document.getElementById("idStatusText").innerHTML = 
-  data.idStatus === "approved"
-  ? "✔ Identidad verificada"
-  : data.idStatus === "pending"
-  ? "⏳ Verificación en proceso"
-  : "📄 Aún no has enviado tu identificación.";
-
 
   const snap = await getDoc(doc(db, "users", user.uid));
   if (!snap.exists()) {
@@ -91,17 +41,28 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("profileName").textContent = data.name;
   document.getElementById("profileEmail").textContent = data.email;
 
-  // Foto
-  if (data.photoURL) {
-    document.getElementById("profilePicPreview").innerHTML = `<img src="${data.photoURL}">`;
+  // Verificación de identificación
+  const idStatusText = document.getElementById("idStatusText");
+  if (data.idStatus === "approved") {
+    idStatusText.textContent = "✔ Identidad verificada";
+  } else if (data.idStatus === "pending") {
+    idStatusText.textContent = "⏳ Verificación en proceso";
   } else {
-    document.getElementById("profilePicPreview").textContent = data.name?.[0] ?? "?";
+    idStatusText.textContent = "📄 Aún no has enviado tu identificación.";
   }
 
-  // Inputs normales
+  // Foto
+  const preview = document.getElementById("profilePicPreview");
+  if (data.photoURL) {
+    preview.innerHTML = `<img src="${data.photoURL}">`;
+  } else {
+    preview.textContent = data.name?.[0] ?? "?";
+  }
+
+  // Inputs
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
-  document.getElementById("phoneInput").value = data.phone || "";      // 🔥 IMPORTANTE
+  document.getElementById("phoneInput").value = data.phone || "";
   document.getElementById("cityInput").value = data.city || "";
   document.getElementById("categoryInput").value = data.category || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
@@ -115,22 +76,26 @@ onAuthStateChanged(auth, async (user) => {
 // MOSTRAR SERVICIOS
 // ====================================================
 function renderServices() {
-  const box = document.getElementById("servicesList");
+  const list = document.getElementById("servicesList");
 
   if (!services.length) {
-    box.innerHTML = `<p style="font-size:0.85rem; color:#9ca3af;">Aún no has agregado servicios.</p>`;
+    list.innerHTML = `
+      <p style="font-size:0.85rem; color:#9ca3af;">Aún no has agregado servicios.</p>
+    `;
     return;
   }
 
-  box.innerHTML = services
+  list.innerHTML = services
     .map(
       (s, i) => `
-      <div style="display:flex; justify-content:space-between; padding:.3rem 0; border-bottom:1px solid #eee;">
+      <div style="display:flex; justify-content:space-between; padding:.4rem 0;
+                  border-bottom:1px solid #ddd;">
         <div>
           <strong>${s.name}</strong>
           <div style="color:#666; font-size:.85rem;">$${s.price} MXN</div>
         </div>
-        <button class="removeServiceBtn" data-index="${i}" style="color:red; background:none; border:none;">Eliminar</button>
+        <button class="removeServiceBtn" data-index="${i}" 
+                style="color:red; background:none; border:none;">Eliminar</button>
       </div>
     `
     )
@@ -151,7 +116,10 @@ document.getElementById("addServiceBtn").addEventListener("click", () => {
   const name = document.getElementById("serviceNameInput").value.trim();
   const price = Number(document.getElementById("servicePriceInput").value.trim());
 
-  if (!name || !price) return alert("Escribe servicio y precio válido.");
+  if (!name || !price) {
+    alert("Escribe servicio y precio válido.");
+    return;
+  }
 
   services.push({ name, price });
 
@@ -162,31 +130,31 @@ document.getElementById("addServiceBtn").addEventListener("click", () => {
 });
 
 // ====================================================
-// GUARDAR PERFIL (AQUÍ SE GUARDA WHATSAPP)
+// GUARDAR PERFIL
 // ====================================================
-document.getElementById("saveProfileBtn").onclick = async () => {
+document.getElementById("saveProfileBtn").addEventListener("click", async () => {
   const user = auth.currentUser;
-  if (!user) return alert("Debes iniciar sesión");
+  if (!user) return;
 
-  const phone = document.getElementById("phoneInput").value.trim();
   const oficio = document.getElementById("oficioInput").value.trim();
   const desc = document.getElementById("descInput").value.trim();
+  const phone = document.getElementById("phoneInput").value.trim();
   const city = document.getElementById("cityInput").value.trim();
   const category = document.getElementById("categoryInput").value;
   const isWorker = document.getElementById("isWorkerInput").checked;
 
   await updateDoc(doc(db, "users", user.uid), {
-    phone,
     oficio,
     descripcion: desc,
+    phone,
     city,
     category,
-    isWorker
+    isWorker,
+    services
   });
 
-  alert("Perfil actualizado correctamente ✔");
-};
-
+  alert("Perfil actualizado ✔");
+});
 
 // ====================================================
 // SUBIR FOTO DE PERFIL
@@ -198,7 +166,6 @@ document.getElementById("profilePicInput").addEventListener("change", async (e) 
 
   const storageRef = ref(storage, `profilePictures/${user.uid}.jpg`);
   await uploadBytes(storageRef, file);
-
   const url = await getDownloadURL(storageRef);
 
   await updateProfile(user, { photoURL: url });
@@ -207,6 +174,30 @@ document.getElementById("profilePicInput").addEventListener("change", async (e) 
   document.getElementById("profilePicPreview").innerHTML = `<img src="${url}">`;
 
   alert("Foto actualizada ✔");
+});
+
+// ====================================================
+// SUBIR IDENTIFICACIÓN
+// ====================================================
+document.getElementById("uploadIdBtn").addEventListener("click", async () => {
+  const user = auth.currentUser;
+  const file = document.getElementById("idUploadInput").files[0];
+  if (!file) return alert("Selecciona una foto de tu identificación.");
+
+  const idRef = ref(storage, `ids/${user.uid}.jpg`);
+  await uploadBytes(idRef, file);
+  const url = await getDownloadURL(idRef);
+
+  await updateDoc(doc(db, "users", user.uid), {
+    idURL: url,
+    idStatus: "pending",
+    idUploadedAt: new Date()
+  });
+
+  document.getElementById("idStatusText").textContent =
+    "⏳ Verificación en proceso";
+
+  alert("Identificación enviada ✔");
 });
 
 // ====================================================
