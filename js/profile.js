@@ -1,5 +1,7 @@
 // js/profile.js
+
 import { auth, db, storage } from "./firebase-config.js";
+
 import {
   onAuthStateChanged,
   signOut,
@@ -18,48 +20,76 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+
+// =======================================================
+// SUBIR IDENTIFICACIÓN OFICIAL → /ids/USERID/id.jpg
+// =======================================================
+document.getElementById("uploadIdBtn").addEventListener("click", async () => {
+  const file = document.getElementById("idUploadInput").files[0];
+  if (!file) return alert("Selecciona una foto de tu identificación.");
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const storageRef = ref(storage, `ids/${user.uid}/id.jpg`);
+    await uploadBytes(storageRef, file);
+
+    const downloadURL = await getDownloadURL(storageRef);
+
+    await updateDoc(doc(db, "users", user.uid), {
+      idURL: downloadURL,
+      idStatus: "pending",
+      idUploadedAt: new Date()
+    });
+
+    document.getElementById("idStatusText").innerHTML =
+      "📄 Identificación enviada. Estado: <b>Pendiente de aprobación</b>";
+
+    alert("Identificación subida correctamente ✔");
+  } catch (error) {
+    alert("Error subiendo identificación: " + error.message);
+  }
+});
+
+
+// =======================================================
+// VARIABLES
+// =======================================================
 let services = [];
 
-// ====================================================
-// CARGAR DATOS DEL USUARIO AL ABRIR EL PERFIL
-// ====================================================
+
+// =======================================================
+// CARGAR DATOS DE PERFIL AL ENTRAR
+// =======================================================
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+  if (!user) return window.location.href = "login.html";
 
   const snap = await getDoc(doc(db, "users", user.uid));
-  if (!snap.exists()) {
-    alert("Tu perfil no existe en Firestore.");
-    return;
-  }
+  if (!snap.exists()) return alert("Error: No existe tu perfil.");
 
   const data = snap.data();
 
-  // Mostrar datos
+  // Mostrar nombre, email
   document.getElementById("profileName").textContent = data.name;
   document.getElementById("profileEmail").textContent = data.email;
 
-  // Verificación de identificación
-  const idStatusText = document.getElementById("idStatusText");
-  if (data.idStatus === "approved") {
-    idStatusText.textContent = "✔ Identidad verificada";
-  } else if (data.idStatus === "pending") {
-    idStatusText.textContent = "⏳ Verificación en proceso";
-  } else {
-    idStatusText.textContent = "📄 Aún no has enviado tu identificación.";
-  }
+  // Estado de verificación
+  document.getElementById("idStatusText").innerHTML =
+    data.idStatus === "approved"
+      ? "✔ Identidad verificada"
+      : data.idStatus === "pending"
+      ? "⏳ Verificación en proceso"
+      : "📄 Aún no has enviado tu identificación.";
 
-  // Foto
-  const preview = document.getElementById("profilePicPreview");
+  // Foto de perfil
   if (data.photoURL) {
-    preview.innerHTML = `<img src="${data.photoURL}">`;
+    document.getElementById("profilePicPreview").innerHTML = `<img src="${data.photoURL}">`;
   } else {
-    preview.textContent = data.name?.[0] ?? "?";
+    document.getElementById("profilePicPreview").textContent = data.name?.[0] ?? "?";
   }
 
-  // Inputs
+  // Rellenar inputs
   document.getElementById("oficioInput").value = data.oficio || "";
   document.getElementById("descInput").value = data.descripcion || "";
   document.getElementById("phoneInput").value = data.phone || "";
@@ -67,41 +97,40 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("categoryInput").value = data.category || "";
   document.getElementById("isWorkerInput").checked = data.isWorker === true;
 
-  // Servicios
+  // Cargar servicios
   services = Array.isArray(data.services) ? data.services : [];
   renderServices();
 });
 
-// ====================================================
+
+// =======================================================
 // MOSTRAR SERVICIOS
-// ====================================================
+// =======================================================
 function renderServices() {
-  const list = document.getElementById("servicesList");
+  const box = document.getElementById("servicesList");
 
   if (!services.length) {
-    list.innerHTML = `
-      <p style="font-size:0.85rem; color:#9ca3af;">Aún no has agregado servicios.</p>
-    `;
+    box.innerHTML = `<p style="color:#9ca3af;">Aún no has agregado servicios.</p>`;
     return;
   }
 
-  list.innerHTML = services
+  box.innerHTML = services
     .map(
       (s, i) => `
-      <div style="display:flex; justify-content:space-between; padding:.4rem 0;
-                  border-bottom:1px solid #ddd;">
+      <div style="display:flex; justify-content:space-between; padding:.3rem 0; border-bottom:1px solid #eee;">
         <div>
           <strong>${s.name}</strong>
-          <div style="color:#666; font-size:.85rem;">$${s.price} MXN</div>
+          <div style="color:#666;font-size:.85rem;">$${s.price} MXN</div>
         </div>
-        <button class="removeServiceBtn" data-index="${i}" 
-                style="color:red; background:none; border:none;">Eliminar</button>
+        <button class="removeServiceBtn" data-index="${i}" style="color:red;background:none;border:none;">
+          Eliminar
+        </button>
       </div>
     `
     )
     .join("");
 
-  document.querySelectorAll(".removeServiceBtn").forEach((btn) =>
+  document.querySelectorAll(".removeServiceBtn").forEach(btn =>
     btn.addEventListener("click", () => {
       services.splice(btn.dataset.index, 1);
       renderServices();
@@ -109,17 +138,15 @@ function renderServices() {
   );
 }
 
-// ====================================================
+
+// =======================================================
 // AGREGAR SERVICIO
-// ====================================================
+// =======================================================
 document.getElementById("addServiceBtn").addEventListener("click", () => {
   const name = document.getElementById("serviceNameInput").value.trim();
   const price = Number(document.getElementById("servicePriceInput").value.trim());
 
-  if (!name || !price) {
-    alert("Escribe servicio y precio válido.");
-    return;
-  }
+  if (!name || !price) return alert("Escribe servicio y precio válido.");
 
   services.push({ name, price });
 
@@ -129,42 +156,38 @@ document.getElementById("addServiceBtn").addEventListener("click", () => {
   renderServices();
 });
 
-// ====================================================
-// GUARDAR PERFIL
-// ====================================================
-document.getElementById("saveProfileBtn").addEventListener("click", async () => {
-  const user = auth.currentUser;
-  if (!user) return;
 
-  const oficio = document.getElementById("oficioInput").value.trim();
-  const desc = document.getElementById("descInput").value.trim();
-  const phone = document.getElementById("phoneInput").value.trim();
-  const city = document.getElementById("cityInput").value.trim();
-  const category = document.getElementById("categoryInput").value;
-  const isWorker = document.getElementById("isWorkerInput").checked;
+// =======================================================
+// GUARDAR PERFIL
+// =======================================================
+document.getElementById("saveProfileBtn").onclick = async () => {
+  const user = auth.currentUser;
+  if (!user) return alert("Debes iniciar sesión");
 
   await updateDoc(doc(db, "users", user.uid), {
-    oficio,
-    descripcion: desc,
-    phone,
-    city,
-    category,
-    isWorker,
+    oficio: document.getElementById("oficioInput").value.trim(),
+    descripcion: document.getElementById("descInput").value.trim(),
+    phone: document.getElementById("phoneInput").value.trim(),
+    city: document.getElementById("cityInput").value.trim(),
+    category: document.getElementById("categoryInput").value,
+    isWorker: document.getElementById("isWorkerInput").checked,
     services
   });
 
   alert("Perfil actualizado ✔");
-});
+};
 
-// ====================================================
-// SUBIR FOTO DE PERFIL
-// ====================================================
+
+// =======================================================
+// SUBIR FOTO DE PERFIL → /profilePictures/USERID/profile.jpg
+// =======================================================
 document.getElementById("profilePicInput").addEventListener("change", async (e) => {
-  const user = auth.currentUser;
   const file = e.target.files[0];
   if (!file) return;
 
-  const storageRef = ref(storage, `profilePictures/${user.uid}.jpg`);
+  const user = auth.currentUser;
+  const storageRef = ref(storage, `profilePictures/${user.uid}/profile.jpg`);
+
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);
 
@@ -176,33 +199,10 @@ document.getElementById("profilePicInput").addEventListener("change", async (e) 
   alert("Foto actualizada ✔");
 });
 
-// ====================================================
-// SUBIR IDENTIFICACIÓN
-// ====================================================
-document.getElementById("uploadIdBtn").addEventListener("click", async () => {
-  const user = auth.currentUser;
-  const file = document.getElementById("idUploadInput").files[0];
-  if (!file) return alert("Selecciona una foto de tu identificación.");
 
-  const idRef = ref(storage, `ids/${user.uid}.jpg`);
-  await uploadBytes(idRef, file);
-  const url = await getDownloadURL(idRef);
-
-  await updateDoc(doc(db, "users", user.uid), {
-    idURL: url,
-    idStatus: "pending",
-    idUploadedAt: new Date()
-  });
-
-  document.getElementById("idStatusText").textContent =
-    "⏳ Verificación en proceso";
-
-  alert("Identificación enviada ✔");
-});
-
-// ====================================================
+// =======================================================
 // CERRAR SESIÓN
-// ====================================================
+// =======================================================
 document.getElementById("logoutBtn").addEventListener("click", () => {
   signOut(auth);
   window.location.href = "index.html";
