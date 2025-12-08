@@ -26,7 +26,6 @@
       font-size:2rem; font-weight:600;
       overflow:hidden;
     }
-
     .worker-avatar-big img { width:100%; height:100%; object-fit:cover; }
 
     .worker-section { margin-top:1.8rem; }
@@ -55,20 +54,19 @@
       border-radius:.9rem;
       margin-bottom:1rem;
     }
-
     .review-user { display:flex; gap:.8rem; align-items:center; }
     .review-avatar {
       width:42px; height:42px;
       background:#e5e7eb;
       border-radius:50%;
-      overflow:hidden;
       display:flex; justify-content:center; align-items:center;
-      font-weight:600;
+      overflow:hidden;
     }
     .review-avatar img { width:100%; height:100%; object-fit:cover; }
-
     .review-date { color:#6b7280; font-size:.78rem; }
     .review-stars { color:#f59e0b; font-size:1.1rem; margin:.3rem 0; }
+
+    .back-link { color:#374151; text-decoration:none; margin-bottom:1rem; display:inline-block; }
   </style>
 </head>
 
@@ -93,28 +91,22 @@
 
     <a href="workers.html" class="back-link">← Volver al listado</a>
 
+    <!-- Perfil cargado por worker.js -->
     <div id="workerContent" class="worker-card-public">Cargando perfil...</div>
 
-    <p class="worker-verification">
-  ${data.idStatus === "approved" 
-    ? "✔ Identidad verificada" 
-    : "⚠ Aún no verificado"}
-</p>
-</div>
+    <!-- Estado de verificación -->
+    <p id="workerVerification" style="margin-top:.5rem; font-size:.9rem; color:#374151;">
+      Cargando verificación...
+    </p>
 
     <div class="worker-section">
       <div class="worker-section-title">Reseñas verificadas</div>
 
       <!-- ⭐ PROMEDIO -->
-      <div id="ratingSummary" style="font-size:1rem;font-weight:600;margin-bottom:0.8rem;color:#111827;">
+      <div id="ratingSummary"
+           style="font-size:1rem;font-weight:600;margin-bottom:0.8rem;color:#111827;">
         Cargando calificación...
       </div>
-      
-      <div class="contact-box">
-  <div class="contact-label">Contacto</div>
-  <p id="workerContact"></p>
-</div>
-
 
       <!-- RESEÑAS -->
       <div id="reviewsContainer">
@@ -126,7 +118,7 @@
         Escribir una reseña
       </button>
 
-      <!-- MODAL PARA ESCRIBIR RESEÑA -->
+      <!-- MODAL -->
       <div id="reviewModal" class="modal hidden">
         <div class="modal-content">
           <h3>Escribe una reseña</h3>
