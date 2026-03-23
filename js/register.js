@@ -55,8 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // ⚠️ ELIMINAMOS la petición de la URL pública porque tus reglas 
             // de alta seguridad protegen este archivo. Solo guardaremos la ruta.
 
+            // ... (Después de subir la foto a Storage)
+
             // -------------------------------------------------------------------
-            // PASO 4: GUARDAR EL PERFIL (Crear el expediente del trabajador)
+            // PASO 4: ESPERAR A QUE EL USUARIO ESTÉ LISTO
+            // -------------------------------------------------------------------
+            // Forzamos una pequeña pausa de 500ms para que Firebase reconozca el Login
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // -------------------------------------------------------------------
+            // PASO 5: GUARDAR EL PERFIL (Colección "users")
             // -------------------------------------------------------------------
             await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
@@ -64,17 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: email,
                 job: jobTitle,
                 idNumber: idNumber,
-                idDocumentPath: storagePath, // Guardamos la RUTA interna, no una URL pública
+                idDocumentPath: storagePath, 
                 profilePhoto: "https://via.placeholder.com/150", 
-                idStatus: "pendiente",
+                idStatus: "pendiente", // Tu variable de las Rules
                 rating: 0,
                 reviewsCount: 0,
                 createdAt: new Date()
             });
 
-            // ¡Éxito! Limpiamos y redirigimos
-            alert('¡Registro exitoso! Tu perfil ha sido enviado a revisión.');
-            registerForm.reset();
+            alert('¡Registro exitoso! Tu perfil está en revisión.');
             window.location.href = 'profile.html';
 
         } catch (error) {
