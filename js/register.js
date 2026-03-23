@@ -1,7 +1,7 @@
 import { auth, db, storage } from "./firebase-config.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault(); 
 
-        // Cambiamos el texto del botón para que el usuario sepa que está cargando
-        submitBtn.innerText = "Procesando y verificando...";
+        submitBtn.innerText = "Verificando identidad...";
         submitBtn.disabled = true;
         errorMessage.style.display = 'none';
 
         try {
-            // 1. Capturamos los datos del formulario
             const fullName = document.getElementById('fullName').value.trim();
             const email = document.getElementById('email').value.trim();
             const jobTitle = document.getElementById('jobTitle').value.trim();
@@ -27,44 +25,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const idPhotoFile = document.getElementById('idPhoto').files[0];
 
             // -------------------------------------------------------------------
-            // PASO 1: FILTRO ANTI-DUPLICADOS (El control de acceso principal)
+            // PASO 1: FILTRO ANTI-DUPLICADOS (Cambiado a colección "users")
             // -------------------------------------------------------------------
-            const workersRef = collection(db, "workers");
-            const q = query(workersRef, where("idNumber", "==", idNumber));
+            const usersRef = collection(db, "users"); // <--- DEBE SER "users"
+            const q = query(usersRef, where("idNumber", "==", idNumber));
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                // Si la consulta no está vacía, significa que ese número ya está registrado. ¡Bloqueamos el paso!
                 throw new Error("duplicado");
             }
 
             // -------------------------------------------------------------------
-            // PASO 2: CREAR LA CUENTA (Dar de alta en el sistema)
+            // PASO 2: CREAR LA CUENTA
             // -------------------------------------------------------------------
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-           // -------------------------------------------------------------------
-            // PASO 3: SUBIR LA FOTO (Guardar evidencia en la bóveda segura)
             // -------------------------------------------------------------------
-            // Usamos la carpeta "ids" para que coincida con tus reglas
+            // PASO 3: SUBIR LA FOTO (ids/)
+            // -------------------------------------------------------------------
             const storagePath = `ids/${user.uid}/${idPhotoFile.name}`;
             const storageRef = ref(storage, storagePath);
             await uploadBytes(storageRef, idPhotoFile);
 
-            // ⚠️ ELIMINAMOS la petición de la URL pública porque tus reglas 
-            // de alta seguridad protegen este archivo. Solo guardaremos la ruta.
-
-            // ... (Después de subir la foto a Storage)
+            // -------------------------------------------------------------------
+            // PASO 4: ESPERA DE SEGURIDAD
+            // -------------------------------------------------------------------
+            await new Promise(resolve => setTimeout(resolve, 800));
 
             // -------------------------------------------------------------------
-            // PASO 4: ESPERAR A QUE EL USUARIO ESTÉ LISTO
+            // PASO 5: GUARDAR EL PERFIL
             // -------------------------------------------------------------------
-            // Forzamos una pequeña pausa de 500ms para que Firebase reconozca el Login
-            // ... (Pausa de 500ms)
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Guardamos en la colección "users" (importante que sea en minúsculas)
             const userDocRef = doc(db, "users", user.uid);
             
             await setDoc(userDocRef, {
@@ -75,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 idNumber: idNumber,
                 idDocumentPath: storagePath, 
                 profilePhoto: "https://via.placeholder.com/150", 
-                idStatus: "pendiente", // Debe coincidir con el nombre en tus Rules
+                idStatus: "pendiente", 
                 rating: 0,
                 reviewsCount: 0,
                 createdAt: new Date()
@@ -85,23 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'profile.html';
 
         } catch (error) {
-            console.error("Error en el registro:", error);
+            console.error("Error detallado:", error);
             errorMessage.style.display = 'block';
             
-            // Personalizamos el mensaje dependiendo del error
             if (error.message === "duplicado") {
-                errorMessage.innerText = `Atención: La identificación ${document.getElementById('idNumber').value.trim().toUpperCase()} ya está vinculada a una cuenta existente. Contacta a soporte.`;
-                document.getElementById('idNumber').style.border = '2px solid red';
-            } else if (error.code === 'auth/email-already-in-use') {
-                errorMessage.innerText = "Este correo electrónico ya está registrado.";
-            } else if (error.code === 'auth/weak-password') {
-                errorMessage.innerText = "La contraseña debe tener al menos 6 caracteres.";
+                errorMessage.innerText = `Esta identificación ya está registrada.`;
+            } else if (error.code === 'permission-denied') {
+                errorMessage.innerText = "Error de permisos. Revisa las reglas de Firestore.";
             } else {
-                errorMessage.innerText = "Ocurrió un error al procesar tu solicitud. Intenta de nuevo.";
+                errorMessage.innerText = "Error al procesar: " + (error.code || error.message);
             }
         } finally {
-            // Regresamos el botón a la normalidad
-            submitBtn.innerText = "Crear Cuenta y Enviar a Verificación";
+            submitBtn.innerText = "Crear Cuenta";
             submitBtn.disabled = false;
         }
     });
