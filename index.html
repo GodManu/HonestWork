@@ -3,23 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrustyWork | Encuentra trabajadores confiables cerca de ti</title>
+  <title>HonestWork | Encuentra trabajadores confiables cerca de ti</title>
 
-  <!-- Fuente Google -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Íconos (para pequeños detalles) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
+  
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* Navbar */
+    .hw-header { background: white; padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); }
+    .hw-nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .hw-logo { font-size: 1.5em; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
+    .logo-mark { background: var(--primary-color); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8em; }
+    .hw-nav-links a { margin-right: 20px; text-decoration: none; color: var(--text-main); font-weight: 600; transition: color 0.3s; }
+    .hw-nav-links a:hover { color: var(--primary-color); }
+    .hw-nav-actions a { margin-left: 10px; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; }
+    .btn-secondary { color: var(--primary-color); border: 2px solid var(--primary-color); }
+    .btn-secondary:hover { background: var(--primary-color); color: white; }
+    .btn-primary { background: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
+    
+    /* Hero Section */
+    .hw-hero { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 60px 20px; }
+    .hw-hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .hw-hero-text h1 { font-size: 2.8em; margin-bottom: 20px; color: #2c3e50; line-height: 1.2; }
+    .highlight { color: var(--primary-color); }
+    .hero-subtitle { font-size: 1.2em; color: var(--text-muted); margin-bottom: 30px; }
+    .hero-buttons { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+    .hero-buttons a { padding: 15px 25px; border-radius: 8px; font-size: 1.1em; text-align: center; }
+    .hero-badges { display: flex; gap: 20px; color: var(--success-color); font-weight: 600; font-size: 0.9em; flex-wrap: wrap; }
+
+    /* Card Ejemplo */
+    .hw-hero-card { background: white; padding: 30px; border-radius: 12px; box-shadow: var(--shadow-md); position: relative; }
+    .hw-hero-card h2 { font-size: 1.2em; color: var(--text-muted); margin-bottom: 20px; text-align: center; }
+    .profile-header { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; }
+    .profile-avatar { width: 60px; height: 60px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5em; font-weight: bold; }
+    .profile-role { color: var(--text-muted); font-size: 0.9em; }
+    .profile-rating { color: #f5b301; font-weight: bold; margin-bottom: 15px; }
+    .profile-tags span { background: #e9ecef; padding: 5px 10px; border-radius: 15px; font-size: 0.8em; margin: 2px; display: inline-block; color: #495057; }
+    .btn-full { display: block; text-align: center; padding: 12px; border-radius: 8px; margin-top: 20px; text-decoration: none; }
+
+    /* Buscador Section */
+    .search-section { background: white; padding: 60px 20px; text-align: center; }
+    .search-grid { max-width: 1000px; margin: 30px auto 0; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: var(--shadow-sm); text-align: left;}
+    .field label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
+    .field input, .field select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; }
+    .search-btn { background: var(--primary-color); color: white; border: none; padding: 0 30px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 24px;}
+
+    /* Secciones Generales */
+    .hw-section { padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+    .alt-bg { background: #f8f9fa; }
+    .section-title { text-align: center; margin-bottom: 40px; font-size: 2em; }
+    
+    /* Grid de Pasos y Categorías */
+    .steps-grid, .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+    .step-card, .cat-card { background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
+    .step-icon { font-size: 2.5em; color: var(--primary-color); margin-bottom: 15px; }
+    .cat-card i { font-size: 2em; color: var(--success-color); margin-bottom: 15px; }
+
+    /* Footer */
+    .hw-footer { background: #2c3e50; color: white; padding: 40px 20px 20px; margin-top: 50px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;}
+    .footer-links a { color: #adb5bd; text-decoration: none; display: block; margin-bottom: 10px; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { text-align: center; border-top: 1px solid #495057; padding-top: 20px; color: #adb5bd; font-size: 0.9em; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hw-hero-grid { grid-template-columns: 1fr; }
+      .search-grid { grid-template-columns: 1fr; }
+      .search-btn { margin-top: 0; padding: 15px; }
+      .hw-nav-links { display: none; } /* Ocultar menú en móvil para simplificar */
+    }
+  </style>
 </head>
 <body>
-  <!-- NAVBAR -->
+
   <header class="hw-header">
-    <div class="hw-container hw-nav">
+    <div class="hw-nav">
       <div class="hw-logo">
-        <span class="logo-mark">TW</span>
-        <span class="logo-text">TrustyWork</span>
+        <span class="logo-mark">HW</span>
+        <span class="logo-text">HonestWork</span>
       </div>
       <nav class="hw-nav-links">
         <a href="#como-funciona">Cómo funciona</a>
@@ -27,83 +91,73 @@
         <a href="#seguridad">Confianza</a>
       </nav>
       <div class="hw-nav-actions">
-         <a id="loginBtn" class="btn-secondary small" href="login.html">Iniciar sesión</a>
-         <a id="registerBtn" class="btn-secondary small" href="register.html">Registrarse</a>
-         <a id="profileBtn" class="btn-primary small" href="profile.html" style="display:none;">Mi perfil</a>
+         <a id="loginBtn" class="btn-secondary" href="login.html">Iniciar sesión</a>
+         <a id="registerBtn" class="btn-primary" href="register.html">Registrarse</a>
+         <a id="profileBtn" class="btn-primary" href="profile.html" style="display:none;">Mi panel</a>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hw-hero">
-    <div class="hw-container hw-hero-grid">
+    <div class="hw-hero-grid">
       <div class="hw-hero-text">
         <h1>
           Encuentra <span class="highlight">trabajo honesto</span> o
-          <span class="highlight">trabajadores confiables</span> en un solo lugar.
+          <span class="highlight">trabajadores confiables</span>.
         </h1>
         <p class="hero-subtitle">
-          HonestWork conecta personas que necesitan un servicio con plomeros, carpinteros,
-          electricistas, hoteleros, choferes, guías y más. Con perfiles reales, fotos de trabajos
-          y testimonios verificados.
+          HonestWork conecta personas que necesitan un servicio con profesionales verificados. Con perfiles reales, historial de trabajos y testimonios auténticos.
         </p>
         <div class="hero-buttons">
-          <a href="register.html" class="btn-primary">Quiero ofrecer mis servicios</a>
-         <a href="workers.html" class="btn-secondary">Quiero encontrar un trabajador</a>
+          <a href="register.html" class="btn-primary">Ofrecer mis servicios</a>
+          <a href="workers.html" class="btn-secondary">Buscar un trabajador</a>
         </div>
         <div class="hero-badges">
           <div><i class="fa-solid fa-shield-halved"></i> Perfiles verificados</div>
           <div><i class="fa-solid fa-star"></i> Opiniones reales</div>
-          <div><i class="fa-solid fa-location-dot"></i> Cerca de tu zona</div>
+          <div><i class="fa-solid fa-location-dot"></i> Cerca de ti</div>
         </div>
       </div>
 
       <div class="hw-hero-card">
-        <h2>Ejemplo de perfil</h2>
-        <div class="profile-card">
-          <div class="profile-header">
-            <div class="profile-avatar">JM</div>
-            <div>
-              <h3>Juan Martínez</h3>
-              <p class="profile-role">Plomero certificado · 8 años de experiencia</p>
-            </div>
+        <h2>Transparencia total</h2>
+        <div class="profile-header">
+          <div class="profile-avatar">JM</div>
+          <div>
+            <h3 style="margin: 0;">Juan Martínez</h3>
+            <p class="profile-role">Plomero certificado · 8 años exp.</p>
           </div>
-          <div class="profile-rating">
-            <span class="stars">★★★★★</span>
-            <span class="rating-text">4.9 · 82 reseñas</span>
-          </div>
-          <p class="profile-location">
-            <i class="fa-solid fa-location-dot"></i> Cabo San Lucas, B.C.S.
-          </p>
-          <p class="profile-desc">
-            Especialista en fugas, instalaciones de baños completos y mantenimiento residencial.
-            Trabajo limpio, puntual y garantizado.
-          </p>
-          <div class="profile-tags">
-            <span>Instalación de baño</span>
-            <span>Reparación de fugas</span>
-            <span>Urgencias 24/7</span>
-          </div>
-          <a href="workers.html" class="btn-primary full">Ver un perfil como este</a>
+        </div>
+        <div class="profile-rating">
+          ★★★★★ <span style="color: #6c757d; font-weight: normal;">4.9 (82 reseñas)</span>
+        </div>
+        <p style="color: #6c757d; margin-bottom: 15px;">
+          <i class="fa-solid fa-location-dot"></i> Cabo San Lucas, B.C.S.
+        </p>
+        <div class="profile-tags">
+          <span>Instalación</span>
+          <span>Fugas</span>
+          <span>Urgencias</span>
+        </div>
+        <div style="margin-top: 15px; background: #e8f5e9; color: #2e7d32; padding: 8px; border-radius: 5px; font-size: 0.9em; text-align: center; font-weight: bold;">
+          ✔️ Identidad Verificada por HonestWork
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BUSCADOR -->
-  <section id="buscar" class="hw-section search-section">
-    <div class="hw-container">
-      <h2>Busca un trabajador para tu siguiente proyecto</h2>
-      <p class="section-subtitle">
-        Filtra por ciudad, categoría y nivel de confianza basado en reseñas reales.
-      </p>
+  <section id="buscar" class="search-section">
+    <div>
+      <h2 style="font-size: 2em; margin-bottom: 10px;">Encuentra al profesional ideal</h2>
+      <p style="color: var(--text-muted);">Filtra por ciudad, oficio y nivel de confianza.</p>
+      
       <form class="search-grid">
         <div class="field">
           <label for="searchText">¿Qué necesitas?</label>
-          <input id="searchText" type="text" placeholder="Ej. plomero, carpintero, niñera..." />
+          <input id="searchText" type="text" placeholder="Ej. plomero, electricista..." />
         </div>
         <div class="field">
-          <label for="city">Ciudad</label>
+          <label for="city">Ubicación</label>
           <input id="city" type="text" placeholder="Ej. Cabo San Lucas" />
         </div>
         <div class="field">
@@ -115,124 +169,69 @@
             <option>Electricidad</option>
             <option>Hotelero / Turismo</option>
             <option>Limpieza</option>
-            <option>Chofer / Transporte</option>
           </select>
         </div>
-        <button type="button" class="btn-primary full-mobile">Buscar</button>
+        <button type="button" class="search-btn" id="btnBuscarIndex">Buscar</button>
       </form>
     </div>
   </section>
 
-  <!-- CÓMO FUNCIONA -->
-  <section id="como-funciona" class="hw-section">
-    <div class="hw-container">
-      <h2>¿Cómo funciona HonestWork?</h2>
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-icon"><i class="fa-solid fa-user-plus"></i></div>
-          <h3>1. Crea tu perfil</h3>
-          <p>
-            Si eres trabajador, registras tus datos, subes fotos de tus trabajos, agregas tus
-            precios aproximados y lo que sabes hacer.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <h3>2. Te encuentran por confianza</h3>
-          <p>
-            Las personas te ubicán por ciudad, oficio y calificación. Entre más buenas reseñas
-            tengas, más aparecerás en las búsquedas.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="step-icon"><i class="fa-solid fa-star-half-stroke"></i></div>
-          <h3>3. Opiniones reales</h3>
-          <p>
-            Sólo usuarios con cuenta verificada pueden dejar testimonios. Así evitamos reseñas
-            falsas y protegemos tanto al cliente como al trabajador.
-          </p>
-        </div>
+  <section id="como-funciona" class="hw-section alt-bg">
+    <h2 class="section-title">¿Cómo funciona HonestWork?</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon"><i class="fa-solid fa-id-card"></i></div>
+        <h3>1. Verificación Estricta</h3>
+        <p>Todo trabajador debe subir una identificación oficial que nosotros validamos antes de que su perfil sea público.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h3>2. Búsqueda Transparente</h3>
+        <p>Los clientes te encuentran por oficio y calificación. Los mejores trabajos destacan naturalmente.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fa-solid fa-star-half-stroke"></i></div>
+        <h3>3. Reseñas Reales</h3>
+        <p>Solo usuarios con cuenta pueden opinar. Cero bots, cero perfiles falsos. Confianza mutua.</p>
       </div>
     </div>
   </section>
 
-  <!-- CATEGORÍAS -->
-  <section id="categorias" class="hw-section alt">
-    <div class="hw-container">
-      <h2>Categorías principales</h2>
-      <div class="categories-grid">
-        <div class="cat-card">
-          <i class="fa-solid fa-wrench"></i>
-          <h3>Plomería</h3>
-          <p>Instalaciones, fugas, baños, cocinas y emergencias.</p>
-        </div>
-        <div class="cat-card">
-          <i class="fa-solid fa-hammer"></i>
-          <h3>Carpintería</h3>
-          <p>Muebles a medida, puertas, closets y reparaciones.</p>
-        </div>
-        <div class="cat-card">
-          <i class="fa-solid fa-bolt"></i>
-          <h3>Electricidad</h3>
-          <p>Cableado, contactos, cortos, paneles y mantenimiento.</p>
-        </div>
-        <div class="cat-card">
-          <i class="fa-solid fa-person-walking-luggage"></i>
-          <h3>Hotelero / Turismo</h3>
-          <p>Guías, choferes privados, servicio al huésped y más.</p>
-        </div>
-        <div class="cat-card">
-          <i class="fa-solid fa-broom"></i>
-          <h3>Limpieza</h3>
-          <p>Casas, oficinas, departamentos vacacionales.</p>
-        </div>
-        <div class="cat-card">
-          <i class="fa-solid fa-truck"></i>
-          <h3>Transporte</h3>
-          <p>Choferes privados, fletes, traslados locales.</p>
-        </div>
+  <section id="categorias" class="hw-section">
+    <h2 class="section-title">Especialidades más buscadas</h2>
+    <div class="categories-grid">
+      <div class="cat-card">
+        <i class="fa-solid fa-wrench"></i>
+        <h3>Plomería</h3>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-hammer"></i>
+        <h3>Carpintería</h3>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-bolt"></i>
+        <h3>Electricidad</h3>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-person-walking-luggage"></i>
+        <h3>Turismo</h3>
       </div>
     </div>
   </section>
 
-  <!-- CONFIANZA / SEGURIDAD -->
-  <section id="seguridad" class="hw-section">
-    <div class="hw-container trust-grid">
-      <div>
-        <h2>Confianza primero. Opiniones reales.</h2>
-        <p class="section-subtitle">
-          HonestWork está pensado para que puedas contratar a alguien con más tranquilidad,
-          viendo reseñas, fotos y experiencia real antes de tomar una decisión.
-        </p>
-        <ul class="trust-list">
-          <li><i class="fa-solid fa-check-circle"></i> Reseñas sólo de cuentas verificadas.</li>
-          <li><i class="fa-solid fa-check-circle"></i> Historial de trabajos con evidencia.</li>
-          <li><i class="fa-solid fa-check-circle"></i> Posibilidad de reportar perfiles falsos.</li>
-        </ul>
-      </div>
-      <div class="trust-card">
-        <p class="quote">“Encontré a mi plomero de confianza gracias a HonestWork.”</p>
-        <p class="quote-author">— Cliente verificado</p>
-        <p class="quote-small">Caso real ilustrativo del objetivo de la plataforma.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer class="hw-footer">
-    <div class="hw-container footer-content">
+    <div class="footer-content">
       <div class="footer-left">
-        <div class="hw-logo">
-          <span class="logo-mark">HW</span>
-          <span class="logo-text">HonestWork</span>
+        <div class="hw-logo" style="color: white;">
+          <span class="logo-mark" style="background: white; color: #2c3e50;">HW</span>
+          HonestWork
         </div>
-        <p>Conectando gente trabajadora honesta con personas que valoran su esfuerzo.</p>
+        <p style="margin-top: 15px; color: #adb5bd;">Trabajo honesto por recomendaciones reales.</p>
       </div>
       <div class="footer-links">
         <a href="#como-funciona">Cómo funciona</a>
-        <a href="#seguridad">Seguridad</a>
-        <a href="login.html">Acceder</a>
-        <a href="register.html">Crear cuenta</a>
+        <a href="workers.html">Directorio</a>
+        <a href="login.html">Acceso Trabajadores</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -240,61 +239,51 @@
     </div>
   </footer>
 
-<!-- DETECTAR USUARIO LOGEADO -->
-<script type="module">
-import { auth } from "./js/firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  <script type="module">
+    // Lógica de Firebase mantenida intacta de tu código original
+    import { auth } from "./js/firebase-config.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
-const profileBtn = document.getElementById("profileBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const profileBtn = document.getElementById("profileBtn");
 
-onAuthStateChanged(auth, (user) => {
-  console.log("Auth status:", user);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        if (loginBtn) loginBtn.style.display = "none";
+        if (registerBtn) registerBtn.style.display = "none";
+        if (profileBtn) profileBtn.style.display = "inline-block";
+      } else {
+        if (loginBtn) loginBtn.style.display = "inline-block";
+        if (registerBtn) registerBtn.style.display = "inline-block";
+        if (profileBtn) profileBtn.style.display = "none";
+      }
+    });
+  </script>
 
-  if (user) {
-    // Usuario logueado
-    if (loginBtn) loginBtn.style.display = "none";
-    if (registerBtn) registerBtn.style.display = "none";
-    if (profileBtn) profileBtn.style.display = "inline-block";
-  } else {
-    // Usuario NO logueado
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (registerBtn) registerBtn.style.display = "inline-block";
-    if (profileBtn) profileBtn.style.display = "none";
-  }
-});
-</script>
+  <script>
+    // Año automático
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-<!-- FOOTER YEAR -->
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-<script>
-const searchBtn = document.querySelector(".search-grid button");
+    // Lógica del buscador redireccionando a workers.html
+    const searchBtn = document.getElementById("btnBuscarIndex");
 
-searchBtn.addEventListener("click", () => {
-  const text = document.getElementById("searchText").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const category = document.getElementById("category").value.trim();
+    searchBtn.addEventListener("click", () => {
+      const text = document.getElementById("searchText").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const category = document.getElementById("category").value.trim();
+      const params = new URLSearchParams();
 
-  const params = new URLSearchParams();
+      if (text) params.append("q", text);
+      if (city) params.append("city", city);
+      if (category) params.append("cat", category);
 
-  if (text) params.append("q", text);
-  if (city) params.append("city", city);
-  if (category) params.append("cat", category);
-
-  // Si no hay nada escrito, manda normal
-  if (!text && !city && !category) {
-    window.location.href = "workers.html";
-    return;
-  }
-
-  window.location.href = "workers.html?" + params.toString();
-});
-</script>
-
-  
-  
+      if (!text && !city && !category) {
+        window.location.href = "workers.html";
+        return;
+      }
+      window.location.href = "workers.html?" + params.toString();
+    });
+  </script>
 </body>
 </html>
