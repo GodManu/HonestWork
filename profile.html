@@ -8,19 +8,18 @@
     <style>
         .dashboard-container { max-width: 900px; margin: 30px auto; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; padding: 20px; }
         .sidebar { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center; }
-        .sidebar img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+        .sidebar img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; background: #eee; }
         .main-content { display: flex; flex-direction: column; gap: 20px; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
         
         /* Estados de Verificación */
-        .status-banner { padding: 15px; border-radius: 5px; font-weight: bold; text-align: center; }
+        .status-banner { padding: 15px; border-radius: 5px; font-weight: bold; text-align: center; margin-bottom: 10px; }
         .status-pending { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-        .status-verified { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-verified { background: #d4edda !important; color: #155724 !important; border: 1px solid #c3e6cb; }
         
-        .btn-logout { background: #dc3545; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .btn-logout { background: #dc3545; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: bold; }
         .btn-logout:hover { background: #c82333; }
         
-        /* Ajuste para móviles */
         @media (max-width: 768px) {
             .dashboard-container { grid-template-columns: 1fr; }
         }
@@ -28,9 +27,10 @@
 </head>
 <body>
 
-    <nav style="background: #333; padding: 15px; color: white; text-align: right;">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <a href="workers.html" style="color: white; text-decoration: none; margin-right: 15px;">Ver Directorio</a>
+    <nav style="background: #333; padding: 15px; color: white;">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between;">
+            <strong>HonestWork Panel</strong>
+            <a href="workers.html" style="color: white; text-decoration: none;">Ver Directorio</a>
         </div>
     </nav>
 
@@ -46,11 +46,12 @@
             
             <div class="card">
                 <h3>Estado de tu Cuenta</h3>
-                <div id="verificationStatus" class="status-banner"></div>
-                    ⏳ Tu identificación está en revisión. Aún no apareces en las búsquedas públicas.
+                <div id="verificationStatus" class="status-banner">
+                    Cargando estado...
                 </div>
-                <p style="font-size: 0.9em; color: #555; margin-top: 10px;">
-                    En HonestWork revisamos manualmente cada identificación para garantizar la seguridad de nuestra comunidad. Este proceso toma entre 24 y 48 horas.
+                
+                <p id="statusDesc" style="font-size: 0.9em; color: #555; margin-top: 10px;">
+                    En HonestWork revisamos manualmente cada identificación para garantizar la seguridad. Este proceso toma entre 24 y 48 horas.
                 </p>
             </div>
 
@@ -70,13 +71,13 @@
 
             <div class="card">
                 <h3>Mis Trabajos</h3>
-                <p>Aquí podrás subir fotos de tus mejores trabajos para que los clientes confíen más en ti.</p>
-                <input type="file" disabled title="Disponible cuando tu cuenta sea verificada">
+                <p>Aquí podrás subir fotos de tus mejores trabajos para generar confianza.</p>
+                <input type="file" id="workPhotos" disabled>
             </div>
 
         </main>
     </div>
 
-    <script src="js/profile.js"></script>
+    <script type="module" src="js/profile.js"></script>
 </body>
 </html>
