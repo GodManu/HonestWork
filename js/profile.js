@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rating: 0, // Aún no tiene trabajos
         reviews: 0,
         // ¡Ojo aquí! Cambia esto a true o false para ver cómo cambia la pantalla
-        isVerified: true 
+        isVerified: false 
     };
 
     // Llenamos la interfaz con los datos del usuario
