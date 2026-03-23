@@ -1,152 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil de trabajador | HonestWork</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    .worker-page { max-width:900px; margin:2rem auto; }
-
-    .worker-card-public {
-      background:white;
-      border-radius:1.5rem;
-      padding:2rem;
-      box-shadow:0 18px 40px rgba(15,23,42,0.16);
-    }
-
-    .worker-avatar-big {
-      width:90px; height:90px;
-      border-radius:50%;
-      background:#e5e7eb;
-      display:flex; align-items:center; justify-content:center;
-      font-size:2rem; font-weight:600;
-      overflow:hidden;
-    }
-    .worker-avatar-big img { width:100%; height:100%; object-fit:cover; }
-
-    .worker-section { margin-top:1.8rem; }
-
-    .modal {
-      position:fixed;
-      top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,.5);
-      display:flex;
-      align-items:center; justify-content:center;
-    }
-    .modal.hidden { display:none; }
-
-    .modal-content {
-      background:white;
-      padding:2rem;
-      border-radius:1rem;
-      width:90%; max-width:400px;
-    }
-
-    /* Reseñas */
-    .review-card {
-      background:#f9fafb;
-      border:1px solid #e5e7eb;
-      padding:1rem 1.2rem;
-      border-radius:.9rem;
-      margin-bottom:1rem;
-    }
-    .review-user { display:flex; gap:.8rem; align-items:center; }
-    .review-avatar {
-      width:42px; height:42px;
-      background:#e5e7eb;
-      border-radius:50%;
-      display:flex; justify-content:center; align-items:center;
-      overflow:hidden;
-    }
-    .review-avatar img { width:100%; height:100%; object-fit:cover; }
-    .review-date { color:#6b7280; font-size:.78rem; }
-    .review-stars { color:#f59e0b; font-size:1.1rem; margin:.3rem 0; }
-
-    .back-link { color:#374151; text-decoration:none; margin-bottom:1rem; display:inline-block; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Trabajador - HonestWork</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-container { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header-section { display: flex; gap: 20px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        .header-section img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+        .info-section h2 { margin: 0 0 5px 0; }
+        .job-title { color: #555; font-size: 1.2em; margin: 0 0 10px 0; }
+        .verified-badge { background: #e8f5e9; color: #2e7d32; padding: 5px 10px; border-radius: 15px; font-size: 0.9em; font-weight: bold; display: inline-block; }
+        .contact-btn { background: #25D366; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; margin-top: 15px; font-weight: bold; text-decoration: none; display: inline-block;}
+        .contact-btn:hover { background: #1ebe57; }
+        
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 30px; }
+        .gallery img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+        
+        .review-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .review-stars { color: #f5b301; font-weight: bold; margin-bottom: 5px; }
+    </style>
 </head>
-
 <body>
 
-<header class="hw-header">
-  <div class="hw-container hw-nav">
-    <div class="hw-logo">
-      <span class="logo-mark">HW</span>
-      <span class="logo-text">HonestWork</span>
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 10px;">
+        <a href="workers.html" style="color: #007bff; text-decoration: none;">← Volver al listado</a>
     </div>
-    <div class="hw-nav-actions">
-      <a href="index.html" class="btn-link">Inicio</a>
-      <a href="workers.html" class="btn-link">Buscar trabajadores</a>
-      <a href="profile.html" class="btn-primary small">Mi perfil</a>
-    </div>
-  </div>
-</header>
 
-<section class="hw-section">
-  <div class="hw-container worker-page">
-
-    <a href="workers.html" class="back-link">← Volver al listado</a>
-
-    <!-- Perfil cargado por worker.js -->
-    <div id="workerContent" class="worker-card-public">Cargando perfil...</div>
-
-    <!-- Estado de verificación -->
-    <p id="workerVerification" style="margin-top:.5rem; font-size:.9rem; color:#374151;">
-      Cargando verificación...
-    </p>
-
-    <div class="worker-section">
-      <div class="worker-section-title">Reseñas verificadas</div>
-
-      <!-- ⭐ PROMEDIO -->
-      <div id="ratingSummary"
-           style="font-size:1rem;font-weight:600;margin-bottom:0.8rem;color:#111827;">
-        Cargando calificación...
-      </div>
-
-      <!-- RESEÑAS -->
-      <div id="reviewsContainer">
-        <p class="worker-placeholder">Cargando reseñas...</p>
-      </div>
-
-      <!-- BOTÓN MOSTRAR MODAL -->
-      <button id="writeReviewBtn" class="btn-secondary" style="margin-top:1rem;">
-        Escribir una reseña
-      </button>
-
-      <!-- MODAL -->
-      <div id="reviewModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Escribe una reseña</h3>
-
-          <label>Calificación</label>
-          <select id="ratingInput">
-            <option value="5">5 estrellas</option>
-            <option value="4">4 estrellas</option>
-            <option value="3">3 estrellas</option>
-            <option value="2">2 estrellas</option>
-            <option value="1">1 estrella</option>
-          </select>
-
-          <label>Comentario</label>
-          <textarea id="commentInput" rows="4" placeholder="¿Qué tal fue el servicio?"></textarea>
-
-          <button id="submitReviewBtn" class="btn-primary">Enviar reseña</button>
-          <button id="closeReviewBtn" class="btn-secondary">Cerrar</button>
+    <div class="profile-container" id="workerProfile" style="display: none;">
+        <div class="header-section">
+            <img id="wPhoto" src="" alt="Foto del trabajador">
+            <div class="info-section">
+                <h2 id="wName">Nombre</h2>
+                <p class="job-title" id="wJob">Oficio</p>
+                <div class="verified-badge" id="wVerified">✔️ Identidad Verificada</div>
+                <div style="margin-top: 10px; font-weight: bold;">
+                    ⭐ <span id="wRating">0.0</span> (<span id="wReviewsCount">0</span> reseñas)
+                </div>
+                <a href="#" id="wContact" class="contact-btn">📱 Contactar por WhatsApp</a>
+            </div>
         </div>
-      </div>
 
+        <h3>Trabajos Anteriores</h3>
+        <div class="gallery" id="wGallery">
+            </div>
+
+        <h3>Reseñas de Clientes</h3>
+        <div id="wReviewsList">
+            </div>
     </div>
 
-  </div>
-</section>
+    <div id="errorMessage" style="display: none; text-align: center; margin-top: 50px;">
+        <h2>Trabajador no encontrado</h2>
+        <p>El perfil que buscas no existe o fue eliminado por soporte.</p>
+    </div>
 
-<script type="module" src="js/firebase-config.js"></script>
-<script type="module" src="js/worker.js"></script>
-
+    <script src="js/worker.js"></script>
 </body>
 </html>
