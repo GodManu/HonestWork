@@ -61,12 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // PASO 4: ESPERAR A QUE EL USUARIO ESTÉ LISTO
             // -------------------------------------------------------------------
             // Forzamos una pequeña pausa de 500ms para que Firebase reconozca el Login
+            // ... (Pausa de 500ms)
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // -------------------------------------------------------------------
-            // PASO 5: GUARDAR EL PERFIL (Colección "users")
-            // -------------------------------------------------------------------
-            await setDoc(doc(db, "users", user.uid), {
+            // Guardamos en la colección "users" (importante que sea en minúsculas)
+            const userDocRef = doc(db, "users", user.uid);
+            
+            await setDoc(userDocRef, {
                 uid: user.uid,
                 name: fullName,
                 email: email,
@@ -74,12 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 idNumber: idNumber,
                 idDocumentPath: storagePath, 
                 profilePhoto: "https://via.placeholder.com/150", 
-                idStatus: "pendiente", // Tu variable de las Rules
+                idStatus: "pendiente", // Debe coincidir con el nombre en tus Rules
                 rating: 0,
                 reviewsCount: 0,
                 createdAt: new Date()
             });
-
+            
             alert('¡Registro exitoso! Tu perfil está en revisión.');
             window.location.href = 'profile.html';
 
