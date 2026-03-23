@@ -1,97 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buscar trabajadores | HonestWork</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .workers-container {
-      max-width: 1100px;
-      margin: 2rem auto;
-    }
-    .workers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .worker-card {
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 1.2rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-    }
-    .worker-header {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.5rem;
-    }
-    .worker-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: #374151;
-      overflow: hidden;
-      font-size: 1rem;
-    }
-    .worker-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .worker-oficio {
-      font-size: 0.9rem;
-      color: #6b7280;
-    }
-    .worker-desc {
-      font-size: 0.9rem;
-      color: #4b5563;
-      margin: 0.4rem 0 0.8rem;
-    }
-    .worker-tags {
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajadores - HonestWork</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-bar input, .search-bar select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; flex: 1; min-width: 200px;}
+        .workers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .worker-card { border: 1px solid #eee; border-radius: 8px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); background: white; }
+        .worker-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+        .verified-badge { color: green; font-size: 0.9em; font-weight: bold; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .rating { color: #f5b301; margin-bottom: 15px; font-weight: bold; }
+        .btn-view { display: inline-block; padding: 8px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .btn-view:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h2>Encuentra al profesional ideal</h2>
+            <p>Perfiles verificados y recomendaciones reales.</p>
+        </header>
 
-  <header class="hw-header">
-    <div class="hw-container hw-nav">
-      <div class="hw-logo">
-        <span class="logo-mark">HW</span>
-        <span class="logo-text">HonestWork</span>
-      </div>
-      <div class="hw-nav-actions">
-        <a href="index.html" class="btn-link">Inicio</a>
-        <a href="profile.html" class="btn-primary small">Mi perfil</a>
-      </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar por oficio o nombre...">
+            <select id="ratingFilter">
+                <option value="0">Cualquier calificación</option>
+                <option value="4.5">Más de 4.5 estrellas</option>
+                <option value="4.0">Más de 4.0 estrellas</option>
+            </select>
+        </div>
+
+        <div class="workers-grid" id="workersContainer">
+            </div>
     </div>
-  </header>
 
-  <section class="hw-section">
-    <div class="hw-container workers-container">
-      <h2>Trabajadores disponibles</h2>
-      <p class="section-subtitle">
-        Estos son los perfiles de personas que activaron su cuenta como trabajadores en HonestWork.
-      </p>
-
-      <div id="workersList" class="workers-grid">
-        <!-- Aquí se inyectan las tarjetas desde JS -->
-      </div>
-    </div>
-  </section>
-
-  <script type="module" src="js/firebase-config.js"></script>
- <script type="module" src="js/workers.js"></script>
-
+    <script src="js/workers.js"></script>
 </body>
 </html>
