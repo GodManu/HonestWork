@@ -1,14 +1,13 @@
 // js/firebase-config.js
-// ————————————————
-// Importar módulos desde Firebase CDN (versión recomendada)
+
+// 1. Importar módulos desde Firebase CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-// ————————————————
-// TU CONFIGURACIÓN REAL DE HONESTWORK
+// 2. Tu configuración real de HonestWork
 const firebaseConfig = {
   apiKey: "AIzaSyDX3QjLJgxBPrfxP2zuGXHCF_v5q423T5U",
   authDomain: "honestwork-d4fc1.firebaseapp.com",
@@ -19,15 +18,11 @@ const firebaseConfig = {
   measurementId: "G-P5WCQ142TH"
 };
 
-// ————————————————
-// Inicializar Firebase
+// 3. Inicializar la App
 export const app = initializeApp(firebaseConfig);
 
-// Analytics (opcional, pero lo dejo por si lo usas)
+// 4. Exportar los servicios para que el resto de la página los use
 export const analytics = getAnalytics(app);
-
-// Inicializar módulos que usaremos en todo HonestWork
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-
