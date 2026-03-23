@@ -197,17 +197,9 @@ button[type="submit"]:active {
     margin-bottom: 15px;
 }
 
-.status-pending {
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-}
+.status-pending { background-color: #fff3cd; color: #856404; }
 
-.status-verified {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
+.status-verified { background-color: #d4edda; color: #155724; }
 
 .review-card {
     background: var(--bg-body);
