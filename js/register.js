@@ -44,26 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // -------------------------------------------------------------------
+           // -------------------------------------------------------------------
             // PASO 3: SUBIR LA FOTO (Guardar evidencia en la bóveda segura)
             // -------------------------------------------------------------------
-            // Creamos una ruta segura: identificaciones/ID_DEL_USUARIO/nombre_archivo
-            const storageRef = ref(storage, `identificaciones/${user.uid}/${idPhotoFile.name}`);
+            // Usamos la carpeta "ids" para que coincida con tus reglas
+            const storagePath = `ids/${user.uid}/${idPhotoFile.name}`;
+            const storageRef = ref(storage, storagePath);
             await uploadBytes(storageRef, idPhotoFile);
-            const photoURL = await getDownloadURL(storageRef);
+
+            // ⚠️ ELIMINAMOS la petición de la URL pública porque tus reglas 
+            // de alta seguridad protegen este archivo. Solo guardaremos la ruta.
 
             // -------------------------------------------------------------------
             // PASO 4: GUARDAR EL PERFIL (Crear el expediente del trabajador)
             // -------------------------------------------------------------------
-            await setDoc(doc(db, "workers", user.uid), {
+            await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
                 name: fullName,
                 email: email,
                 job: jobTitle,
                 idNumber: idNumber,
-                idDocumentUrl: photoURL,
-                profilePhoto: "https://via.placeholder.com/150", // Foto por defecto
-                status: "pendiente", // Siempre entra en revisión
+                idDocumentPath: storagePath, // Guardamos la RUTA interna, no una URL pública
+                profilePhoto: "https://via.placeholder.com/150", 
+                idStatus: "pendiente",
                 rating: 0,
                 reviewsCount: 0,
                 createdAt: new Date()
