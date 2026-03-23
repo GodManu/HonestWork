@@ -1,108 +1,71 @@
-// js/workers.js
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // SIMULADOR DE BASE DE DATOS: Lista de trabajadores verificados
+    const workersData = [
+        { id: 1, name: "Carlos López", job: "Plomero", rating: 4.8, reviews: 34, photo: "https://i.pravatar.cc/150?img=11", verified: true },
+        { id: 2, name: "María González", job: "Electricista", rating: 4.9, reviews: 52, photo: "https://i.pravatar.cc/150?img=5", verified: true },
+        { id: 3, name: "Juan Pérez", job: "Carpintero", rating: 4.2, reviews: 15, photo: "https://i.pravatar.cc/150?img=12", verified: true },
+        { id: 4, name: "Ana Silva", job: "Limpieza", rating: 5.0, reviews: 89, photo: "https://i.pravatar.cc/150?img=9", verified: true },
+        { id: 5, name: "Roberto Gómez", job: "Jardinero", rating: 4.5, reviews: 22, photo: "https://i.pravatar.cc/150?img=15", verified: true },
+        { id: 6, name: "Luis Martínez", job: "Pintor", rating: 3.8, reviews: 8, photo: "https://i.pravatar.cc/150?img=13", verified: true }
+    ];
 
-import { db } from "./firebase-config.js";
-import {
-  collection,
-  query,
-  where,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    const workersContainer = document.getElementById('workersContainer');
+    const searchInput = document.getElementById('searchInput');
+    const ratingFilter = document.getElementById('ratingFilter');
 
-const workersList = document.getElementById("workersList");
+    // Función para dibujar las tarjetas de los trabajadores
+    function renderWorkers(workers) {
+        workersContainer.innerHTML = ''; // Limpiamos el contenedor
 
-// ==============================
-// LEER FILTROS DE LA URL
-// ==============================
-const params = new URLSearchParams(window.location.search);
-const textFilter = params.get("q")?.toLowerCase() || "";
-const cityFilter = params.get("city")?.toLowerCase() || "";
-const categoryFilter = params.get("cat")?.toLowerCase() || "";
+        if (workers.length === 0) {
+            workersContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">No se encontraron trabajadores con esos criterios.</p>';
+            return;
+        }
 
-// ==============================
-// CARGAR TRABAJADORES
-// ==============================
-async function loadWorkers() {
-  try {
-    const q = query(
-      collection(db, "users"),
-      where("isWorker", "==", true)
-    );
-
-    const snap = await getDocs(q);
-
-    if (snap.empty) {
-      workersList.innerHTML = "<p>No hay trabajadores registrados aún.</p>";
-      return;
+        workers.forEach(worker => {
+            // Solo mostramos a los que pasaron tu filtro de seguridad (verificados)
+            if (worker.verified) {
+                const card = document.createElement('div');
+                card.className = 'worker-card';
+                card.innerHTML = `
+                    <img src="${worker.photo}" alt="Foto de ${worker.name}">
+                    <h3>${worker.name}</h3>
+                    <p style="color: #666; margin-bottom: 5px;">${worker.job}</p>
+                    <div class="verified-badge">
+                        <span>✔️ Verificado con ID</span>
+                    </div>
+                    <div class="rating">
+                        ★ ${worker.rating} <span style="color: #999; font-size: 0.8em;">(${worker.reviews} reseñas)</span>
+                    </div>
+                    <a href="worker.html?id=${worker.id}" class="btn-view">Ver Perfil</a>
+                `;
+                workersContainer.appendChild(card);
+            }
+        });
     }
 
-    workersList.innerHTML = "";
+    // Función para filtrar en tiempo real
+    function filterWorkers() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const minRating = parseFloat(ratingFilter.value);
 
-    snap.forEach(docSnap => {
-      const data = docSnap.data();
+        const filtered = workersData.filter(worker => {
+            // Busca si el texto coincide con el nombre o el oficio
+            const matchesSearch = worker.name.toLowerCase().includes(searchTerm) || worker.job.toLowerCase().includes(searchTerm);
+            // Revisa si cumple con las estrellas mínimas
+            const matchesRating = worker.rating >= minRating;
 
-      const name = data.name || "Sin nombre";
-      const oficio = (data.oficio || "").toLowerCase();
-      const desc = (data.descripcion || "").toLowerCase();
-      const city = (data.city || "").toLowerCase();
-      const category = (data.category || "").toLowerCase();
-      const photoURL = data.photoURL || "";
-      const initial = name[0] || "?";
+            return matchesSearch && matchesRating;
+        });
 
-      // ==========================
-      // APLICAR FILTROS
-      // ==========================
+        renderWorkers(filtered);
+    }
 
-      // filtro de texto
-      if (textFilter) {
-        const match =
-          name.toLowerCase().includes(textFilter) ||
-          oficio.includes(textFilter) ||
-          desc.includes(textFilter);
-        if (!match) return;
-      }
+    // Escuchar cuando el usuario escribe o cambia el filtro
+    searchInput.addEventListener('input', filterWorkers);
+    ratingFilter.addEventListener('change', filterWorkers);
 
-      // filtro ciudad
-      if (cityFilter && !city.includes(cityFilter)) return;
-
-      // filtro categoría
-      if (categoryFilter && !category.includes(categoryFilter)) return;
-
-      // ==========================
-      // CREAR TARJETA DE TRABAJADOR
-      // ==========================
-
-      const card = document.createElement("div");
-      card.className = "worker-card";
-
-      card.innerHTML = `
-        <div class="worker-header">
-          <div class="worker-avatar">
-            ${photoURL ? `<img src="${photoURL}" alt="Foto">` : initial}
-          </div>
-          <div>
-            <h3>${name}</h3>
-            <p class="worker-oficio">${data.oficio || "Oficio no especificado"}</p>
-          </div>
-        </div>
-
-        <p class="worker-desc">${data.descripcion || ""}</p>
-
-        <p class="worker-city"><b>Ciudad:</b> ${data.city || "No especificada"}</p>
-        <p class="worker-cat"><b>Categoría:</b> ${data.category || "No especificada"}</p>
-
-        <a href="worker.html?id=${docSnap.id}" 
-           class="btn-primary"
-           style="margin-top:0.6rem; display:inline-block;">
-          Ver perfil →
-        </a>
-      `;
-
-      workersList.appendChild(card);
-    });
-
-  } catch (err) {
-    workersList.innerHTML = `<p>Error al cargar trabajadores: ${err.message}</p>`;
-  }
-}
-
-loadWorkers();
+    // Cargar todos los trabajadores al iniciar la página
+    renderWorkers(workersData);
+});
