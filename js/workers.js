@@ -35,24 +35,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         workersContainer.innerHTML = ''; 
 
         if (workers.length === 0) {
-            workersContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">No hay trabajadores verificados que coincidan con tu búsqueda.</p>';
+            workersContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: #666;">No se encontraron profesionales que coincidan con tu búsqueda.</p>';
             return;
         }
 
         workers.forEach(worker => {
             const card = document.createElement('div');
             card.className = 'worker-card';
+            
+            // Aseguramos que la calificación sea un número decimal
+            const rating = parseFloat(worker.rating) || 0;
+
             card.innerHTML = `
-                <img src="${worker.profilePhoto || 'https://via.placeholder.com/150'}" alt="Foto de ${worker.name}">
-                <h3>${worker.name}</h3>
-                <p style="color: #666; margin-bottom: 5px;">${worker.job}</p>
+                <img src="${worker.profilePhoto || 'https://via.placeholder.com/150'}" alt="Foto de ${worker.name || 'Profesional'}">
+                <h3 style="margin: 5px 0;">${worker.name || 'Sin nombre'}</h3>
+                <p style="color: #666; margin-bottom: 5px;">${worker.job || 'Oficio no definido'}</p>
+                
                 <div class="verified-badge">
-                    <i class="fa-solid fa-circle-check"></i> Perfil Verificado
+                    ✔️ Perfil Verificado
                 </div>
+                
                 <div class="rating">
-                    ★ ${worker.rating || '0.0'} <span style="color: #999; font-size: 0.8em;">(${worker.reviewsCount || 0} reseñas)</span>
+                    ★ ${rating.toFixed(1)} <span style="color: #999; font-size: 0.8em; font-weight: normal;">(${worker.reviewsCount || 0} reseñas)</span>
                 </div>
-                <a href="worker.html?id=${worker.uid}" class="btn-view">Ver Perfil</a>
+                
+                <a href="worker.html?id=${worker.id}" class="btn-view">Ver Perfil</a>
             `;
             workersContainer.appendChild(card);
         });
@@ -60,13 +67,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. FILTRO EN TIEMPO REAL (Buscador)
     const filterWorkers = () => {
-        const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase().trim();
         const minRating = parseFloat(ratingFilter.value) || 0;
 
         const filtered = allWorkers.filter(worker => {
-            const matchesSearch = worker.name.toLowerCase().includes(searchTerm) || 
-                                 worker.job.toLowerCase().includes(searchTerm);
-            const matchesRating = (worker.rating || 0) >= minRating;
+            // Usamos || "" para evitar errores si el nombre u oficio están vacíos en la base de datos
+            const nameMatch = (worker.name || "").toLowerCase().includes(searchTerm);
+            const jobMatch = (worker.job || "").toLowerCase().includes(searchTerm);
+            
+            const matchesSearch = nameMatch || jobMatch;
+            const matchesRating = (parseFloat(worker.rating) || 0) >= minRating;
+            
             return matchesSearch && matchesRating;
         });
 
