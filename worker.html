@@ -15,7 +15,7 @@
         .gallery-item:hover { transform: scale(1.03); }
         .contact-btn { background: #25d366; color: white; padding: 12px; border: none; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; margin-top: 20px; }
         
-        /* --- ESTILOS DEL NUEVO BOTÓN --- */
+        /* --- ESTILOS DEL BOTÓN --- */
         .back-btn {
             display: inline-flex;
             align-items: center;
@@ -29,8 +29,8 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             transition: all 0.2s;
-            grid-column: 1 / -1; /* Esto hace que se ponga arriba de todo */
-            justify-self: start; /* Para que no se estire a lo ancho */
+            grid-column: 1 / -1; 
+            justify-self: start; 
         }
 
         .back-btn:hover {
@@ -70,6 +70,43 @@
                 <div id="workerGallery" class="gallery-grid">
                     </div>
             </div>
+
+            <div class="card" style="margin-top: 20px; background: white; padding: 30px; border-radius: 12px; border: 1px solid #eee;">
+                <h2>Reseñas de Clientes</h2>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #ddd;">
+                    <h3 style="margin-top:0; font-size: 1.1em;">Deja una reseña</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
+                        <input type="text" id="reviewerName" placeholder="Ej: Carlos M." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Calificación:</label>
+                        <select id="reviewRating" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+                            <option value="5">⭐⭐⭐⭐⭐ (5) - Excelente</option>
+                            <option value="4">⭐⭐⭐⭐ (4) - Muy Bueno</option>
+                            <option value="3">⭐⭐⭐ (3) - Bueno</option>
+                            <option value="2">⭐⭐ (2) - Regular</option>
+                            <option value="1">⭐ (1) - Malo</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Comentario:</label>
+                        <textarea id="reviewComment" placeholder="¿Cómo fue el trabajo?..." rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: vertical;"></textarea>
+                    </div>
+
+                    <button id="btnSubmitReview" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%;">
+                        Publicar Reseña
+                    </button>
+                </div>
+
+                <div id="reviewsList" style="display: flex; flex-direction: column; gap: 15px;">
+                    </div>
+            </div>
+
         </main>
     </div>
 
