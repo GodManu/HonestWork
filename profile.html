@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Panel - HonestWork</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .dashboard-container { max-width: 900px; margin: 30px auto; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; padding: 20px; }
-        .sidebar { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center; }
-        .sidebar img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; background: #eee; }
+        .sidebar { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center; height: fit-content;}
+        .sidebar img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; background: #eee; border: 3px solid #ddd; }
         .main-content { display: flex; flex-direction: column; gap: 20px; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
         
         /* Estados de Verificación */
-        .status-banner { padding: 15px; border-radius: 5px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .status-banner { padding: 15px; border-radius: 5px; font-weight: bold; text-align: center; margin-bottom: 10px; transition: all 0.3s;}
         .status-pending { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
         .status-verified { background: #d4edda !important; color: #155724 !important; border: 1px solid #c3e6cb; }
         
-        .btn-logout { background: #dc3545; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: bold; }
+        .btn-logout { background: #dc3545; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
         .btn-logout:hover { background: #c82333; }
         
         @media (max-width: 768px) {
@@ -35,54 +36,64 @@
     </nav>
 
     <div class="dashboard-container">
-        <aside class="sidebar">
-    <div style="position: relative; display: inline-block;">
-        <img id="userPhoto" src="https://via.placeholder.com/150" alt="Mi Foto" style="cursor: pointer; transition: opacity 0.3s;" title="Haz clic para cambiar tu foto">
         
-        <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
-    </div>
-    
-    <h3 id="userName">Cargando...</h3>
-    <p id="userJob" style="color: #666; margin-bottom: 20px;">Oficio</p>
-    <button id="logoutBtn" class="btn-logout">Cerrar Sesión</button>
-</aside>
+        <aside class="sidebar">
+            <div style="position: relative; display: inline-block;">
+                <img id="userPhoto" src="https://via.placeholder.com/150" alt="Mi Foto" style="cursor: pointer; transition: opacity 0.3s;" title="Haz clic para cambiar tu foto de perfil">
+                <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+            </div>
+            
+            <h3 id="userName" style="margin-bottom: 5px;">Cargando...</h3>
+            <p id="userJob" style="color: #666; margin-bottom: 25px; margin-top: 0;">Oficio</p>
+            <button id="logoutBtn" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+        </aside>
 
         <main class="main-content">
             
             <div class="card">
-                <h3>Estado de tu Cuenta</h3>
+                <h3 style="margin-top:0;">Estado de tu Cuenta</h3>
                 <div id="verificationStatus" class="status-banner">
                     Cargando estado...
                 </div>
-                
-                <p id="statusDesc" style="font-size: 0.9em; color: #555; margin-top: 10px;">
-                    En HonestWork revisamos manualmente cada identificación para garantizar la seguridad. Este proceso toma entre 24 y 48 horas.
+                <p id="statusDesc" style="font-size: 0.9em; color: #555; margin-top: 10px; margin-bottom:0;">
+                    En HonestWork revisamos manualmente cada identificación para garantizar la seguridad de la comunidad de Los Cabos. Este proceso puede tomar hasta 24 horas.
                 </p>
             </div>
 
             <div class="card">
-                <h3>Mi Reputación</h3>
+                <h3 style="margin-top:0;">Mi Reputación</h3>
                 <div style="display: flex; gap: 20px; margin-top: 15px;">
-                    <div style="background: #f1f1f1; padding: 15px; border-radius: 5px; flex: 1; text-align: center;">
-                        <h2 id="userRating" style="margin: 0; color: #f5b301;">0.0</h2>
-                        <span>Estrellas</span>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; flex: 1; text-align: center; border: 1px solid #eee;">
+                        <h2 id="userRating" style="margin: 0; color: #f5b301; font-size: 2em;">0.0</h2>
+                        <span style="color:#666; font-size: 0.9em;">Estrellas</span>
                     </div>
-                    <div style="background: #f1f1f1; padding: 15px; border-radius: 5px; flex: 1; text-align: center;">
-                        <h2 id="userReviewsCount" style="margin: 0;">0</h2>
-                        <span>Reseñas</span>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; flex: 1; text-align: center; border: 1px solid #eee;">
+                        <h2 id="userReviewsCount" style="margin: 0; font-size: 2em;">0</h2>
+                        <span style="color:#666; font-size: 0.9em;">Reseñas</span>
                     </div>
                 </div>
             </div>
 
-         <div class="card">
-    <h3>Mis Trabajos</h3>
-    <p>Sube fotos de tus mejores proyectos para generar confianza.</p>
-    
-    <input type="file" id="workPhotos" accept="image/*" disabled style="margin-bottom: 20px;">
+            <div class="card">
+                <h3 style="margin-top:0;">Mi Portafolio</h3>
+                <p style="color: #555; font-size: 0.9em; margin-bottom: 20px;">Sube fotos de tus mejores proyectos y agrega una breve descripción para generar más confianza con tus clientes.</p>
+                
+                <div class="upload-work-section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px dashed #ccc; margin-bottom: 20px;">
+                    
+                    <label style="font-weight: bold; font-size: 0.9em; display:block; margin-bottom: 5px;">1. Selecciona una foto:</label>
+                    <input type="file" id="newWorkPhoto" accept="image/*" style="width: 100%; margin-bottom: 15px; padding: 8px; background: white; border-radius: 5px; border: 1px solid #ddd; box-sizing: border-box;">
+                    
+                    <label style="font-weight: bold; font-size: 0.9em; display:block; margin-bottom: 5px;">2. Describe el trabajo:</label>
+                    <textarea id="newWorkDescription" placeholder="Ej: Instalación de tubería de PVC en Cabo del Mar..." rows="3" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+                    
+                    <button id="btnUploadWork" disabled style="background: #25d366; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1em;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Guardar Trabajo en mi Portafolio
+                    </button>
+                </div>
 
-    <div id="workGallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px;">
-        </div>
-</div>
+                <div id="workGallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    </div>
+            </div>
 
         </main>
     </div>
