@@ -43,17 +43,19 @@
         .btn-logout { background: none; border: none; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; text-decoration: none; transition: 0.3s; }
         .btn-logout:hover { color: var(--danger); }
 
-        /* --- GRID --- */
+        /* --- DASHBOARD GRID --- */
         .dashboard-grid { display: grid; grid-template-columns: 320px 1fr; gap: 30px; padding: 40px 0; }
 
         /* --- SIDEBAR --- */
         .sidebar-card { background: var(--white); border-radius: var(--radius); padding: 35px; text-align: center; border: 1px solid #f1f5f9; height: fit-content; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
-        .profile-img { width: 140px; height: 140px; border-radius: 35px; object-fit: cover; margin-bottom: 20px; border: 5px solid var(--bg-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        
+        .profile-container { position: relative; display: inline-block; margin-bottom: 20px; }
+        .profile-img { width: 140px; height: 140px; border-radius: 35px; object-fit: cover; border: 5px solid var(--bg-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-cam { position: absolute; bottom: 10px; right: -5px; background: var(--white); border: 1px solid #e2e8f0; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; transition: 0.3s; }
+        .btn-cam:hover { background: var(--primary); color: white; }
+
         .worker-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; letter-spacing: -1px; }
         .worker-job { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
-        
-        .verified-mini { font-size: 0.65rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 5px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 15px;}
+        .verified-mini { font-size: 0.65rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 4px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 15px;}
         .sidebar-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; }
         .stars { color: var(--warning); font-size: 0.8rem; font-weight: 800; }
 
@@ -63,10 +65,24 @@
         .eyebrow { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 10px; display: block; }
         .section-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 25px; }
 
+        /* Membresía Card */
+        .membership-card { 
+            background: linear-gradient(135deg, #0056b3 0%, #002b5c 100%); 
+            color: white; 
+            padding: 30px; 
+            border-radius: var(--radius); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 20px 40px rgba(0, 86, 179, 0.2);
+        }
+
+        /* Status Banners */
         .status-banner { padding: 15px 20px; border-radius: 15px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .status-verified { background: #ecfdf5; color: #065f46; border: 1px solid #d1fae5; }
         .status-pending { background: #fffbeb; color: #92400e; border: 1px solid #fef3c7; }
 
+        /* Portfolio */
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .portfolio-item { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid #eee; }
         .portfolio-item img { width: 100%; height: 150px; object-fit: cover; }
@@ -75,17 +91,20 @@
 
         /* Botones */
         .btn { padding: 12px 25px; border-radius: 100px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; font-size: 0.85rem; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(0, 86, 179, 0.1); }
+        .btn-primary { background: var(--primary); color: white; }
         .btn-outline { background: transparent; border: 1px solid #e2e8f0; color: var(--text-muted); }
+        .btn-warning { background: var(--warning); color: var(--text-main); }
         .btn-admin { background: #fff1f2; color: #991b1b; border: 1px solid #fecaca; margin-top: 15px; width: 100%; }
 
         /* Modales */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
-
+        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; }
         .form-control { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-weight: 600; margin-top: 8px; margin-bottom: 20px; }
 
-        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { 
+            .dashboard-grid { grid-template-columns: 1fr; } 
+            .membership-card { flex-direction: column; text-align: center; gap: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -100,19 +119,18 @@
     </header>
 
     <main class="container dashboard-grid">
+        
         <aside class="sidebar-card">
-            <div style="position: relative; display: inline-block;">
+            <div class="profile-container">
                 <img src="https://via.placeholder.com/150" class="profile-img" id="userPhoto">
-                <button class="btn btn-outline" style="position: absolute; bottom: 15px; right: 0; padding: 10px; border-radius: 50%; background: white;" id="btnEditPhoto">
-                    <i class="fa-solid fa-camera"></i>
-                </button>
+                <label for="photoInput" class="btn-cam"><i class="fa-solid fa-camera"></i></label>
                 <input type="file" id="photoInput" style="display:none;" accept="image/*">
             </div>
             
-            <h2 class="worker-name" id="userName">...</h2>
-            <p class="worker-job" id="userJob">Oficio</p>
-            <span class="verified-mini" id="idStatusBadge"><i class="fa-solid fa-certificate"></i> STATUS</span>
-            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Ciudad</span></p>
+            <h2 class="worker-name" id="userName">Cargando...</h2>
+            <p class="worker-job" id="userJob">Especialista</p>
+            <span class="verified-mini" id="idStatusBadge">STATUS</span>
+            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Ciudad, México</span></p>
             <div class="stars" id="userRating">★★★★★ <span>0.0</span></div>
 
             <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 25px 0;">
@@ -122,45 +140,53 @@
             </button>
 
             <a href="admin.html" id="adminLink" class="btn btn-admin" style="display:none;">
-                <i class="fa-solid fa-crown"></i> Panel Admin
+                <i class="fa-solid fa-crown"></i> Panel Maestro
             </a>
         </aside>
 
         <section class="main-content">
+            
+            <div class="membership-card" id="proBanner">
+                <div>
+                    <h2 style="font-size: 1.5rem; letter-spacing: -1px; margin-bottom: 5px;">Membresía HonestPro</h2>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Aparece en los primeros lugares y duplica tus contactos hoy.</p>
+                </div>
+                <button class="btn btn-warning">Mejorar a Pro</button>
+            </div>
+
             <div id="statusBanner" class="status-banner status-pending">
-                <i class="fa-solid fa-hourglass-half"></i> Verificando cuenta...
+                <i class="fa-solid fa-hourglass-half"></i> Manuel está verificando tu identidad. Pronto serás público.
             </div>
 
             <div class="panel-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
                     <div>
-                        <span class="eyebrow">Mi Portafolio</span>
-                        <h2 class="section-title" style="margin:0;">Evidencia de Trabajos</h2>
+                        <span class="eyebrow">Evidencia</span>
+                        <h2 class="section-title" style="margin:0;">Fotos de mis Trabajos</h2>
                     </div>
                     <button class="btn btn-primary" id="btnOpenPortfolioModal"><i class="fa-solid fa-plus"></i> Añadir Foto</button>
                 </div>
                 <div class="portfolio-grid" id="workGallery">
-                    <p style="text-align:center; grid-column:1/-1; color:#94a3b8;">Cargando portafolio...</p>
-                </div>
+                    </div>
             </div>
 
             <div class="panel-card">
-                <span class="eyebrow">Reputación</span>
-                <h2 class="section-title">Últimas Reseñas</h2>
+                <span class="eyebrow">Comunidad</span>
+                <h2 class="section-title">Últimas Calificaciones</h2>
                 <div id="reviewsList">
-                    <p style="color:#94a3b8;">Aún no tienes reseñas.</p>
-                </div>
+                    </div>
             </div>
+
         </section>
     </main>
 
     <div class="modal-overlay" id="editProfileModal">
         <div class="modal-box">
-            <h2 style="margin-bottom:20px; letter-spacing:-1px;">Ajustes de Perfil</h2>
+            <h2 style="margin-bottom:25px; letter-spacing:-1px;">Ajustes de Cuenta</h2>
             <form id="editProfileForm">
                 <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">NOMBRE COMPLETO</label>
                 <input type="text" id="editName" class="form-control" required>
-                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">OFICIO</label>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">OFICIO / CATEGORÍA</label>
                 <input type="text" id="editJob" class="form-control" required>
                 <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">TELÉFONO WHATSAPP</label>
                 <input type="text" id="editPhone" class="form-control">
@@ -176,15 +202,15 @@
 
     <div class="modal-overlay" id="portfolioModal">
         <div class="modal-box">
-            <h2 style="margin-bottom:20px;">Nueva Evidencia</h2>
+            <h2 style="margin-bottom:25px;">Nueva Evidencia</h2>
             <form id="portfolioForm">
-                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">IMAGEN DEL TRABAJO</label>
-                <input type="file" id="newWorkPhoto" accept="image/*" class="form-control" style="background:none; border:none; padding:0;" required>
-                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">DESCRIPCIÓN</label>
-                <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Cambio de tubería en cocina" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">SELECCIONAR IMAGEN</label>
+                <input type="file" id="newWorkPhoto" accept="image/*" class="form-control" style="border:none; padding:0;" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">DESCRIPCIÓN DEL TRABAJO</label>
+                <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Instalación de cisterna" required>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <button type="button" class="btn btn-outline" id="btnClosePortfolioModal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="btnSavePhoto">Subir Evidencia</button>
+                    <button type="submit" class="btn btn-primary" id="btnSavePhoto">Subir Foto</button>
                 </div>
             </form>
         </div>
@@ -202,7 +228,7 @@
             if (user) {
                 currentUserId = user.uid;
                 
-                // --- LLAVE MAESTRA ADMIN ---
+                // --- TU BOTÓN SECRETO ---
                 if (user.email === "serratoleyva@gmail.com") {
                     document.getElementById('adminLink').style.display = 'inline-flex';
                 }
@@ -218,59 +244,68 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     document.getElementById('userName').innerText = data.name || "Profesional";
-                    document.getElementById('userJob').innerText = data.job || "Especialidad";
+                    document.getElementById('userJob').innerText = data.job || "Especialista";
                     document.getElementById('userCity').innerText = data.city || "México";
                     document.getElementById('userPhoto').src = data.profilePhoto || "https://via.placeholder.com/150";
                     
                     const rating = parseFloat(data.rating || 0);
-                    document.getElementById('userRating').innerHTML = "★".repeat(Math.round(rating)) + `☆`.repeat(5-Math.round(rating)) + ` <span>${rating.toFixed(1)}</span>`;
+                    document.getElementById('userRating').innerHTML = "★".repeat(Math.round(rating)) + "☆".repeat(5 - Math.round(rating)) + ` <span>${rating.toFixed(1)} (${data.reviewsCount || 0})</span>`;
 
                     const banner = document.getElementById('statusBanner');
                     const badge = document.getElementById('idStatusBadge');
-                    const btnUpload = document.getElementById('btnOpenPortfolioModal');
+                    const proBanner = document.getElementById('proBanner');
 
+                    // Lógica de Estatus y Membresía
                     if (data.idStatus === "verificado") {
                         badge.innerHTML = `<i class="fa-solid fa-certificate"></i> VERIFICADO`;
                         badge.style.color = "#10b981"; badge.style.background = "#ecfdf5";
                         banner.className = "status-banner status-verified";
-                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil es público. ¡Ya eres visible en HonestWork!`;
-                        btnUpload.disabled = false; btnUpload.style.opacity = "1";
+                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil ya es visible para clientes en todo México.`;
                     } else {
                         badge.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> PENDIENTE`;
                         banner.className = "status-banner status-pending";
-                        banner.innerHTML = `<i class="fa-solid fa-shield-halved"></i> Manuel está revisando tu ID para activarte.`;
-                        btnUpload.disabled = true; btnUpload.style.opacity = "0.5";
+                    }
+
+                    if (data.membership === "pro") {
+                        proBanner.style.background = "linear-gradient(135deg, #f59e0b 0%, #92400e 100%)";
+                        proBanner.innerHTML = `<div><h2 style="color:white; margin:0;">Eres Miembro HonestPro</h2><p style="opacity:0.9; font-size:0.8rem;">Tu perfil tiene prioridad máxima de visualización.</p></div><i class="fa-solid fa-crown" style="font-size:2rem; opacity:0.3;"></i>`;
                     }
 
                     renderPortfolio(data.workPhotos || []);
                     renderReviews(data.reviews || []);
+
+                    // Pre-llenar modal
+                    document.getElementById('editName').value = data.name || '';
+                    document.getElementById('editJob').value = data.job || '';
+                    document.getElementById('editPhone').value = data.phone || '';
+                    document.getElementById('editCity').value = data.city || '';
                 }
             });
         }
 
         function renderPortfolio(photos) {
-            const gallery = document.getElementById('workGallery');
-            gallery.innerHTML = photos.length ? "" : '<p style="text-align:center; grid-column:1/-1;">No hay fotos aún.</p>';
+            const gal = document.getElementById('workGallery');
+            gal.innerHTML = photos.length ? "" : '<p style="text-align:center; grid-column:1/-1; color:#94a3b8;">Sube fotos de tus mejores trabajos.</p>';
             [...photos].reverse().forEach(p => {
                 const div = document.createElement('div');
                 div.className = 'portfolio-item';
                 div.innerHTML = `<img src="${p.url}"><button class="btn-delete-img" onclick="deleteWorkPhoto('${p.path}','${p.url}','${p.description}')"><i class="fa-solid fa-trash"></i></button>`;
-                gallery.appendChild(div);
+                gal.appendChild(div);
             });
         }
 
         function renderReviews(reviews) {
             const list = document.getElementById('reviewsList');
-            list.innerHTML = reviews.length ? "" : '<p>Sin reseñas.</p>';
+            list.innerHTML = reviews.length ? "" : '<p style="color:#94a3b8;">Aún no tienes opiniones de clientes.</p>';
             [...reviews].reverse().forEach(r => {
-                list.innerHTML += `<div style="background:#f8fafc; padding:15px; border-radius:15px; margin-bottom:10px;">
-                    <strong>${r.name}</strong> <span style="color:#f5b301;">${"⭐".repeat(r.rating)}</span>
-                    <p style="font-size:0.85rem; margin-top:5px;">${r.comment}</p>
+                list.innerHTML += `<div style="background:#f1f5f9; padding:20px; border-radius:15px; margin-bottom:15px;">
+                    <strong>${r.name}</strong> <span style="color:#f5b301; margin-left:10px;">${"★".repeat(r.rating)}</span>
+                    <p style="font-size:0.85rem; margin-top:8px; color:#475569;">"${r.comment}"</p>
                 </div>`;
             });
         }
 
-        // --- MODALES ---
+        // --- FUNCIONES DE ACCIÓN ---
         const mEdit = document.getElementById('editProfileModal');
         const mPort = document.getElementById('portfolioModal');
 
@@ -306,17 +341,16 @@
                 workPhotos: arrayUnion({ url, description: desc, path })
             });
             mPort.style.display = 'none';
-            btn.innerText = "Subir Evidencia"; btn.disabled = false;
+            btn.innerText = "Subir Foto"; btn.disabled = false;
         };
 
         window.deleteWorkPhoto = async (path, url, description) => {
-            if(confirm("¿Eliminar foto?")) {
+            if(confirm("¿Eliminar esta foto del portafolio?")) {
                 await updateDoc(doc(db, "users", currentUserId), { workPhotos: arrayRemove({ url, description, path }) });
                 await deleteObject(ref(storage, path));
             }
         };
 
-        document.getElementById('btnEditPhoto').onclick = () => document.getElementById('photoInput').click();
         document.getElementById('photoInput').onchange = async (e) => {
             const file = e.target.files[0];
             const sRef = ref(storage, `profilePictures/${currentUserId}/profile.jpg`);
