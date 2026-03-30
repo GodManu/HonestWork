@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const workersContainer = document.getElementById('workersContainer');
     const searchInput = document.getElementById('searchInput');
     const ratingFilter = document.getElementById('ratingFilter');
+    
+    // NUEVO: Capturamos la barra de búsqueda de ciudad (si la agregaste al HTML)
+    const cityFilter = document.getElementById('cityFilter'); 
+    
     let allWorkers = []; // Aquí guardaremos los datos que traigamos de Firebase
 
     // 1. FUNCIÓN PARA CARGAR TRABAJADORES VERIFICADOS DESDE FIRESTORE
@@ -46,10 +50,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Aseguramos que la calificación sea un número decimal
             const rating = parseFloat(worker.rating) || 0;
 
+            // NUEVO: Agregamos la variable worker.city a la tarjeta
             card.innerHTML = `
                 <img src="${worker.profilePhoto || 'https://via.placeholder.com/150'}" alt="Foto de ${worker.name || 'Profesional'}">
                 <h3 style="margin: 5px 0;">${worker.name || 'Sin nombre'}</h3>
-                <p style="color: #666; margin-bottom: 5px;">${worker.job || 'Oficio no definido'}</p>
+                <p style="color: #666; margin-bottom: 2px;">${worker.job || 'Oficio no definido'}</p>
+                <p style="color: #888; font-size: 0.85em; margin-bottom: 10px;">
+                    <i class="fa-solid fa-location-dot"></i> ${worker.city || 'México'}
+                </p>
                 
                 <div class="verified-badge">
                     ✔️ Perfil Verificado
@@ -65,20 +73,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 3. FILTRO EN TIEMPO REAL (Buscador)
+    // 3. FILTRO EN TIEMPO REAL (Buscador Nacional)
     const filterWorkers = () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
         const minRating = parseFloat(ratingFilter.value) || 0;
+        
+        // NUEVO: Capturamos lo que el usuario escribe en la barra de ciudad (si existe)
+        const cityTerm = cityFilter ? cityFilter.value.toLowerCase().trim() : "";
 
         const filtered = allWorkers.filter(worker => {
-            // Usamos || "" para evitar errores si el nombre u oficio están vacíos en la base de datos
+            // Usamos || "" para evitar errores si los campos están vacíos
             const nameMatch = (worker.name || "").toLowerCase().includes(searchTerm);
             const jobMatch = (worker.job || "").toLowerCase().includes(searchTerm);
+            const cityMatch = (worker.city || "").toLowerCase().includes(cityTerm); // Buscamos por ciudad
             
             const matchesSearch = nameMatch || jobMatch;
             const matchesRating = (parseFloat(worker.rating) || 0) >= minRating;
             
-            return matchesSearch && matchesRating;
+            // Tiene que coincidir la búsqueda general, las estrellas Y la ciudad
+            return matchesSearch && matchesRating && cityMatch;
         });
 
         renderWorkers(filtered);
@@ -87,6 +100,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Eventos del buscador
     searchInput.addEventListener('input', filterWorkers);
     ratingFilter.addEventListener('change', filterWorkers);
+    
+    // NUEVO: Si existe la barra de ciudad, activamos el filtro cuando escriban en ella
+    if (cityFilter) {
+        cityFilter.addEventListener('input', filterWorkers);
+    }
 
     // Arrancamos la carga inicial
     fetchVerifiedWorkers();
