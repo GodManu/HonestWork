@@ -1,8 +1,6 @@
 import { auth, db, storage } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-// Agregamos arrayRemove para poder borrar de la base de datos
 import { doc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-// Agregamos deleteObject para poder borrar la foto físicamente
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,13 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const userPhoto = document.getElementById('userPhoto'); 
     const profilePhotoInput = document.getElementById('profilePhotoInput'); 
 
-    // Nuevos elementos para subir trabajos
+    // Referencias para subir trabajos
     const btnUploadWork = document.getElementById('btnUploadWork');
     const fileInput = document.getElementById('newWorkPhoto');
     const descInput = document.getElementById('newWorkDescription');
 
+    // Referencias para editar perfil
+    const btnEditProfile = document.getElementById('btnEditProfile');
+    const editProfileModal = document.getElementById('editProfileModal');
+    const btnCancelEdit = document.getElementById('btnCancelEdit');
+    const btnSaveEdit = document.getElementById('btnSaveEdit');
+
     // 1. VIGILANTE DE SESIÓN (Auth)
     onAuthStateChanged(auth, (user) => {
+        let currentUserData = {}; // Guardará los datos para ponerlos en la ventana de edición
+
         if (user) {
             console.log("Usuario activo:", user.uid);
             const userRef = doc(db, "users", user.uid);
@@ -29,8 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
                     const status = userData.idStatus; 
+                    
+                    currentUserData = userData; // Actualizamos los datos frescos
 
-                    // Actualizar información básica
+                    // Actualizar información básica en la pantalla
                     const fillData = (id, text) => {
                         const el = document.getElementById(id);
                         if (el) el.innerText = text;
@@ -38,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     fillData('userName', userData.name || "Usuario");
                     fillData('userJob', userData.job || "No definido");
+                    fillData('userCity', userData.city || "México"); // Mostrar ciudad
                     fillData('userRating', userData.rating || "0.0");
                     fillData('userReviewsCount', userData.reviewsCount || "0");
 
@@ -45,11 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // --- LÓGICA DE LA GALERÍA (CON BOTÓN DE ELIMINAR) ---
                     if (workGallery) {
-                        workGallery.innerHTML = ""; // Limpiar antes de redibujar
+                        workGallery.innerHTML = ""; 
                         
                         if (userData.workPhotos && userData.workPhotos.length > 0) {
                             userData.workPhotos.forEach(work => {
-                                // Soporte para fotos viejas (solo link) y nuevas (objeto con descripción)
                                 const isOldFormat = typeof work === 'string';
                                 const url = isOldFormat ? work : work.url;
                                 const desc = isOldFormat ? "Sin descripción" : work.description;
@@ -67,19 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 workGallery.appendChild(card);
                             });
 
-                            // Funcionalidad del botón Eliminar
                             document.querySelectorAll('.btn-delete-work').forEach(btn => {
                                 btn.onclick = async (e) => {
                                     const workData = JSON.parse(e.currentTarget.getAttribute('data-work'));
                                     
                                     if(confirm("¿Estás seguro de que quieres eliminar este trabajo de tu portafolio?")) {
                                         try {
-                                            // 1. Borrar de la base de datos
                                             await updateDoc(doc(db, "users", user.uid), {
                                                 workPhotos: arrayRemove(workData)
                                             });
                                             
-                                            // 2. Borrar archivo físico de Storage (si es del formato nuevo que trae la ruta)
                                             if(workData.path) {
                                                 await deleteObject(ref(storage, workData.path));
                                             }
@@ -101,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         statusBanner.className = 'status-banner'; // Reset
                         
                         if (status === "verificado") {
-                            // Desbloquear botón de subir trabajos
                             if (btnUploadWork) btnUploadWork.disabled = false;
                             
                             statusBanner.classList.add('status-verified');
@@ -142,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         await uploadBytes(storageRef, file);
                         const downloadURL = await getDownloadURL(storageRef);
 
-                        // Guardamos un "Objeto" con toda la información
                         const newWorkItem = {
                             url: downloadURL,
                             description: description,
@@ -153,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             workPhotos: arrayUnion(newWorkItem)
                         });
 
-                        // Limpiamos los campos después de subir
                         fileInput.value = "";
                         descInput.value = "";
                         alert("¡Trabajo añadido con éxito!");
@@ -167,9 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             }
 
-            // ==========================================
             // 4. LÓGICA PARA CAMBIAR FOTO DE PERFIL
-            // ==========================================
             if (userPhoto && profilePhotoInput) {
                 userPhoto.onclick = () => { profilePhotoInput.click(); };
 
@@ -204,12 +204,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             }
 
+            // ==========================================
+            // 5. LÓGICA PARA EDITAR PERFIL (NUEVO)
+            // ==========================================
+            if (btnEditProfile && editProfileModal) {
+                // Abrir modal y cargar datos actuales
+                btnEditProfile.onclick = () => {
+                    document.getElementById('editName').value = currentUserData.name || '';
+                    document.getElementById('editJob').value = currentUserData.job || '';
+                    document.getElementById('editCity').value = currentUserData.city || '';
+                    document.getElementById('editPhone').value = currentUserData.phone || '';
+                    editProfileModal.style.display = 'flex'; // Mostrar ventana
+                };
+
+                // Botón cancelar
+                btnCancelEdit.onclick = () => {
+                    editProfileModal.style.display = 'none';
+                };
+
+                // Botón guardar
+                btnSaveEdit.onclick = async () => {
+                    const newName = document.getElementById('editName').value.trim();
+                    const newJob = document.getElementById('editJob').value.trim();
+                    const newCity = document.getElementById('editCity').value.trim();
+                    const newPhone = document.getElementById('editPhone').value.trim();
+
+                    if (!newName || !newJob || !newPhone) {
+                        alert("El nombre, oficio y teléfono no pueden estar vacíos.");
+                        return;
+                    }
+
+                    btnSaveEdit.innerText = "Guardando...";
+                    btnSaveEdit.disabled = true;
+
+                    try {
+                        await updateDoc(doc(db, "users", user.uid), {
+                            name: newName,
+                            job: newJob,
+                            city: newCity,
+                            phone: newPhone
+                        });
+                        alert("¡Información actualizada con éxito!");
+                        editProfileModal.style.display = 'none';
+                    } catch (error) {
+                        console.error("Error al actualizar perfil:", error);
+                        alert("Hubo un error al guardar los cambios.");
+                    } finally {
+                        btnSaveEdit.innerText = "Guardar Cambios";
+                        btnSaveEdit.disabled = false;
+                    }
+                };
+            }
+
         } else {
             window.location.href = 'login.html';
         }
     });
 
-    // 5. CERRAR SESIÓN
+    // 6. CERRAR SESIÓN
     if (logoutBtn) {
         logoutBtn.onclick = () => {
             signOut(auth).then(() => {
