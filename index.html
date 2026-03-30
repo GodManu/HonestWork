@@ -1,223 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HonestWork | Confianza que Construye México</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-
-    <style>
-        :root {
-            --primary: #0f172a; /* Navy Profundo */
-            --accent: #10b981;  /* Esmeralda */
-            --warning: #f59e0b; /* Ámbar */
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
-            --glass: rgba(255, 255, 255, 0.9);
-        }
-
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); margin: 0; }
-
-        /* Navbar Moderna */
-        .hw-header { 
-            background: var(--glass); 
-            backdrop-filter: blur(10px);
-            padding: 12px 0; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        .hw-nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .hw-logo { font-size: 1.6em; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none;}
-        .logo-mark { background: var(--primary); color: white; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.7em; }
-        
-        .hw-nav-actions .btn-primary { 
-            background: var(--primary); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: 0.3s;
-        }
-        .hw-nav-actions .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); }
-
-        /* Hero Impactante */
-        .hw-hero { 
-            padding: 100px 20px; 
-            background: radial-gradient(circle at top right, #e2e8f0, #f8fafc);
-            overflow: hidden;
-        }
-        .hw-hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
-        
-        .hw-hero-text h1 { font-size: 4em; font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: var(--primary); letter-spacing: -2px; }
-        .highlight { background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-subtitle { font-size: 1.25em; color: #64748b; margin-bottom: 40px; max-width: 600px; line-height: 1.6; }
-
-        /* Buscador Flotante (Command Center) */
-        .search-box {
-            background: white;
-            padding: 10px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 10px;
-            max-width: 1000px;
-            margin-top: -50px;
-            position: relative;
-            z-index: 10;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .search-field { padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; display: flex; flex-direction: column; }
-        .search-field label { font-size: 0.7em; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
-        .search-field input, .search-field select { border: none; font-size: 1em; font-weight: 600; outline: none; color: var(--primary); }
-        .btn-search-main { background: var(--accent); color: white; border: none; padding: 0 40px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-search-main:hover { background: #059669; }
-
-        /* Tarjeta de Perfil Demo */
-        .demo-card { 
-            background: white; border-radius: 20px; padding: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); 
-            border: 1px solid rgba(0,0,0,0.05); transform: rotate(2deg);
-        }
-        .badge-verified { background: #d1fae5; color: #065f46; padding: 6px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; }
-
-        /* Stats Rápidos */
-        .hw-stats { display: flex; gap: 40px; margin-top: 40px; }
-        .stat-item { border-left: 3px solid var(--accent); padding-left: 15px; }
-        .stat-item strong { display: block; font-size: 1.5em; color: var(--primary); }
-        .stat-item span { font-size: 0.85em; color: #64748b; font-weight: 600; }
-
-        /* Secciones */
-        .hw-section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
-        .section-tag { color: var(--accent); font-weight: 800; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px; display: block; text-align: center; margin-bottom: 10px; }
-        .section-title { text-align: center; font-size: 2.8em; font-weight: 800; margin-bottom: 60px; color: var(--primary); letter-spacing: -1px; }
-
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .step-card { background: white; padding: 40px; border-radius: 20px; transition: 0.3s; border: 1px solid #f1f5f9; }
-        .step-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .step-icon { font-size: 2.5em; color: var(--accent); margin-bottom: 20px; }
-
-        @media (max-width: 900px) {
-            .hw-hero-grid, .search-box, .steps-grid { grid-template-columns: 1fr; }
-            .hw-hero-text h1 { font-size: 2.5em; }
-            .hw-hero-grid { gap: 20px; }
-            .demo-card { display: none; }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestWork | Profesionales de Confianza en México</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <header class="hw-header">
-        <div class="hw-nav">
+        <div class="container hw-nav">
             <a href="index.html" class="hw-logo">
-                <div class="logo-mark">HW</div>
-                <span>HonestWork</span>
+                <span class="logo-mark">HW</span> HonestWork
             </a>
             <div class="hw-nav-actions">
-                <a id="loginBtn" style="text-decoration:none; color:var(--primary); font-weight:700; margin-right:20px;" href="login.html">Acceso</a>
-                <a id="registerBtn" class="btn-primary" href="register.html">Únete como Profesional</a>
-                <a id="profileBtn" class="btn-primary" href="profile.html" style="display:none;">Mi Panel</a>
+                <a id="loginBtn" href="login.html" class="btn btn-outline" style="padding: 8px 16px;">Iniciar Sesión</a>
+                <a id="registerBtn" href="register.html" class="btn btn-primary" style="padding: 8px 16px;">Registrarse</a>
+                <a id="profileBtn" href="profile.html" class="btn btn-primary" style="display:none;">Mi Panel</a>
             </div>
         </div>
     </header>
 
-    <section class="hw-hero">
-        <div class="hw-hero-grid">
-            <div class="hw-hero-text">
-                <div class="badge-verified" style="margin-bottom: 20px;">
-                    <i class="fa-solid fa-earth-americas"></i> Red Nacional de Confianza
+    <section class="hero-impact">
+        <div class="container">
+            <h1>Encuentra al profesional <br> <span style="color: var(--warning-color);">ideal</span> para tu hogar</h1>
+            <p>Directorio nacional de trabajadores verificados con reseñas reales y evidencia fotográfica.</p>
+            
+            <div class="main-search-bar">
+                <div class="search-input-group">
+                    <i class="fa-solid fa-briefcase" style="color: #ccc;"></i>
+                    <input type="text" id="searchText" placeholder="¿Qué oficio buscas?">
                 </div>
-                <h1>Contrata con <span class="highlight">certeza</span>, trabaja con <span class="highlight">orgullo</span>.</h1>
-                <p class="hero-subtitle">
-                    La primera plataforma en México que exige evidencia real. Adiós a las reseñas falsas. Hola al trabajo bien hecho.
-                </p>
-                
-                <div class="hw-stats">
-                    <div class="stat-item"><strong>+50</strong><span>Ciudades</span></div>
-                    <div class="stat-item"><strong>100%</strong><span>Verificados</span></div>
-                    <div class="stat-item"><strong>+2k</strong><span>Reseñas con Foto</span></div>
+                <div class="search-input-group">
+                    <i class="fa-solid fa-location-dot" style="color: #ccc;"></i>
+                    <input type="text" id="city" placeholder="¿En qué ciudad?">
                 </div>
-            </div>
-
-            <div class="demo-card">
-                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
-                    <img src="https://via.placeholder.com/60" style="border-radius: 50%;" />
-                    <div>
-                        <h3 style="margin:0;">Ricardo Silva</h3>
-                        <div class="badge-verified"><i class="fa-solid fa-circle-check"></i> Verificado</div>
-                    </div>
+                <div class="search-input-group" style="border:none;">
+                    <select id="category">
+                        <option value="">Todas las categorías</option>
+                        <option>Plomería</option>
+                        <option>Electricidad</option>
+                        <option>Carpintería</option>
+                        <option>Limpieza</option>
+                    </select>
                 </div>
-                <p style="font-weight: 700; color: var(--primary); margin: 0;">Electricista Industrial</p>
-                <div style="color: var(--warning); margin: 10px 0;">
-                    <i class="fa-solid fa-star"></i> 4.9 <span style="color:#64748b; font-weight:normal;">(124 reseñas)</span>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px;">
-                    <div style="height: 60px; background: #f1f5f9; border-radius: 8px;"></div>
-                    <div style="height: 60px; background: #f1f5f9; border-radius: 8px;"></div>
-                </div>
-                <div style="margin-top: 20px; background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 0.85em; font-style: italic; color: #475569;">
-                    "Excelente trabajo en la bodega nacional de CDMX..."
-                </div>
+                <button id="btnBuscarIndex" class="btn-circle-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-        <form class="search-box">
-            <div class="search-field">
-                <label>¿Qué buscas?</label>
-                <input id="searchText" type="text" placeholder="Carpintero, Pintor..." />
+    <section class="container" style="padding: 80px 20px;">
+        <h2 style="text-align:center; font-size: 2.2em; margin-bottom: 50px;">¿Por qué confiar en HonestWork?</h2>
+        <div class="workers-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            
+            <div class="step-card" style="background:white; padding:40px; border-radius:20px; text-align:center; box-shadow: var(--shadow-md);">
+                <i class="fa-solid fa-shield-check" style="font-size: 3em; color: var(--primary-color); margin-bottom: 20px;"></i>
+                <h3>Identidad Verificada</h3>
+                <p>No cualquiera entra. Validamos identificaciones oficiales para tu total tranquilidad.</p>
             </div>
-            <div class="search-field">
-                <label>¿Dónde?</label>
-                <input id="city" type="text" placeholder="Todo México" />
-            </div>
-            <div class="search-field" style="border:none;">
-                <label>Especialidad</label>
-                <select id="category">
-                    <option value="">Todas</option>
-                    <option>Plomería</option>
-                    <option>Carpintería</option>
-                    <option>Electricidad</option>
-                    <option>Turismo</option>
-                    <option>Limpieza</option>
-                </select>
-            </div>
-            <button type="button" class="btn-search-main" id="btnBuscarIndex">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
 
-    <section class="hw-section">
-        <span class="section-tag">Transparencia</span>
-        <h2 class="section-title">Confianza blindada de punta a punta</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-icon"><i class="fa-solid fa-shield-check"></i></div>
-                <h3>Verificación Oficial</h3>
-                <p>Validamos identificaciones reales antes de cualquier publicación. En HonestWork sabemos quién es quién.</p>
+            <div class="step-card" style="background:var(--primary-color); color:white; padding:40px; border-radius:20px; text-align:center; box-shadow: var(--shadow-md);">
+                <i class="fa-solid fa-camera-retro" style="font-size: 3em; color: var(--warning-color); margin-bottom: 20px;"></i>
+                <h3>Evidencia Real</h3>
+                <p>Las reseñas incluyen fotos de los trabajos terminados. Sin filtros, sin engaños.</p>
             </div>
-            <div class="step-card" style="background: var(--primary); color: white;">
-                <div class="step-icon" style="color: var(--accent);"><i class="fa-solid fa-camera-retro"></i></div>
-                <h3 style="color: white;">Evidencia en Foto</h3>
-                <p style="color: #94a3b8;">Las reseñas ahora incluyen fotos del trabajo realizado. Sin pruebas, no hay reseña.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-icon"><i class="fa-solid fa-gavel"></i></div>
+
+            <div class="step-card" style="background:white; padding:40px; border-radius:20px; text-align:center; box-shadow: var(--shadow-md);">
+                <i class="fa-solid fa-user-lock" style="font-size: 3em; color: var(--primary-color); margin-bottom: 20px;"></i>
                 <h3>Cero Tolerancia</h3>
-                <p>Las reseñas falsas son penalizadas con la expulsión inmediata. Honestidad nacional como regla #1.</p>
+                <p>Cualquier intento de reseña falsa es penalizado con la expulsión de la plataforma.</p>
             </div>
+
         </div>
     </section>
 
-    <footer class="hw-footer">
-        <div class="hw-nav" style="margin-bottom: 40px;">
-            <div class="hw-logo" style="color: white;">
-                <div class="logo-mark" style="background: white; color: var(--primary);">HW</div>
-                <span>HonestWork</span>
-            </div>
-            <div style="color: #94a3b8; font-size: 0.9em;">
-                © <span id="year"></span> Red Nacional de Profesionales Verificados.
+    <footer style="background: var(--dark-navy); color: white; padding: 60px 20px; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 20px;">¿Eres un profesional?</h2>
+            <p style="margin-bottom: 30px; opacity: 0.8;">Únete a la red más honesta de México y haz crecer tu negocio.</p>
+            <a href="register.html" class="btn btn-primary" style="background: var(--success-color); border:none;">Registrarme como Trabajador</a>
+            <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; opacity: 0.6;">
+                © <span id="year"></span> HonestWork México. Todos los derechos reservados.
             </div>
         </div>
     </footer>
@@ -226,37 +93,22 @@
         import { auth } from "./js/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        const loginBtn = document.getElementById("loginBtn");
-        const registerBtn = document.getElementById("registerBtn");
-        const profileBtn = document.getElementById("profileBtn");
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                if (loginBtn) loginBtn.style.display = "none";
-                if (registerBtn) registerBtn.style.display = "none";
-                if (profileBtn) profileBtn.style.display = "inline-block";
-            } else {
-                if (loginBtn) loginBtn.style.display = "inline-block";
-                if (registerBtn) registerBtn.style.display = "inline-block";
-                if (profileBtn) profileBtn.style.display = "none";
+                document.getElementById("loginBtn").style.display = "none";
+                document.getElementById("registerBtn").style.display = "none";
+                document.getElementById("profileBtn").style.display = "inline-block";
             }
         });
 
         document.getElementById("year").textContent = new Date().getFullYear();
-
-        const searchBtn = document.getElementById("btnBuscarIndex");
-        searchBtn.addEventListener("click", () => {
-            const text = document.getElementById("searchText").value.trim();
-            const city = document.getElementById("city").value.trim();
-            const category = document.getElementById("category").value.trim();
-            const params = new URLSearchParams();
-
-            if (text) params.append("q", text);
-            if (city) params.append("city", city);
-            if (category) params.append("cat", category);
-
-            window.location.href = "workers.html?" + params.toString();
-        });
+        
+        document.getElementById("btnBuscarIndex").onclick = () => {
+            const q = document.getElementById("searchText").value;
+            const city = document.getElementById("city").value;
+            const cat = document.getElementById("category").value;
+            window.location.href = `workers.html?q=${q}&city=${city}&cat=${cat}`;
+        };
     </script>
 </body>
 </html>
