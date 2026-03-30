@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Únete a HonestWork | Registro de Profesionales</title>
+    <title>Únete a HonestWork | Registro Profesional</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -34,7 +34,7 @@
         .register-card {
             background: var(--white);
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             padding: 50px;
             border-radius: var(--radius);
             box-shadow: 0 40px 80px rgba(0,0,0,0.06);
@@ -52,44 +52,19 @@
             justify-content: center;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 0.9rem;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
         }
 
-        .eyebrow {
-            display: inline-block;
-            font-size: 0.65rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+        h1 { font-size: 2rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; }
+        p.subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 40px; font-weight: 500; }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -1.5px;
-            margin-bottom: 10px;
-        }
-
-        p.subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            font-weight: 500;
-        }
-
-        /* Grid del Formulario */
+        /* Form Grid Pro */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             text-align: left;
         }
-
-        .form-group { margin-bottom: 5px; }
 
         .full-width { grid-column: 1 / -1; }
 
@@ -101,30 +76,29 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-left: 5px;
         }
 
         .input-wrapper { position: relative; }
-
         .input-wrapper i {
             position: absolute;
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #cbd5e1;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
-        .input-wrapper input, .input-wrapper select {
+        .input-wrapper input {
             width: 100%;
-            padding: 12px 12px 12px 42px;
-            border-radius: 14px;
+            padding: 14px 14px 14px 45px;
+            border-radius: 16px;
             border: 1px solid #e2e8f0;
             background: #f8fafc;
             outline: none;
             font-size: 0.85rem;
             font-weight: 600;
             transition: 0.3s;
-            color: var(--text-main);
         }
 
         .input-wrapper input:focus {
@@ -143,29 +117,18 @@
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
             margin-top: 30px;
             box-shadow: 0 10px 20px rgba(0, 86, 179, 0.15);
+            transition: 0.3s;
         }
 
         .btn-register:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(0, 86, 179, 0.25);
         }
 
-        .footer-links {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .footer-links a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 700;
-        }
+        .footer-link { margin-top: 30px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+        .footer-link a { color: var(--primary); text-decoration: none; font-weight: 800; }
 
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; }
@@ -177,9 +140,8 @@
 
     <div class="register-card">
         <div class="logo-box">HW</div>
-        <span class="eyebrow">Forma parte de la élite</span>
-        <h1>Crea tu cuenta</h1>
-        <p class="subtitle">Únete a la red de profesionales más honestos de México.</p>
+        <h1>Únete a la Red</h1>
+        <p class="subtitle">Regístrate como profesional y empieza a recibir clientes.</p>
 
         <form id="registerForm">
             <div class="form-grid">
@@ -187,7 +149,7 @@
                     <label>Nombre Completo</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" id="name" placeholder="Ej. Juan Pérez" required>
+                        <input type="text" id="name" placeholder="Ej. Manuel Leyva" required>
                     </div>
                 </div>
 
@@ -200,7 +162,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>WhatsApp / Celular</label>
+                    <label>Teléfono (WhatsApp)</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-phone"></i>
                         <input type="text" id="phone" placeholder="624 123 4567" required>
@@ -210,8 +172,8 @@
                 <div class="form-group">
                     <label>Oficio / Especialidad</label>
                     <div class="input-wrapper">
-                        <i class="fa-solid fa-briefcase"></i>
-                        <input type="text" id="job" placeholder="Ej. Plomero Profesional" required>
+                        <i class="fa-solid fa-tools"></i>
+                        <input type="text" id="job" placeholder="Ej. Plomero, Electricista..." required>
                     </div>
                 </div>
 
@@ -232,13 +194,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-register" id="btnRegistrar">
-                Crear Perfil Profesional
-            </button>
+            <button type="submit" class="btn-register" id="btnRegistrar">Crear mi cuenta profesional</button>
         </form>
 
-        <div class="footer-links">
-            ¿Ya eres miembro? <a href="login.html">Inicia sesión</a>
+        <div class="footer-link">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión</a>
         </div>
     </div>
 
@@ -253,14 +213,14 @@
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
             const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const job = document.getElementById('job').value.trim();
             const city = document.getElementById('city').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
 
-            btnRegistrar.innerText = "Creando cuenta...";
+            btnRegistrar.innerText = "Registrando...";
             btnRegistrar.disabled = true;
 
             try {
@@ -268,14 +228,15 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // 2. Crear documento en Firestore (Perfil inicial)
+                // 2. Crear documento en Firestore con el campo MEMBERSHIP: BASIC
                 await setDoc(doc(db, "users", user.uid), {
                     name: name,
                     email: email,
+                    phone: phone,
                     job: job,
                     city: city,
-                    phone: phone,
-                    idStatus: "pendiente", // Inicia como pendiente hasta que Manuel lo verifique
+                    membership: "basic", // <--- CLAVE PARA EL NEGOCIO
+                    idStatus: "pendiente",
                     profilePhoto: "",
                     rating: 0,
                     reviewsCount: 0,
@@ -284,13 +245,13 @@
                     createdAt: new Date().toISOString()
                 });
 
-                alert("¡Bienvenido a HonestWork! Tu cuenta ha sido creada. Ahora sube tu ID en tu perfil para ser verificado.");
+                alert("¡Bienvenido! Tu cuenta ha sido creada. Manuel verificará tu perfil pronto.");
                 window.location.href = 'profile.html';
 
             } catch (error) {
                 console.error(error);
-                alert("Error al registrar: " + error.message);
-                btnRegistrar.innerText = "Crear Perfil Profesional";
+                alert("Error: " + error.message);
+                btnRegistrar.innerText = "Crear mi cuenta profesional";
                 btnRegistrar.disabled = false;
             }
         });
