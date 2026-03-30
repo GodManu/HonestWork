@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración | HonestWork</title>
+    <title>Master Panel | HonestWork Admin</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,6 +12,7 @@
         :root {
             --primary: #0056b3;
             --accent: #10b981;
+            --warning: #f59e0b;
             --danger: #ef4444;
             --text-main: #1e293b;
             --text-muted: #64748b;
@@ -23,50 +24,55 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-main); padding-bottom: 50px; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* HEADER ADMIN */
+        /* HEADER */
         .admin-header { background: var(--white); padding: 20px 0; border-bottom: 1px solid #e2e8f0; margin-bottom: 40px; }
         .admin-nav { display: flex; justify-content: space-between; align-items: center; }
-        .admin-logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .admin-logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; text-decoration: none; }
         
-        .admin-badge { background: #fef2f2; color: #991b1b; padding: 5px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* DASHBOARD STATS */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+        /* STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
         .stat-card { background: white; padding: 25px; border-radius: var(--radius); border: 1px solid #e2e8f0; text-align: center; }
         .stat-card h3 { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .stat-card p { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
+        .stat-card p { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
 
-        /* USER LIST */
-        .user-table-card { background: white; border-radius: var(--radius); border: 1px solid #e2e8f0; overflow: hidden; }
-        .table-header { padding: 20px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .table-header h2 { font-size: 1.1rem; font-weight: 800; }
+        /* TABLE */
+        .user-table-card { background: white; border-radius: var(--radius); border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .table-header { padding: 20px 25px; border-bottom: 1px solid #e2e8f0; background: #fafafa; }
+        .table-header h2 { font-size: 1rem; font-weight: 800; }
 
-        .user-row { display: grid; grid-template-columns: 1fr 1fr 1fr 150px; padding: 20px 25px; border-bottom: 1px solid #f1f5f9; align-items: center; transition: 0.3s; }
-        .user-row:hover { background: #f8fafc; }
-        .user-row:last-child { border-bottom: none; }
+        .user-row { display: grid; grid-template-columns: 1fr 1fr 120px 120px 180px; padding: 15px 25px; border-bottom: 1px solid #f1f5f9; align-items: center; }
+        .user-row:hover { background: #fcfcfc; }
+        
+        .user-info h4 { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+        .user-info p { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
 
-        .user-info h4 { font-size: 0.95rem; font-weight: 700; }
-        .user-info p { font-size: 0.8rem; color: var(--text-muted); }
+        .badge { font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; }
+        .badge-pending { background: #fffbeb; color: #92400e; }
+        .badge-verified { background: #ecfdf5; color: #065f46; }
+        .badge-pro { background: #fff9db; color: #b25e09; border: 1px solid #f59e0b; }
+        .badge-basic { background: #f1f5f9; color: #475569; }
 
-        .status-pill { font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 100px; }
-        .status-pending { background: #fffbeb; color: #92400e; }
+        /* ACTIONS */
+        .actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-act { width: 38px; height: 38px; border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-size: 0.9rem; }
+        
+        .btn-v { background: #ecfdf5; color: var(--accent); }
+        .btn-v:hover { background: var(--accent); color: white; }
+        
+        .btn-m { background: #fff9db; color: var(--warning); }
+        .btn-m:hover { background: var(--warning); color: white; }
 
-        /* ACCIONES */
-        .actions { display: flex; gap: 10px; }
-        .btn-action { width: 35px; height: 35px; border-radius: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-size: 0.9rem; }
-        .btn-verify { background: #ecfdf5; color: var(--accent); }
-        .btn-verify:hover { background: var(--accent); color: white; }
-        .btn-delete { background: #fef2f2; color: var(--danger); }
-        .btn-delete:hover { background: var(--danger); color: white; }
+        .btn-d { background: #fef2f2; color: var(--danger); }
+        .btn-d:hover { background: var(--danger); color: white; }
 
-        /* BLOQUEO DE SEGURIDAD */
+        /* SECURITY BLOQ */
         #accessDenied { display: none; text-align: center; padding: 100px 20px; }
         #adminContent { display: none; }
 
-        @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: 1fr; }
+        @media (max-width: 900px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .user-row { grid-template-columns: 1fr 1fr; gap: 15px; }
             .actions { grid-column: 1 / -1; justify-content: center; }
         }
@@ -75,47 +81,50 @@
 <body>
 
     <div id="accessDenied" class="container">
-        <i class="fa-solid fa-shield-slash" style="font-size: 4rem; color: var(--danger); margin-bottom: 20px;"></i>
-        <h1>Acceso Restringido</h1>
-        <p>Esta área es exclusiva para el administrador principal de HonestWork.</p>
-        <a href="index.html" style="color: var(--primary); font-weight: 800; text-decoration: none; margin-top: 20px; display: inline-block;">Volver al Inicio</a>
+        <i class="fa-solid fa-lock" style="font-size: 4rem; color: var(--danger); margin-bottom: 20px;"></i>
+        <h1>Acceso Denegado</h1>
+        <p>Solo Manuel Leyva puede entrar aquí.</p>
+        <a href="index.html" style="margin-top:20px; display:inline-block; font-weight:800; color:var(--primary);">Regresar</a>
     </div>
 
     <div id="adminContent">
         <header class="admin-header">
             <div class="container admin-nav">
                 <a href="index.html" class="admin-logo">
-                    <div style="background: var(--primary); color: white; padding: 4px 10px; border-radius: 8px;">HW</div>
-                    <span>HonestWork <span class="admin-badge">Admin</span></span>
+                    <div class="logo-mark" style="background: var(--primary); color: white; padding: 5px 10px; border-radius: 8px;">HW</div>
+                    <span>HonestWork <small style="font-size:0.6rem; vertical-align:middle; background:#eee; padding:2px 6px; border-radius:5px; color:#666; margin-left:5px;">ADMIN PANEL</small></span>
                 </a>
-                <a href="index.html" style="font-size: 0.8rem; font-weight: 700; text-decoration: none; color: var(--text-muted);">Salir del Panel</a>
+                <span id="adminEmail" style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">...</span>
             </div>
         </header>
 
         <main class="container">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3 id="countPending">0</h3>
+                    <h3 id="statTotal">0</h3>
+                    <p>Total Red</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statPending" style="color: var(--warning);">0</h3>
                     <p>Por Verificar</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="countVerified" style="color: var(--accent);">0</h3>
-                    <p>Activos</p>
+                    <h3 id="statPro" style="color: var(--warning);">0</h3>
+                    <p>Miembros Pro</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="countTotal" style="color: var(--text-main);">0</h3>
-                    <p>Total Usuarios</p>
+                    <h3 id="statVerified" style="color: var(--accent);">0</h3>
+                    <p>Verificados</p>
                 </div>
             </div>
 
             <div class="user-table-card">
                 <div class="table-header">
-                    <h2>Nuevas Solicitudes de Registro</h2>
-                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Filtrado: idStatus == "pendiente"</span>
+                    <h2>Gestión de Profesionales</h2>
                 </div>
                 
-                <div id="pendingList">
-                    <p style="padding: 40px; text-align: center; color: var(--text-muted);">Cargando solicitudes...</p>
+                <div id="masterUserList">
+                    <p style="padding: 40px; text-align: center; color: var(--text-muted);">Sincronizando base de datos...</p>
                 </div>
             </div>
         </main>
@@ -124,89 +133,110 @@
     <script type="module">
         import { auth, db } from "./js/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { collection, query, getDocs, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { collection, doc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const adminContent = document.getElementById('adminContent');
         const accessDenied = document.getElementById('accessDenied');
-        const pendingList = document.getElementById('pendingList');
+        const masterUserList = document.getElementById('masterUserList');
 
-        // 1. FILTRO DE SEGURIDAD PARA MANUEL
+        // 1. FILTRO DE SEGURIDAD (SOLO MANUEL)
         onAuthStateChanged(auth, (user) => {
-            // AQUÍ PONEMOS TU CORREO REAL
             if (user && user.email === "serratoleyva@gmail.com") {
+                document.getElementById('adminEmail').innerText = user.email;
                 adminContent.style.display = 'block';
-                loadAdminData();
+                startMasterListener();
             } else {
                 accessDenied.style.display = 'block';
             }
         });
 
-        // 2. CARGAR DATOS Y ESCUCHAR CAMBIOS EN TIEMPO REAL
-        function loadAdminData() {
-            // Escuchar TODA la colección para los contadores
+        // 2. LISTENER EN TIEMPO REAL
+        function startMasterListener() {
             onSnapshot(collection(db, "users"), (snapshot) => {
-                let pending = 0;
-                let verified = 0;
-                let total = snapshot.size;
                 let html = "";
+                let count = { total: 0, pending: 0, pro: 0, ver: 0 };
 
                 snapshot.forEach((userDoc) => {
-                    const data = userDoc.data();
-                    if (data.idStatus === "pendiente") {
-                        pending++;
-                        html += `
-                            <div class="user-row">
-                                <div class="user-info">
-                                    <h4>${data.name}</h4>
-                                    <p>${data.email}</p>
-                                </div>
-                                <div class="user-info">
-                                    <p style="font-weight:700; color:var(--primary);">${data.job || 'Sin Oficio'}</p>
-                                    <p>${data.city || 'México'}</p>
-                                </div>
-                                <div>
-                                    <span class="status-pill status-pending">Pendiente</span>
-                                </div>
-                                <div class="actions">
-                                    <button class="btn-action btn-verify" onclick="verifyUser('${userDoc.id}')" title="Verificar Perfil">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                    <button class="btn-action btn-delete" onclick="deleteUser('${userDoc.id}')" title="Eliminar Usuario">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
+                    const u = userDoc.data();
+                    const id = userDoc.id;
+                    count.total++;
+
+                    // Contadores
+                    if (u.idStatus === "pendiente") count.pending++;
+                    if (u.idStatus === "verificado") count.ver++;
+                    if (u.membership === "pro") count.pro++;
+
+                    // Renderizado de Fila
+                    const statusBadge = u.idStatus === "verificado" ? 
+                        '<span class="badge badge-verified">Verificado</span>' : 
+                        '<span class="badge badge-pending">Pendiente</span>';
+                    
+                    const membershipBadge = u.membership === "pro" ? 
+                        '<span class="badge badge-pro">HonestPro</span>' : 
+                        '<span class="badge badge-basic">Básico</span>';
+
+                    html += `
+                        <div class="user-row">
+                            <div class="user-info">
+                                <h4>${u.name}</h4>
+                                <p>${u.email}</p>
                             </div>
-                        `;
-                    }
-                    if (data.idStatus === "verificado") verified++;
+                            <div class="user-info">
+                                <p style="font-weight:800; color:var(--primary);">${u.job || 'Sin Oficio'}</p>
+                                <p><i class="fa-solid fa-location-dot"></i> ${u.city || 'México'}</p>
+                            </div>
+                            <div>${statusBadge}</div>
+                            <div>${membershipBadge}</div>
+                            <div class="actions">
+                                <button class="btn-act btn-v" onclick="toggleVerify('${id}', '${u.idStatus}')" title="Alternar Verificación">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </button>
+                                <button class="btn-act btn-m" onclick="toggleMembership('${id}', '${u.membership}')" title="Cambiar a Pro/Básico">
+                                    <i class="fa-solid fa-crown"></i>
+                                </button>
+                                <button class="btn-act btn-d" onclick="deleteUser('${id}')" title="Eliminar de la red">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
                 });
 
-                // Actualizar contadores
-                document.getElementById('countPending').innerText = pending;
-                document.getElementById('countVerified').innerText = verified;
-                document.getElementById('countTotal').innerText = total;
+                // Actualizar Stats
+                document.getElementById('statTotal').innerText = count.total;
+                document.getElementById('statPending').innerText = count.pending;
+                document.getElementById('statPro').innerText = count.pro;
+                document.getElementById('statVerified').innerText = count.ver;
 
-                // Actualizar lista de pendientes
-                pendingList.innerHTML = html || '<p style="padding:40px; text-align:center; color:var(--text-muted);">No hay solicitudes pendientes por ahora.</p>';
+                masterUserList.innerHTML = html || '<p style="padding:40px; text-align:center;">No hay usuarios registrados.</p>';
             });
         }
 
-        // 3. ACCIÓN: VERIFICAR USUARIO
-        window.verifyUser = async (id) => {
-            if (confirm("¿Confirmas que has revisado la ID y quieres activar a este profesional?")) {
+        // 3. ACCIÓN: CAMBIAR MEMBRESÍA (UN SOLO CLIC)
+        window.toggleMembership = async (id, currentStatus) => {
+            const newStatus = currentStatus === 'pro' ? 'basic' : 'pro';
+            const msg = newStatus === 'pro' ? "¿Deseas otorgar Membresía Pro a este usuario?" : "¿Deseas quitar la Membresía Pro?";
+            
+            if (confirm(msg)) {
                 try {
-                    await updateDoc(doc(db, "users", id), { idStatus: "verificado" });
-                    alert("¡Usuario Verificado! Ya es visible en el directorio.");
-                } catch (e) { alert("Error al verificar."); }
+                    await updateDoc(doc(db, "users", id), { membership: newStatus });
+                } catch (e) { alert("Error al actualizar membresía."); }
             }
         };
 
-        // 4. ACCIÓN: ELIMINAR/RECHAZAR
+        // 4. ACCIÓN: ALTERNAR VERIFICACIÓN
+        window.toggleVerify = async (id, currentStatus) => {
+            const newStatus = currentStatus === 'verificado' ? 'pendiente' : 'verificado';
+            try {
+                await updateDoc(doc(db, "users", id), { idStatus: newStatus });
+            } catch (e) { alert("Error al verificar."); }
+        };
+
+        // 5. ACCIÓN: BORRAR USUARIO
         window.deleteUser = async (id) => {
-            if (confirm("¿Estás seguro de eliminar esta solicitud? Esta acción no se puede deshacer.")) {
+            if (confirm("¡ATENCIÓN! Estás a punto de borrar a este usuario para siempre. ¿Continuar?")) {
                 try {
                     await deleteDoc(doc(db, "users", id));
-                    alert("Solicitud eliminada.");
                 } catch (e) { alert("Error al eliminar."); }
             }
         };
