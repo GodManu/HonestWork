@@ -3,93 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HonestWork | Encuentra Profesionales Verificados</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>HonestWork | Confianza Digital en Servicios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; }
+        
+        /* Estilo Hero Aesthetic */
+        .hero-aesthetic {
+            padding: 100px 0 140px;
+            background: radial-gradient(circle at 90% 10%, rgba(0, 86, 179, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(0, 86, 179, 0.03) 0%, transparent 40%);
+            text-align: center;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .hero-aesthetic h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-aesthetic p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        /* Buscador Slim */
+        .search-pill {
+            background: white;
+            border: 1px solid #eef2f6;
+            padding: 8px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            max-width: 850px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+
+        .search-pill input, .search-pill select {
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            outline: none;
+            width: 100%;
+            color: var(--dark-navy);
+        }
+
+        .search-divider { width: 1px; height: 24px; background: #eee; }
+
+        /* Tarjeta de Perfil de Ejemplo Real */
+        .featured-card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            max-width: 380px;
+            margin: -60px auto 0;
+            position: relative;
+            z-index: 5;
+            transition: 0.3s;
+        }
+        
+        .featured-card:hover { transform: translateY(-5px); }
+
+        .verified-mini {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #10b981;
+            background: #ecfdf5;
+            padding: 4px 10px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Secciones de Iconos Limpios */
+        .feature-item {
+            text-align: left;
+            padding: 20px;
+        }
+        
+        .feature-item i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            background: #f0f7ff;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .feature-item h3 { font-size: 1rem; margin-bottom: 10px; }
+        .feature-item p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            .hero-aesthetic h1 { font-size: 2.2rem; }
+            .search-pill { flex-direction: column; border-radius: 20px; padding: 20px; }
+            .search-divider { display: none; }
+        }
+    </style>
 </head>
 <body>
 
     <header class="hw-header">
-        <div class="hw-nav">
-            <a href="index.html" class="hw-logo">
-                <span class="logo-mark">HW</span> HonestWork
+        <div class="hw-nav container">
+            <a href="index.html" class="hw-logo" style="font-size: 1.2rem;">
+                <span class="logo-mark" style="padding: 4px 10px;">HW</span> HonestWork
             </a>
             <div class="hw-nav-actions">
-                <a id="loginBtn" href="login.html" class="btn btn-outline" style="padding: 8px 15px;">Acceso</a>
-                <a id="registerBtn" href="register.html" class="btn btn-primary" style="padding: 8px 15px; margin-left: 10px;">Registro</a>
-                <a id="profileBtn" href="profile.html" class="btn btn-primary" style="display:none;">Mi Panel</a>
+                <a id="loginBtn" href="login.html" style="font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-right: 20px;">Acceso</a>
+                <a id="registerBtn" href="register.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.85rem; border-radius: 100px;">Registro</a>
+                <a id="profileBtn" href="profile.html" class="btn btn-primary" style="display:none; padding: 8px 20px; border-radius: 100px;">Mi Panel</a>
             </div>
         </div>
     </header>
 
-    <section class="hero-blue">
+    <section class="hero-aesthetic">
         <div class="container">
-            <h1>Confianza real para <br> resultados impecables.</h1>
-            <p>La red nacional de trabajadores verificados con identidad validada y evidencia real de sus proyectos.</p>
-            <div style="display: flex; justify-content: center; gap: 15px;">
-                <a href="workers.html" class="btn" style="background: white; color: var(--primary-color);">Ver Directorio</a>
-                <a href="register.html" class="btn btn-outline" style="color: white; border-color: white;">Unirme como Trabajador</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <form class="search-box-home">
-            <div class="search-group">
-                <i class="fa-solid fa-hammer" style="color: #ccc;"></i>
-                <input type="text" id="searchText" placeholder="¿Qué oficio necesitas?">
-            </div>
-            <div class="search-group">
-                <i class="fa-solid fa-location-dot" style="color: #ccc;"></i>
-                <input type="text" id="city" placeholder="Ciudad o Estado">
-            </div>
-            <div class="search-group" style="border:none;">
-                <select id="category">
+            <span class="eyebrow">Plataforma Nacional de Servicios</span>
+            <h1>Confianza en cada <br> <span style="color: var(--primary-color);">detalle.</span></h1>
+            <p>Conectamos hogares con profesionales reales. Sin reseñas falsas, solo evidencia de calidad certificada.</p>
+            
+            <form class="search-pill">
+                <input type="text" id="searchText" placeholder="¿Qué necesitas reparar?">
+                <div class="search-divider"></div>
+                <input type="text" id="city" placeholder="Ciudad">
+                <div class="search-divider"></div>
+                <select id="category" style="width: 250px;">
                     <option value="">Categorías</option>
                     <option>Plomería</option>
                     <option>Electricidad</option>
                     <option>Carpintería</option>
                     <option>Turismo</option>
                 </select>
-            </div>
-            <button type="button" id="btnBuscarIndex" class="btn-search-round">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
-
-    <section class="container" style="padding: 80px 0; text-align: center;">
-        <h2 style="font-size: 2.2em; margin-bottom: 50px;">Seguridad en cada paso</h2>
-        <div class="workers-grid" style="margin-top:0;">
-            
-            <div class="worker-card" style="cursor: default;">
-                <i class="fa-solid fa-id-card" style="font-size: 3em; color: var(--primary-color); margin-bottom: 20px;"></i>
-                <h3>Identidad Validada</h3>
-                <p style="font-size: 0.9em; color: var(--text-muted);">Revisamos manualmente las identificaciones oficiales de cada integrante.</p>
-            </div>
-
-            <div class="worker-card" style="cursor: default; border-bottom: 4px solid var(--warning-color);">
-                <i class="fa-solid fa-camera" style="font-size: 3em; color: var(--primary-color); margin-bottom: 20px;"></i>
-                <h3>Reseñas con Evidencia</h3>
-                <p style="font-size: 0.9em; color: var(--text-muted);">Las opiniones de los clientes incluyen fotos reales del trabajo terminado.</p>
-            </div>
-
-            <div class="worker-card" style="cursor: default;">
-                <i class="fa-solid fa-shield-halved" style="font-size: 3em; color: var(--primary-color); margin-bottom: 20px;"></i>
-                <h3>Protección Nacional</h3>
-                <p style="font-size: 0.9em; color: var(--text-muted);">Un sistema robusto que penaliza y expulsa cualquier perfil falso.</p>
-            </div>
-
+                <button type="button" id="btnBuscarIndex" class="btn-search-round" style="width: 50px; height: 44px; flex-shrink: 0;">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
         </div>
     </section>
 
-    <footer style="background: var(--dark-navy); color: white; padding: 60px 20px; text-align: center; margin-top: 50px;">
-        <h2 style="color: white; margin-bottom: 15px;">HonestWork México</h2>
-        <p style="opacity: 0.6; font-size: 0.9em;">Trabajo honesto por recomendaciones reales.</p>
-        <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.8em; opacity: 0.5;">
-            © <span id="year"></span> HonestWork. Todos los derechos reservados.
+    <div class="container">
+        <div class="featured-card">
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
+                <img src="https://via.placeholder.com/60" style="border-radius: 16px; width: 60px; height: 60px; object-fit: cover;">
+                <div>
+                    <span class="verified-mini"><i class="fa-solid fa-check-double"></i> VERIFICADO</span>
+                    <h4 style="margin: 2px 0; font-size: 1rem;">Manuel Leyva</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Seguridad y Logística · Cabo</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 4px; color: #fbbf24; font-size: 0.7rem; margin-bottom: 15px;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <span style="color: #94a3b8; margin-left: 5px; font-weight: 600;">4.9 (24 reseñas)</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
+                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
+                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
+            </div>
+            <button disabled style="width: 100%; margin-top: 20px; background: #f1f5f9; border: none; color: #94a3b8; padding: 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Ver Perfil Completo</button>
         </div>
+    </div>
+
+    <section class="container" style="padding: 100px 0;">
+        <div class="workers-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); border: none; gap: 40px;">
+            <div class="feature-item">
+                <i class="fa-solid fa-shield-heart"></i>
+                <h3>Seguridad Manual</h3>
+                <p>Cada perfil es revisado por nuestro equipo. Validamos IDs reales para proteger a tu familia.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-image"></i>
+                <h3>Evidencia Visual</h3>
+                <p>No creas solo en palabras. Mira las fotos reales de los trabajos terminados antes de contratar.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Sellos de Confianza</h3>
+                <p>Nuestra comunidad reporta y califica. Los mejores profesionales destacan naturalmente.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 60px 0; border-top: 1px solid #f1f5f9; text-align: center;">
+        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">© <span id="year"></span> HONESTWORK MÉXICO · CABO SAN LUCAS</p>
     </footer>
 
     <script type="module">
