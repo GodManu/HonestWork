@@ -7,6 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
         :root {
@@ -27,36 +28,26 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
 
         /* --- NAVBAR --- */
-        .hw-header { 
-            padding: 15px 0; 
-            background: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(10px); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-            border-bottom: 1px solid #f1f5f9;
-        }
+        .hw-header { padding: 15px 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #f1f5f9; }
         .hw-nav { display: flex; justify-content: space-between; align-items: center; }
         .hw-logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
         .logo-mark { background: var(--primary); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.7rem; }
         
-        .btn-logout { background: none; border: none; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .btn-logout { background: none; border: none; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
         .btn-logout:hover { color: var(--danger); }
 
-        /* --- DASHBOARD GRID --- */
+        /* --- GRID --- */
         .dashboard-grid { display: grid; grid-template-columns: 320px 1fr; gap: 30px; padding: 40px 0; }
 
         /* --- SIDEBAR --- */
         .sidebar-card { background: var(--white); border-radius: var(--radius); padding: 35px; text-align: center; border: 1px solid #f1f5f9; height: fit-content; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
         .profile-container { position: relative; display: inline-block; margin-bottom: 20px; }
         .profile-img { width: 140px; height: 140px; border-radius: 35px; object-fit: cover; border: 5px solid var(--bg-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-cam { position: absolute; bottom: 10px; right: -5px; background: var(--white); border: 1px solid #e2e8f0; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; transition: 0.3s; }
-        .btn-cam:hover { background: var(--primary); color: white; }
+        .btn-cam { position: absolute; bottom: 10px; right: -5px; background: var(--white); border: 1px solid #e2e8f0; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; }
 
         .worker-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; letter-spacing: -1px; }
         .worker-job { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
         .verified-mini { font-size: 0.65rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 4px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 15px;}
-        .sidebar-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; }
         .stars { color: var(--warning); font-size: 0.8rem; font-weight: 800; }
 
         /* --- CONTENT --- */
@@ -65,17 +56,15 @@
         .eyebrow { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 10px; display: block; }
         .section-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 25px; }
 
-        /* Membresía Card */
+        /* Membresía Card Pro */
         .membership-card { 
             background: linear-gradient(135deg, #0056b3 0%, #002b5c 100%); 
-            color: white; 
-            padding: 30px; 
-            border-radius: var(--radius); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            color: white; padding: 35px; border-radius: var(--radius); 
+            display: flex; flex-direction: column; gap: 20px;
             box-shadow: 0 20px 40px rgba(0, 86, 179, 0.2);
         }
+        .pro-benefits { list-style: none; font-size: 0.85rem; opacity: 0.9; margin: 10px 0; }
+        .pro-benefits li { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
 
         /* Status Banners */
         .status-banner { padding: 15px 20px; border-radius: 15px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
@@ -94,17 +83,10 @@
         .btn-primary { background: var(--primary); color: white; }
         .btn-outline { background: transparent; border: 1px solid #e2e8f0; color: var(--text-muted); }
         .btn-warning { background: var(--warning); color: var(--text-main); }
+        .btn-paypal { background: #ffc439; color: #111; }
         .btn-admin { background: #fff1f2; color: #991b1b; border: 1px solid #fecaca; margin-top: 15px; width: 100%; }
 
-        /* Modales */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; }
-        .form-control { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-weight: 600; margin-top: 8px; margin-bottom: 20px; }
-
-        @media (max-width: 900px) { 
-            .dashboard-grid { grid-template-columns: 1fr; } 
-            .membership-card { flex-direction: column; text-align: center; gap: 20px; }
-        }
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -127,10 +109,10 @@
                 <input type="file" id="photoInput" style="display:none;" accept="image/*">
             </div>
             
-            <h2 class="worker-name" id="userName">Cargando...</h2>
+            <h2 class="worker-name" id="userName">...</h2>
             <p class="worker-job" id="userJob">Especialista</p>
             <span class="verified-mini" id="idStatusBadge">STATUS</span>
-            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Ciudad, México</span></p>
+            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">...</span></p>
             <div class="stars" id="userRating">★★★★★ <span>0.0</span></div>
 
             <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 25px 0;">
@@ -146,35 +128,38 @@
 
         <section class="main-content">
             
-            <div class="membership-card" id="proBanner">
+            <div class="membership-card" id="membershipSection">
                 <div>
-                    <h2 style="font-size: 1.5rem; letter-spacing: -1px; margin-bottom: 5px;">Membresía HonestPro</h2>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">Aparece en los primeros lugares y duplica tus contactos hoy.</p>
+                    <span class="eyebrow" style="color:rgba(255,255,255,0.7);">IMPULSA TU PERFIL</span>
+                    <h2 style="color:white; margin-bottom:5px;">Membresía HonestPro</h2>
+                    <ul class="pro-benefits">
+                        <li><i class="fa-solid fa-check" style="color:var(--warning);"></i> Posición #1 en todas las búsquedas</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--warning);"></i> Distintivo dorado de Socio Destacado</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--warning);"></i> Galería de trabajos ilimitada</li>
+                    </ul>
                 </div>
-                <button class="btn btn-warning">Mejorar a Pro</button>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-warning" id="payStripe"><i class="fa-solid fa-credit-card"></i> Pagar con Tarjeta</button>
+                    <button class="btn btn-paypal" id="payPayPal"><i class="fa-brands fa-paypal"></i> PayPal</button>
+                </div>
             </div>
 
             <div id="statusBanner" class="status-banner status-pending">
-                <i class="fa-solid fa-hourglass-half"></i> Manuel está verificando tu identidad. Pronto serás público.
+                <i class="fa-solid fa-hourglass-half"></i> Manuel está verificando tu identidad.
             </div>
 
             <div class="panel-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-                    <div>
-                        <span class="eyebrow">Evidencia</span>
-                        <h2 class="section-title" style="margin:0;">Fotos de mis Trabajos</h2>
-                    </div>
+                    <div><span class="eyebrow">Evidencia</span><h2 class="section-title" style="margin:0;">Mis Trabajos</h2></div>
                     <button class="btn btn-primary" id="btnOpenPortfolioModal"><i class="fa-solid fa-plus"></i> Añadir Foto</button>
                 </div>
-                <div class="portfolio-grid" id="workGallery">
-                    </div>
+                <div class="portfolio-grid" id="workGallery"></div>
             </div>
 
             <div class="panel-card">
                 <span class="eyebrow">Comunidad</span>
-                <h2 class="section-title">Últimas Calificaciones</h2>
-                <div id="reviewsList">
-                    </div>
+                <h2 class="section-title">Calificaciones</h2>
+                <div id="reviewsList"></div>
             </div>
 
         </section>
@@ -182,7 +167,7 @@
 
     <div class="modal-overlay" id="editProfileModal">
         <div class="modal-box">
-            <h2 style="margin-bottom:25px; letter-spacing:-1px;">Ajustes de Cuenta</h2>
+            <h2 style="margin-bottom:25px;">Ajustes de Cuenta</h2>
             <form id="editProfileForm">
                 <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">NOMBRE COMPLETO</label>
                 <input type="text" id="editName" class="form-control" required>
@@ -194,7 +179,7 @@
                 <input type="text" id="editCity" class="form-control">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <button type="button" class="btn btn-outline" id="btnCloseEditModal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" id="btnSaveProfile">Guardar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
@@ -204,10 +189,10 @@
         <div class="modal-box">
             <h2 style="margin-bottom:25px;">Nueva Evidencia</h2>
             <form id="portfolioForm">
-                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">SELECCIONAR IMAGEN</label>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">IMAGEN</label>
                 <input type="file" id="newWorkPhoto" accept="image/*" class="form-control" style="border:none; padding:0;" required>
-                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">DESCRIPCIÓN DEL TRABAJO</label>
-                <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Instalación de cisterna" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">DESCRIPCIÓN</label>
+                <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Instalación en Cabo Marina" required>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <button type="button" class="btn btn-outline" id="btnClosePortfolioModal">Cancelar</button>
                     <button type="submit" class="btn btn-primary" id="btnSavePhoto">Subir Foto</button>
@@ -222,70 +207,91 @@
         import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+        // CONFIGURACIÓN EMAILJS
+        emailjs.init("TU_PUBLIC_KEY_AQUI"); 
+
         let currentUserId = null;
+        let userData = null;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserId = user.uid;
-                
-                // --- TU BOTÓN SECRETO ---
-                if (user.email === "serratoleyva@gmail.com") {
-                    document.getElementById('adminLink').style.display = 'inline-flex';
-                }
-
+                if (user.email === "serratoleyva@gmail.com") document.getElementById('adminLink').style.display = 'inline-flex';
                 loadDashboard(user.uid);
-            } else {
-                window.location.href = 'login.html';
-            }
+            } else { window.location.href = 'login.html'; }
         });
 
         function loadDashboard(uid) {
             onSnapshot(doc(db, "users", uid), (docSnap) => {
                 if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById('userName').innerText = data.name || "Profesional";
-                    document.getElementById('userJob').innerText = data.job || "Especialista";
-                    document.getElementById('userCity').innerText = data.city || "México";
-                    document.getElementById('userPhoto').src = data.profilePhoto || "https://via.placeholder.com/150";
+                    userData = docSnap.data();
+                    document.getElementById('userName').innerText = userData.name || "Profesional";
+                    document.getElementById('userJob').innerText = userData.job || "Especialista";
+                    document.getElementById('userCity').innerText = userData.city || "México";
+                    document.getElementById('userPhoto').src = userData.profilePhoto || "https://via.placeholder.com/150";
                     
-                    const rating = parseFloat(data.rating || 0);
-                    document.getElementById('userRating').innerHTML = "★".repeat(Math.round(rating)) + "☆".repeat(5 - Math.round(rating)) + ` <span>${rating.toFixed(1)} (${data.reviewsCount || 0})</span>`;
+                    const rating = parseFloat(userData.rating || 0);
+                    document.getElementById('userRating').innerHTML = "★".repeat(Math.round(rating)) + "☆".repeat(5-Math.round(rating)) + ` <span>${rating.toFixed(1)}</span>`;
 
+                    // Banner de Membresía
+                    const mbSection = document.getElementById('membershipSection');
+                    if (userData.membership === "pro") {
+                        mbSection.style.background = "linear-gradient(135deg, #f59e0b 0%, #92400e 100%)";
+                        mbSection.innerHTML = `<div><h2 style="color:white; margin:0;">Eres Miembro HonestPro</h2><p style="opacity:0.9; font-size:0.8rem;">Tienes máxima prioridad nacional.</p></div><i class="fa-solid fa-crown" style="font-size:2.5rem; opacity:0.3;"></i>`;
+                    }
+
+                    // Banner Estatus
                     const banner = document.getElementById('statusBanner');
                     const badge = document.getElementById('idStatusBadge');
-                    const proBanner = document.getElementById('proBanner');
-
-                    // Lógica de Estatus y Membresía
-                    if (data.idStatus === "verificado") {
+                    if (userData.idStatus === "verificado") {
                         badge.innerHTML = `<i class="fa-solid fa-certificate"></i> VERIFICADO`;
                         badge.style.color = "#10b981"; badge.style.background = "#ecfdf5";
                         banner.className = "status-banner status-verified";
-                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil ya es visible para clientes en todo México.`;
-                    } else {
-                        badge.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> PENDIENTE`;
-                        banner.className = "status-banner status-pending";
+                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil es público. ¡Ya eres visible!`;
                     }
 
-                    if (data.membership === "pro") {
-                        proBanner.style.background = "linear-gradient(135deg, #f59e0b 0%, #92400e 100%)";
-                        proBanner.innerHTML = `<div><h2 style="color:white; margin:0;">Eres Miembro HonestPro</h2><p style="opacity:0.9; font-size:0.8rem;">Tu perfil tiene prioridad máxima de visualización.</p></div><i class="fa-solid fa-crown" style="font-size:2rem; opacity:0.3;"></i>`;
-                    }
-
-                    renderPortfolio(data.workPhotos || []);
-                    renderReviews(data.reviews || []);
-
-                    // Pre-llenar modal
-                    document.getElementById('editName').value = data.name || '';
-                    document.getElementById('editJob').value = data.job || '';
-                    document.getElementById('editPhone').value = data.phone || '';
-                    document.getElementById('editCity').value = data.city || '';
+                    renderPortfolio(userData.workPhotos || []);
+                    renderReviews(userData.reviews || []);
                 }
             });
         }
 
+        // --- LÓGICA DE PAGO PROFESIONAL ---
+        document.getElementById('payStripe').onclick = () => processMembershipPayment("Stripe");
+        document.getElementById('payPayPal').onclick = () => processMembershipPayment("PayPal");
+
+        async function processMembershipPayment(method) {
+            // 1. Abrir link de pago (Sustituye por tus links reales de Stripe/PayPal)
+            const paymentURL = method === "Stripe" ? "TU_LINK_STRIPE_AQUI" : "TU_LINK_PAYPAL_AQUI";
+            window.open(paymentURL, '_blank');
+
+            // 2. Proceso de Confirmación (Simulado para que sea inmediato tras clic, o puedes poner un botón de "Ya pagué")
+            if (confirm("¿Has completado el pago en la ventana nueva?")) {
+                try {
+                    // Actualizar Firebase a PRO
+                    await updateDoc(doc(db, "users", currentUserId), {
+                        membership: "pro",
+                        proSince: new Date().toISOString()
+                    });
+
+                    // Enviar correos con EmailJS
+                    const emailParams = {
+                        user_name: userData.name,
+                        user_email: userData.email,
+                        method: method,
+                        admin_email: "serratoleyva@gmail.com"
+                    };
+
+                    await emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", emailParams);
+                    alert("¡Pago exitoso! Bienvenido a HonestPro. Se ha enviado un comprobante a tu correo.");
+                } catch (e) { alert("Error al procesar la suscripción."); }
+            }
+        }
+
+        // --- FUNCIONES DE GALERÍA Y MODALES ---
         function renderPortfolio(photos) {
             const gal = document.getElementById('workGallery');
-            gal.innerHTML = photos.length ? "" : '<p style="text-align:center; grid-column:1/-1; color:#94a3b8;">Sube fotos de tus mejores trabajos.</p>';
+            gal.innerHTML = photos.length ? "" : '<p style="text-align:center; grid-column:1/-1;">Sube fotos de tus trabajos.</p>';
             [...photos].reverse().forEach(p => {
                 const div = document.createElement('div');
                 div.className = 'portfolio-item';
@@ -296,19 +302,18 @@
 
         function renderReviews(reviews) {
             const list = document.getElementById('reviewsList');
-            list.innerHTML = reviews.length ? "" : '<p style="color:#94a3b8;">Aún no tienes opiniones de clientes.</p>';
+            list.innerHTML = reviews.length ? "" : '<p style="color:#94a3b8;">Sin reseñas aún.</p>';
             [...reviews].reverse().forEach(r => {
                 list.innerHTML += `<div style="background:#f1f5f9; padding:20px; border-radius:15px; margin-bottom:15px;">
-                    <strong>${r.name}</strong> <span style="color:#f5b301; margin-left:10px;">${"★".repeat(r.rating)}</span>
-                    <p style="font-size:0.85rem; margin-top:8px; color:#475569;">"${r.comment}"</p>
+                    <strong>${r.name}</strong> <span style="color:#f5b301;">${"★".repeat(r.rating)}</span>
+                    <p style="font-size:0.85rem; margin-top:8px;">"${r.comment}"</p>
                 </div>`;
             });
         }
 
-        // --- FUNCIONES DE ACCIÓN ---
+        // MODALES Y OTROS
         const mEdit = document.getElementById('editProfileModal');
         const mPort = document.getElementById('portfolioModal');
-
         document.getElementById('btnOpenEditModal').onclick = () => mEdit.style.display = 'flex';
         document.getElementById('btnCloseEditModal').onclick = () => mEdit.style.display = 'none';
         document.getElementById('btnOpenPortfolioModal').onclick = () => mPort.style.display = 'flex';
@@ -331,21 +336,17 @@
             const file = document.getElementById('newWorkPhoto').files[0];
             const desc = document.getElementById('newWorkDescription').value;
             btn.innerText = "Subiendo..."; btn.disabled = true;
-
             const path = `public/${currentUserId}/works/${Date.now()}_${file.name}`;
             const sRef = ref(storage, path);
             await uploadBytes(sRef, file);
             const url = await getDownloadURL(sRef);
-
-            await updateDoc(doc(db, "users", currentUserId), {
-                workPhotos: arrayUnion({ url, description: desc, path })
-            });
+            await updateDoc(doc(db, "users", currentUserId), { workPhotos: arrayUnion({ url, description: desc, path }) });
             mPort.style.display = 'none';
             btn.innerText = "Subir Foto"; btn.disabled = false;
         };
 
         window.deleteWorkPhoto = async (path, url, description) => {
-            if(confirm("¿Eliminar esta foto del portafolio?")) {
+            if(confirm("¿Eliminar foto?")) {
                 await updateDoc(doc(db, "users", currentUserId), { workPhotos: arrayRemove({ url, description, path }) });
                 await deleteObject(ref(storage, path));
             }
