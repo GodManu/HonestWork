@@ -79,33 +79,43 @@
                     <a href="login.html" style="background: #007bff; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">Inicia sesión para dejar una reseña</a>
                 </div>
 
-                <div id="reviewFormSection" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #ddd; display: none;">
-                    <h3 style="margin-top:0; font-size: 1.1em;">Califica el servicio</h3>
-                    
-                    <div style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
-                        <p style="margin: 0; color: #555; font-size: 0.9em;">Publicando como: <strong id="loggedInUserName" style="color:#000;">Cargando...</strong> <span style="color: green; font-weight: bold;" title="Cuenta Verificada">✔️</span></p>
-                    </div>
+               <div id="reviewFormSection" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #ddd; display: none;">
+    <h3 style="margin-top:0; font-size: 1.1em;">Califica el servicio</h3>
+    
+    <p style="margin: 0; color: #555; font-size: 0.9em; padding-bottom: 10px;">Publicando como: <strong id="loggedInUserName">...</strong> ✔️</p>
 
-                    <div style="margin-bottom: 15px;">
-                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Calificación:</label>
-                        <select id="reviewRating" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
-                            <option value="5">⭐⭐⭐⭐⭐ (5) - Excelente</option>
-                            <option value="4">⭐⭐⭐⭐ (4) - Muy Bueno</option>
-                            <option value="3">⭐⭐⭐ (3) - Bueno</option>
-                            <option value="2">⭐⭐ (2) - Regular</option>
-                            <option value="1">⭐ (1) - Malo</option>
-                        </select>
-                    </div>
+    <div style="margin-bottom: 15px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Calificación:</label>
+        <select id="reviewRating" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <option value="5">⭐⭐⭐⭐⭐ (5) - Excelente</option>
+            <option value="4">⭐⭐⭐⭐ (4) - Muy Bueno</option>
+            <option value="3">⭐⭐⭐ (3) - Bueno</option>
+            <option value="2">⭐⭐ (2) - Regular</option>
+            <option value="1">⭐ (1) - Malo</option>
+        </select>
+    </div>
 
-                    <div style="margin-bottom: 15px;">
-                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Comentario:</label>
-                        <textarea id="reviewComment" placeholder="Describe cómo fue el trabajo realizado..." rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: vertical;"></textarea>
-                    </div>
+    <div style="margin-bottom: 15px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Subir fotos del trabajo (Evidencia):</label>
+        <input type="file" id="reviewPhotos" accept="image/*" multiple style="font-size: 0.9em;">
+    </div>
 
-                    <button id="btnSubmitReview" style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%;">
-                        Publicar Reseña Verificada
-                    </button>
-                </div>
+    <div style="margin-bottom: 15px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Comentario:</label>
+        <textarea id="reviewComment" placeholder="Describe el servicio recibido..." rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+    </div>
+
+    <div style="margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ffccd5;">
+        <label style="font-size: 0.85em; color: #721c24; cursor: pointer; display: flex; gap: 10px;">
+            <input type="checkbox" id="confirmTruth" style="margin-top: 3px;">
+            <span>Confirmo que esta reseña es real. Entiendo que subir información falsa o malintencionada resultará en la <strong>penalización o desactivación definitiva de mi cuenta</strong>.</span>
+        </label>
+    </div>
+
+    <button id="btnSubmitReview" style="background: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%;">
+        Publicar Reseña Verificada
+    </button>
+</div>
 
                 <div id="reviewsList" style="display: flex; flex-direction: column; gap: 15px;">
                     </div>
