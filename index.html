@@ -3,227 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HonestWork | Confianza Digital en Servicios</title>
+    <title>HonestWork | Confianza Certificada en México</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; }
+        :root {
+            --primary: #0056b3;
+            --primary-dark: #003d82;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body { background-color: var(--white); color: var(--text-main); overflow-x: hidden; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+        /* --- NAVBAR --- */
+        .hw-header { 
+            padding: 20px 0; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(10px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .hw-nav { display: flex; justify-content: space-between; align-items: center; }
+        .hw-logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-mark { background: var(--primary); color: white; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 0.8rem; }
         
-        /* Estilo Hero Aesthetic */
-        .hero-aesthetic {
-            padding: 100px 0 140px;
-            background: radial-gradient(circle at 90% 10%, rgba(0, 86, 179, 0.05) 0%, transparent 40%),
-                        radial-gradient(circle at 10% 90%, rgba(0, 86, 179, 0.03) 0%, transparent 40%);
-            text-align: center;
+        .nav-btns { display: flex; align-items: center; gap: 20px; }
+        .btn-text { font-size: 0.9rem; font-weight: 700; color: var(--text-main); text-decoration: none; transition: 0.3s; }
+        .btn-cta { background: var(--primary); color: white; padding: 12px 24px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 86, 179, 0.15); }
+        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 86, 179, 0.25); }
+
+        /* --- HERO SECTION --- */
+        .hero { padding: 80px 0 120px; position: relative; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+
+        .eyebrow { display: inline-block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); background: rgba(0, 86, 179, 0.05); padding: 6px 15px; border-radius: 100px; margin-bottom: 25px; }
+        
+        .hero h1 { font-size: 3.8rem; font-weight: 800; line-height: 1; letter-spacing: -3px; color: var(--primary); margin-bottom: 25px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); line-height: 1.6; max-width: 500px; margin-bottom: 40px; }
+
+        /* --- SEARCH PILL --- */
+        .search-pill { 
+            background: var(--white); 
+            border: 1px solid #e2e8f0; 
+            padding: 10px; 
+            border-radius: 100px; 
+            display: flex; 
+            align-items: center; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); 
+            max-width: 900px;
+            margin-top: 20px;
         }
+        .search-pill input, .search-pill select { border: none; outline: none; padding: 10px 20px; font-size: 0.9rem; font-weight: 600; flex: 1; color: var(--text-main); }
+        .divider { width: 1px; height: 30px; background: #e2e8f0; }
+        .btn-go { background: var(--primary); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .btn-go:hover { transform: scale(1.1); background: var(--primary-dark); }
 
-        .eyebrow {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .hero-aesthetic h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--dark-navy);
-            letter-spacing: -0.04em;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-aesthetic p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 550px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
-        }
-
-        /* Buscador Slim */
-        .search-pill {
-            background: white;
-            border: 1px solid #eef2f6;
-            padding: 8px;
-            border-radius: 100px;
-            display: flex;
-            align-items: center;
-            max-width: 850px;
-            margin: 0 auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-        }
-
-        .search-pill input, .search-pill select {
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            outline: none;
-            width: 100%;
-            color: var(--dark-navy);
-        }
-
-        .search-divider { width: 1px; height: 24px; background: #eee; }
-
-        /* Tarjeta de Perfil de Ejemplo Real */
-        .featured-card {
-            background: white;
-            border-radius: 24px;
-            padding: 25px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+        /* --- FLOATING CARD AESTHETIC --- */
+        .profile-card-aesthetic {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.07);
             border: 1px solid #f1f5f9;
-            max-width: 380px;
-            margin: -60px auto 0;
             position: relative;
             z-index: 5;
-            transition: 0.3s;
+            transition: 0.4s ease;
         }
+        .profile-card-aesthetic:hover { transform: translateY(-10px) rotate(-1deg); }
+
+        .card-header { display: flex; gap: 20px; align-items: center; margin-bottom: 25px; }
+        .profile-img { width: 75px; height: 75px; border-radius: 22px; object-fit: cover; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         
-        .featured-card:hover { transform: translateY(-5px); }
-
-        .verified-mini {
-            font-size: 0.65rem;
-            font-weight: 800;
-            color: #10b981;
-            background: #ecfdf5;
-            padding: 4px 10px;
-            border-radius: 100px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* Secciones de Iconos Limpios */
-        .feature-item {
-            text-align: left;
-            padding: 20px;
-        }
+        .status-tag { font-size: 0.6rem; font-weight: 800; background: #ecfdf5; color: #10b981; padding: 4px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 5px; }
         
-        .feature-item i {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            background: #f0f7ff;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-        }
+        .stars { color: var(--warning); font-size: 0.75rem; margin-bottom: 20px; display: flex; gap: 3px; align-items: center; }
+        .stars span { color: var(--text-muted); font-weight: 700; margin-left: 8px; }
 
-        .feature-item h3 { font-size: 1rem; margin-bottom: 10px; }
-        .feature-item p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .mini-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .gallery-dot { height: 60px; background: #f1f5f9; border-radius: 15px; background-size: cover; background-position: center; }
 
-        @media (max-width: 768px) {
-            .hero-aesthetic h1 { font-size: 2.2rem; }
-            .search-pill { flex-direction: column; border-radius: 20px; padding: 20px; }
-            .search-divider { display: none; }
+        /* --- FEATURES --- */
+        .features { padding: 100px 0; background: var(--bg-light); border-radius: 60px 60px 0 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .feat-item { background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid #edf2f7; transition: 0.3s; }
+        .feat-item:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .feat-item i { font-size: 1.5rem; color: var(--primary); margin-bottom: 20px; display: block; }
+        .feat-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; }
+        .feat-item p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { margin: 0 auto 40px; }
+            .profile-card-aesthetic { display: none; }
+            .search-pill { flex-direction: column; border-radius: 25px; padding: 20px; }
+            .divider { display: none; }
+            .features-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header class="hw-header">
-        <div class="hw-nav container">
-            <a href="index.html" class="hw-logo" style="font-size: 1.2rem;">
-                <span class="logo-mark" style="padding: 4px 10px;">HW</span> HonestWork
+        <div class="container hw-nav">
+            <a href="index.html" class="hw-logo">
+                <div class="logo-mark">HW</div>
+                <span>HonestWork</span>
             </a>
-            <div class="hw-nav-actions">
-                <a id="loginBtn" href="login.html" style="font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-right: 20px;">Acceso</a>
-                <a id="registerBtn" href="register.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.85rem; border-radius: 100px;">Registro</a>
-                <a id="profileBtn" href="profile.html" class="btn btn-primary" style="display:none; padding: 8px 20px; border-radius: 100px;">Mi Panel</a>
+            <div class="nav-btns">
+                <a id="loginBtn" href="login.html" class="btn-text">Acceso</a>
+                <a id="registerBtn" href="register.html" class="btn-cta">Registrarme</a>
+                <a id="profileBtn" href="profile.html" class="btn-cta" style="display:none;">Mi Panel</a>
             </div>
         </div>
     </header>
 
-    <section class="hero-aesthetic">
-        <div class="container">
-            <span class="eyebrow">Plataforma Nacional de Servicios</span>
-            <h1>Confianza en cada <br> <span style="color: var(--primary-color);">detalle.</span></h1>
-            <p>Conectamos hogares con profesionales reales. Sin reseñas falsas, solo evidencia de calidad certificada.</p>
-            
-            <form class="search-pill">
-                <input type="text" id="searchText" placeholder="¿Qué necesitas reparar?">
-                <div class="search-divider"></div>
-                <input type="text" id="city" placeholder="Ciudad">
-                <div class="search-divider"></div>
-                <select id="category" style="width: 250px;">
-                    <option value="">Categorías</option>
-                    <option>Plomería</option>
-                    <option>Electricidad</option>
-                    <option>Carpintería</option>
-                    <option>Turismo</option>
-                </select>
-                <button type="button" id="btnBuscarIndex" class="btn-search-round" style="width: 50px; height: 44px; flex-shrink: 0;">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
-    </section>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="eyebrow">Plataforma de Confianza · México</span>
+                <h1>El trabajo bien hecho <br> merece <span style="color: var(--accent);">evidencia.</span></h1>
+                <p>Encuentra profesionales reales en Cabo y todo México con perfiles verificados y reseñas con fotos auténticas.</p>
+                
+                <form class="search-pill">
+                    <input type="text" id="searchText" placeholder="¿Qué oficio buscas?">
+                    <div class="divider"></div>
+                    <input type="text" id="city" placeholder="Ciudad">
+                    <div class="divider"></div>
+                    <select id="category">
+                        <option value="">Categorías</option>
+                        <option>Plomería</option>
+                        <option>Electricidad</option>
+                        <option>Carpintería</option>
+                        <option>Turismo</option>
+                        <option>Limpieza</option>
+                    </select>
+                    <button type="button" id="btnBuscarIndex" class="btn-go">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
 
-    <div class="container">
-        <div class="featured-card">
-            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
-                <img src="https://via.placeholder.com/60" style="border-radius: 16px; width: 60px; height: 60px; object-fit: cover;">
-                <div>
-                    <span class="verified-mini"><i class="fa-solid fa-check-double"></i> VERIFICADO</span>
-                    <h4 style="margin: 2px 0; font-size: 1rem;">Manuel Leyva</h4>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Seguridad y Logística · Cabo</p>
+            <div class="profile-card-aesthetic">
+                <div class="card-header">
+                    <img src="https://via.placeholder.com/150" class="profile-img" alt="Manuel Leyva">
+                    <div>
+                        <span class="status-tag"><i class="fa-solid fa-certificate"></i> VERIFICADO</span>
+                        <h3 style="margin: 0; font-size: 1.1rem; font-weight: 800;">Manuel Leyva</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Seguridad y Logística · Cabo San Lucas</p>
+                    </div>
+                </div>
+                
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <span>4.9 (24 testimonios)</span>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--text-main); font-style: italic; line-height: 1.5; border-left: 3px solid var(--accent); padding-left: 15px;">
+                    "Servicio de alta calidad en transporte y logística privada. Puntualidad y seguridad garantizada."
+                </p>
+
+                <div class="mini-gallery">
+                    <div class="gallery-dot" style="background-image: url('https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?q=80&w=200');"></div>
+                    <div class="gallery-dot" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=200');"></div>
+                    <div class="gallery-dot" style="background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: var(--primary);">+12</div>
                 </div>
             </div>
-            <div style="display: flex; gap: 4px; color: #fbbf24; font-size: 0.7rem; margin-bottom: 15px;">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                <span style="color: #94a3b8; margin-left: 5px; font-weight: 600;">4.9 (24 reseñas)</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
-                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
-                <div style="height: 50px; background: #f8fafc; border-radius: 8px;"></div>
-            </div>
-            <button disabled style="width: 100%; margin-top: 20px; background: #f1f5f9; border: none; color: #94a3b8; padding: 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Ver Perfil Completo</button>
         </div>
-    </div>
+    </section>
 
-    <section class="container" style="padding: 100px 0;">
-        <div class="workers-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); border: none; gap: 40px;">
-            <div class="feature-item">
-                <i class="fa-solid fa-shield-heart"></i>
-                <h3>Seguridad Manual</h3>
-                <p>Cada perfil es revisado por nuestro equipo. Validamos IDs reales para proteger a tu familia.</p>
-            </div>
-            <div class="feature-item">
-                <i class="fa-solid fa-image"></i>
-                <h3>Evidencia Visual</h3>
-                <p>No creas solo en palabras. Mira las fotos reales de los trabajos terminados antes de contratar.</p>
-            </div>
-            <div class="feature-item">
-                <i class="fa-solid fa-certificate"></i>
-                <h3>Sellos de Confianza</h3>
-                <p>Nuestra comunidad reporta y califica. Los mejores profesionales destacan naturalmente.</p>
+    <section class="features">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 60px; font-size: 2.2rem; letter-spacing: -1px;">¿Por qué HonestWork es diferente?</h2>
+            <div class="features-grid">
+                <div class="feat-item">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    <h3>Validación Biométrica</h3>
+                    <p>No permitimos perfiles anónimos. Cada trabajador sube su ID oficial para garantizar tu seguridad.</p>
+                </div>
+                <div class="feat-item">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <h3>Pruebas Visuales</h3>
+                    <p>Las reseñas no son solo texto. Exigimos fotos de los trabajos para evitar calificaciones falsas.</p>
+                </div>
+                <div class="feat-item">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Cero Tolerancia</h3>
+                    <p>Monitoreamos cada interacción. Perfiles malintencionados son expulsados de forma definitiva.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer style="padding: 60px 0; border-top: 1px solid #f1f5f9; text-align: center;">
-        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">© <span id="year"></span> HONESTWORK MÉXICO · CABO SAN LUCAS</p>
+    <footer style="padding: 60px 0; text-align: center; background: white;">
+        <div class="container">
+            <p style="font-size: 0.75rem; font-weight: 800; color: var(--text-muted); letter-spacing: 2px;">
+                © <span id="year"></span> HONESTWORK MÉXICO · CABO SAN LUCAS, B.C.S.
+            </p>
+        </div>
     </footer>
 
     <script type="module">
         import { auth } from "./js/firebase-config.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        const loginBtn = document.getElementById("loginBtn");
+        const registerBtn = document.getElementById("registerBtn");
+        const profileBtn = document.getElementById("profileBtn");
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById("loginBtn").style.display = "none";
-                document.getElementById("registerBtn").style.display = "none";
-                document.getElementById("profileBtn").style.display = "inline-block";
+                if(loginBtn) loginBtn.style.display = "none";
+                if(registerBtn) registerBtn.style.display = "none";
+                if(profileBtn) profileBtn.style.display = "inline-block";
+            } else {
+                if(loginBtn) loginBtn.style.display = "inline-block";
+                if(registerBtn) registerBtn.style.display = "inline-block";
+                if(profileBtn) profileBtn.style.display = "none";
             }
         });
 
