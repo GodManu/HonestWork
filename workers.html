@@ -3,67 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabajadores - HonestWork</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Directorio de Profesionales | HonestWork</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-bar input, .search-bar select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; flex: 1; min-width: 200px;}
-        .workers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .worker-card { border: 1px solid #eee; border-radius: 8px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); background: white; }
-        .worker-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-        .verified-badge { color: green; font-size: 0.9em; font-weight: bold; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .rating { color: #f5b301; margin-bottom: 15px; font-weight: bold; }
-        .btn-view { display: inline-block; padding: 8px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
-        .btn-view:hover { background: #0056b3; }
-        
-        /* Estilos del botón de regreso */
-        .back-btn { 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px; 
-            color: #555; 
-            text-decoration: none; 
-            font-weight: bold; 
-            padding: 10px 15px; 
-            background: #f8f9fa; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            transition: all 0.2s; 
-            width: fit-content; 
-            margin-bottom: 20px; 
+        :root {
+            --primary: #0056b3;
+            --primary-dark: #003d82;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --radius: 20px;
         }
-        .back-btn:hover { background: #e2e2e2; color: #000; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body { background-color: var(--bg-light); color: var(--text-main); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+        /* --- NAVBAR (Igual al Index) --- */
+        .hw-header { 
+            padding: 15px 0; 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .hw-nav { display: flex; justify-content: space-between; align-items: center; }
+        .hw-logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-mark { background: var(--primary); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.7rem; }
+        
+        .btn-panel { background: var(--primary); color: white; padding: 10px 20px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; text-decoration: none; transition: 0.3s; }
+
+        /* --- SEARCH SECTION --- */
+        .search-header { background: var(--white); padding: 40px 0 60px; border-bottom: 1px solid #f1f5f9; text-align: center; }
+        .search-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 25px; }
+
+        .search-pill { 
+            background: var(--white); 
+            border: 1px solid #e2e8f0; 
+            padding: 8px; 
+            border-radius: 100px; 
+            display: flex; 
+            align-items: center; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05); 
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        .search-pill input, .search-pill select { border: none; outline: none; padding: 10px 15px; font-size: 0.85rem; font-weight: 600; flex: 1; color: var(--text-main); background: transparent; }
+        .divider { width: 1px; height: 25px; background: #e2e8f0; }
+        .btn-filter { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 100px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: 0.3s; margin-left: 10px; }
+
+        /* --- WORKERS GRID --- */
+        .workers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px 0;
+        }
+
+        .worker-card {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #f1f5f9;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .worker-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); border-color: var(--primary); }
+
+        .worker-img { width: 100px; height: 100px; border-radius: 25px; object-fit: cover; margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        .status-tag { font-size: 0.6rem; font-weight: 800; background: #ecfdf5; color: #10b981; padding: 4px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+        
+        .worker-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; color: var(--text-main); }
+        .worker-job { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        
+        .worker-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 15px; }
+        
+        .rating-box { color: var(--warning); font-size: 0.75rem; font-weight: 800; margin-bottom: 20px; }
+        .rating-box span { color: var(--text-muted); margin-left: 5px; }
+
+        .btn-view-profile { 
+            display: block; 
+            background: #f1f5f9; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            padding: 12px; 
+            border-radius: 15px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            transition: 0.3s;
+        }
+        .btn-view-profile:hover { background: var(--primary); color: white; }
+
+        @media (max-width: 768px) {
+            .search-pill { flex-direction: column; border-radius: 20px; padding: 15px; }
+            .divider { display: none; }
+            .search-pill input, .search-pill select { width: 100%; text-align: center; border-bottom: 1px solid #f1f5f9; }
+            .btn-filter { width: 100%; margin: 10px 0 0 0; }
+        }
     </style>
 </head>
 <body>
-    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-        
-        <a href="index.html" class="back-btn">
-            <i class="fa-solid fa-house"></i> Volver al Inicio
-        </a>
 
-        <header style="text-align: center; margin-bottom: 30px;">
-            <h2>Encuentra al profesional ideal</h2>
-            <p>Perfiles verificados y recomendaciones reales.</p>
-        </header>
-
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Buscar por oficio o nombre...">
-            <input type="text" id="cityFilter" placeholder="Ciudad (Ej: Monterrey, CDMX)...">
-            
-            <select id="ratingFilter">
-                <option value="0">Cualquier calificación</option>
-                <option value="4.5">Más de 4.5 estrellas</option>
-                <option value="4.0">Más de 4.0 estrellas</option>
-            </select>
-        </div>
-
-        <div class="workers-grid" id="workersContainer">
+    <header class="hw-header">
+        <div class="container hw-nav">
+            <a href="index.html" class="hw-logo">
+                <div class="logo-mark">HW</div>
+                <span>HonestWork</span>
+            </a>
+            <div class="nav-btns">
+                <a id="profileBtn" href="profile.html" class="btn-panel" style="display:none;">Mi Panel</a>
+                <a id="loginBtn" href="login.html" style="font-size: 0.85rem; font-weight: 700; text-decoration: none; color: var(--text-main);">Acceso</a>
             </div>
-    </div>
+        </div>
+    </header>
 
-    <script type="module" src="js/workers.js"></script>
+    <section class="search-header">
+        <div class="container">
+            <h1>Expertos verificados en <span style="color: var(--primary);">México</span></h1>
+            
+            <form class="search-pill">
+                <input type="text" id="searchInput" placeholder="¿Qué oficio buscas?">
+                <div class="divider"></div>
+                <input type="text" id="cityFilter" placeholder="Ciudad">
+                <div class="divider"></div>
+                <select id="ratingFilter">
+                    <option value="0">Calificación</option>
+                    <option value="4.5">4.5+ Estrellas</option>
+                    <option value="4">4.0+ Estrellas</option>
+                    <option value="3">3.0+ Estrellas</option>
+                </select>
+                <button type="button" class="btn-filter" id="btnFilterAction">Filtrar</button>
+            </form>
+        </div>
+    </section>
+
+    <main class="container">
+        <div id="workersContainer" class="workers-grid">
+            </div>
+    </main>
+
+    <footer style="padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;">
+        HONESTWORK MÉXICO · CABO SAN LUCAS · <span id="year"></span>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from "./js/firebase-config.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const workersContainer = document.getElementById('workersContainer');
+        const searchInput = document.getElementById('searchInput');
+        const cityFilter = document.getElementById('cityFilter');
+        const ratingFilter = document.getElementById('ratingFilter');
+        const btnFilterAction = document.getElementById('btnFilterAction');
+
+        let allWorkers = [];
+
+        // 1. Verificar sesión para el botón de perfil
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("profileBtn").style.display = "inline-block";
+                document.getElementById("loginBtn").style.display = "none";
+            }
+        });
+
+        // 2. Cargar trabajadores
+        async function fetchWorkers() {
+            workersContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1; font-weight:600; color:#94a3b8;">Sincronizando perfiles...</p>';
+            
+            try {
+                const q = query(collection(db, "users"), where("idStatus", "==", "verificado"));
+                const querySnapshot = await getDocs(q);
+                allWorkers = [];
+                querySnapshot.forEach((doc) => {
+                    allWorkers.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Leer parámetros de la URL si vienen del index
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('q')) searchInput.value = params.get('q');
+                if (params.get('city')) cityFilter.value = params.get('city');
+
+                applyFilters();
+            } catch (error) {
+                console.error(error);
+                workersContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">Error de conexión.</p>';
+            }
+        }
+
+        // 3. Aplicar Filtros
+        function applyFilters() {
+            const txt = searchInput.value.toLowerCase().trim();
+            const city = cityFilter.value.toLowerCase().trim();
+            const minRate = parseFloat(ratingFilter.value);
+
+            const filtered = allWorkers.filter(w => {
+                const matchTxt = (w.name || "").toLowerCase().includes(txt) || (w.job || "").toLowerCase().includes(txt);
+                const matchCity = (w.city || "").toLowerCase().includes(city);
+                const matchRate = (parseFloat(w.rating) || 0) >= minRate;
+                return matchTxt && matchCity && matchRate;
+            });
+
+            render(filtered);
+        }
+
+        // 4. Dibujar Tarjetas
+        function render(list) {
+            workersContainer.innerHTML = "";
+            if (list.length === 0) {
+                workersContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#94a3b8;">No se encontraron resultados para esta búsqueda.</p>';
+                return;
+            }
+
+            list.forEach(w => {
+                const stars = "★".repeat(Math.round(w.rating || 0));
+                workersContainer.innerHTML += `
+                    <div class="worker-card">
+                        <img src="${w.profilePhoto || 'https://via.placeholder.com/150'}" class="worker-img">
+                        <div class="status-tag"><i class="fa-solid fa-certificate"></i> VERIFICADO</div>
+                        <h3 class="worker-name">${w.name}</h3>
+                        <p class="worker-job">${w.job || 'Especialista'}</p>
+                        <p class="worker-meta"><i class="fa-solid fa-location-dot"></i> ${w.city || 'México'}</p>
+                        <div class="rating-box">${stars} <span>${parseFloat(w.rating || 0).toFixed(1)} (${w.reviewsCount || 0})</span></div>
+                        <a href="worker.html?id=${w.id}" class="btn-view-profile">Ver Perfil</a>
+                    </div>
+                `;
+            });
+        }
+
+        btnFilterAction.onclick = applyFilters;
+        searchInput.oninput = applyFilters;
+        cityFilter.oninput = applyFilters;
+        ratingFilter.onchange = applyFilters;
+        
+        document.getElementById("year").textContent = new Date().getFullYear();
+        fetchWorkers();
+    </script>
 </body>
 </html>
