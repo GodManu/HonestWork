@@ -19,13 +19,11 @@
             --text-muted: #64748b;
             --bg-light: #f8fafc;
             --white: #ffffff;
-            --radius: 20px;
+            --radius: 24px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-
         body { background-color: var(--bg-light); color: var(--text-main); }
-
         .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
 
         /* --- NAVBAR --- */
@@ -45,118 +43,49 @@
         .btn-logout { background: none; border: none; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; text-decoration: none; transition: 0.3s; }
         .btn-logout:hover { color: var(--danger); }
 
-        /* --- DASHBOARD GRID --- */
-        .dashboard-grid { 
-            display: grid; 
-            grid-template-columns: 320px 1fr; 
-            gap: 30px; 
-            padding: 40px 0; 
-        }
+        /* --- GRID --- */
+        .dashboard-grid { display: grid; grid-template-columns: 320px 1fr; gap: 30px; padding: 40px 0; }
 
-        /* --- SIDEBAR CARD --- */
-        .sidebar-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 30px;
-            text-align: center;
-            border: 1px solid #f1f5f9;
-            height: fit-content;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        }
-        .profile-img { width: 140px; height: 140px; border-radius: 30px; object-fit: cover; margin-bottom: 20px; border: 5px solid var(--bg-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        /* --- SIDEBAR --- */
+        .sidebar-card { background: var(--white); border-radius: var(--radius); padding: 35px; text-align: center; border: 1px solid #f1f5f9; height: fit-content; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        .profile-img { width: 140px; height: 140px; border-radius: 35px; object-fit: cover; margin-bottom: 20px; border: 5px solid var(--bg-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         
-        .worker-name { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; color: var(--text-main); }
+        .worker-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; letter-spacing: -1px; }
         .worker-job { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
         
-        .verified-mini { font-size: 0.65rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 4px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 15px;}
-        
+        .verified-mini { font-size: 0.65rem; font-weight: 800; color: #10b981; background: #ecfdf5; padding: 5px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 15px;}
         .sidebar-meta { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; }
-
         .stars { color: var(--warning); font-size: 0.8rem; font-weight: 800; }
-        .stars span { color: var(--text-muted); margin-left: 5px; }
 
-        /* --- MAIN CONTENT AREA --- */
+        /* --- CONTENT --- */
         .main-content { display: flex; flex-direction: column; gap: 30px; }
+        .panel-card { background: var(--white); border-radius: var(--radius); padding: 35px; border: 1px solid #f1f5f9; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        .eyebrow { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 10px; display: block; }
+        .section-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 25px; }
 
-        .panel-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 30px;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        }
-
-        .eyebrow {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .section-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
-
-        /* Status Banners */
-        .status-banner {
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
+        .status-banner { padding: 15px 20px; border-radius: 15px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .status-verified { background: #ecfdf5; color: #065f46; border: 1px solid #d1fae5; }
         .status-pending { background: #fffbeb; color: #92400e; border: 1px solid #fef3c7; }
 
-        /* Portfolio Grid */
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .portfolio-item { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
-        .portfolio-item img { width: 100%; height: 140px; object-fit: cover; }
-        
-        .btn-delete-img {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(5px);
-            border: none;
-            color: var(--danger);
-            width: 25px;
-            height: 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            opacity: 0;
-            transition: 0.3s;
-        }
+        .portfolio-item { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid #eee; }
+        .portfolio-item img { width: 100%; height: 150px; object-fit: cover; }
+        .btn-delete-img { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.9); border: none; color: var(--danger); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; opacity: 0; transition: 0.3s; }
         .portfolio-item:hover .btn-delete-img { opacity: 1; }
 
-        /* Botones Pro */
-        .btn { padding: 12px 24px; border-radius: 100px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; font-size: 0.85rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600;}
-        .btn-outline:hover { background: var(--bg-light); color: var(--text-main); border-color: #d1d5db; }
+        /* Botones */
+        .btn { padding: 12px 25px; border-radius: 100px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; font-size: 0.85rem; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(0, 86, 179, 0.1); }
+        .btn-outline { background: transparent; border: 1px solid #e2e8f0; color: var(--text-muted); }
+        .btn-admin { background: #fff1f2; color: #991b1b; border: 1px solid #fecaca; margin-top: 15px; width: 100%; }
 
-        /* Formularios */
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .form-control { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-size: 0.85rem; font-weight: 600; }
-        .form-control:focus { border-color: var(--primary); background: white; }
+        /* Modales */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-box { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
 
-        /* Modal Aesthetic */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-box { background: white; padding: 35px; border-radius: var(--radius); width: 90%; max-width: 450px; border: 1px solid #f1f5f9; box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
+        .form-control { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-weight: 600; margin-top: 8px; margin-bottom: 20px; }
 
-        @media (max-width: 900px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-        }
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -164,19 +93,17 @@
     <header class="hw-header">
         <div class="container hw-nav">
             <a href="index.html" class="hw-logo">
-                <div class="logo-mark">HW</div>
-                <span>HonestWork</span>
+                <div class="logo-mark">HW</div> <span>HonestWork</span>
             </a>
-            <a href="index.html" class="btn-logout" id="btnLogout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</a>
+            <button class="btn-logout" id="btnLogout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</button>
         </div>
     </header>
 
     <main class="container dashboard-grid">
-        
         <aside class="sidebar-card">
             <div style="position: relative; display: inline-block;">
                 <img src="https://via.placeholder.com/150" class="profile-img" id="userPhoto">
-                <button class="btn btn-outline" style="position: absolute; bottom: 15px; right: 0; padding: 8px; border-radius: 50%;" id="btnEditPhoto">
+                <button class="btn btn-outline" style="position: absolute; bottom: 15px; right: 0; padding: 10px; border-radius: 50%; background: white;" id="btnEditPhoto">
                     <i class="fa-solid fa-camera"></i>
                 </button>
                 <input type="file" id="photoInput" style="display:none;" accept="image/*">
@@ -185,38 +112,35 @@
             <h2 class="worker-name" id="userName">...</h2>
             <p class="worker-job" id="userJob">Oficio</p>
             <span class="verified-mini" id="idStatusBadge"><i class="fa-solid fa-certificate"></i> STATUS</span>
-            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Ciudad, México</span></p>
-            
+            <p class="sidebar-meta"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Ciudad</span></p>
             <div class="stars" id="userRating">★★★★★ <span>0.0</span></div>
 
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+            <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 25px 0;">
             
-            <button class="btn btn-outline btn-full" id="btnOpenEditModal" style="width: 100%;">
+            <button class="btn btn-outline" id="btnOpenEditModal" style="width: 100%;">
                 <i class="fa-solid fa-user-pen"></i> Editar Perfil
             </button>
-            <a href="admin.html" id="adminLink" class="btn" style="display:none; margin-top: 15px; width: 100%; background: #fff1f2; color: #991b1b; border: 1px solid #fecaca; font-size: 0.8rem;">
-    <i class="fa-solid fa-crown"></i> Panel de Control Admin
-</a>
+
+            <a href="admin.html" id="adminLink" class="btn btn-admin" style="display:none;">
+                <i class="fa-solid fa-crown"></i> Panel Admin
+            </a>
         </aside>
 
         <section class="main-content">
-            
             <div id="statusBanner" class="status-banner status-pending">
-                <i class="fa-solid fa-hourglass-half"></i> Tu cuenta está siendo verificada por Manuel. En breve serás visible en todo México.
+                <i class="fa-solid fa-hourglass-half"></i> Verificando cuenta...
             </div>
 
             <div class="panel-card">
-                <div class="section-header">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
                     <div>
                         <span class="eyebrow">Mi Portafolio</span>
-                        <h2 class="section-title">Fotos de mis Trabajos</h2>
+                        <h2 class="section-title" style="margin:0;">Evidencia de Trabajos</h2>
                     </div>
-                    <button class="btn btn-primary" id="btnOpenPortfolioModal">
-                        <i class="fa-solid fa-plus"></i> Agregar Foto
-                    </button>
+                    <button class="btn btn-primary" id="btnOpenPortfolioModal"><i class="fa-solid fa-plus"></i> Añadir Foto</button>
                 </div>
                 <div class="portfolio-grid" id="workGallery">
-                    <p style="text-align:center; grid-column:1/-1; color:#94a3b8; font-weight:600;">Aún no has subido fotos de evidencia.</p>
+                    <p style="text-align:center; grid-column:1/-1; color:#94a3b8;">Cargando portafolio...</p>
                 </div>
             </div>
 
@@ -224,36 +148,27 @@
                 <span class="eyebrow">Reputación</span>
                 <h2 class="section-title">Últimas Reseñas</h2>
                 <div id="reviewsList">
-                    <p style="color:#94a3b8; font-weight:600;">No tienes reseñas de clientes por ahora.</p>
+                    <p style="color:#94a3b8;">Aún no tienes reseñas.</p>
                 </div>
             </div>
-
         </section>
     </main>
 
     <div class="modal-overlay" id="editProfileModal">
         <div class="modal-box">
-            <h2 style="font-weight: 800; margin-bottom: 25px; letter-spacing: -1px;">Editar Información</h2>
+            <h2 style="margin-bottom:20px; letter-spacing:-1px;">Ajustes de Perfil</h2>
             <form id="editProfileForm">
-                <div class="input-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="editName" class="form-control" required>
-                </div>
-                <div class="input-group">
-                    <label>Oficio / Especialidad</label>
-                    <input type="text" id="editJob" class="form-control" required>
-                </div>
-                <div class="input-group">
-                    <label>WhatsApp (Público)</label>
-                    <input type="text" id="editPhone" class="form-control" placeholder="10 dígitos">
-                </div>
-                <div class="input-group">
-                    <label>Ciudad</label>
-                    <input type="text" id="editCity" class="form-control" placeholder="Ej. CDMX">
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
-                    <button type="button" class="btn btn-outline" id="btnCloseEditModal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="btnSaveProfile">Guardar Cambios</button>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">NOMBRE COMPLETO</label>
+                <input type="text" id="editName" class="form-control" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">OFICIO</label>
+                <input type="text" id="editJob" class="form-control" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">TELÉFONO WHATSAPP</label>
+                <input type="text" id="editPhone" class="form-control">
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">CIUDAD</label>
+                <input type="text" id="editCity" class="form-control">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <button type="button" class="btn btn-outline" id="btnCloseEditModal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveProfile">Guardar</button>
                 </div>
             </form>
         </div>
@@ -261,19 +176,15 @@
 
     <div class="modal-overlay" id="portfolioModal">
         <div class="modal-box">
-            <h2 style="font-weight: 800; margin-bottom: 25px;">Subir Evidencia</h2>
+            <h2 style="margin-bottom:20px;">Nueva Evidencia</h2>
             <form id="portfolioForm">
-                <div class="input-group">
-                    <label>Seleccionar Imagen</label>
-                    <input type="file" id="newWorkPhoto" accept="image/*" class="form-control" style="background:white; border:none; padding:0;" required>
-                </div>
-                <div class="input-group">
-                    <label>Descripción Breve</label>
-                    <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Instalación eléctrica en CDMX" required>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">IMAGEN DEL TRABAJO</label>
+                <input type="file" id="newWorkPhoto" accept="image/*" class="form-control" style="background:none; border:none; padding:0;" required>
+                <label style="font-size:0.7rem; font-weight:800; color:var(--primary);">DESCRIPCIÓN</label>
+                <input type="text" id="newWorkDescription" class="form-control" placeholder="Ej. Cambio de tubería en cocina" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <button type="button" class="btn btn-outline" id="btnClosePortfolioModal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="btnSavePhoto">Subir Foto</button>
+                    <button type="submit" class="btn btn-primary" id="btnSavePhoto">Subir Evidencia</button>
                 </div>
             </form>
         </div>
@@ -287,36 +198,33 @@
 
         let currentUserId = null;
 
-        // 1. VIGILANTE DE SESIÓN (Redirigir si no hay user)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserId = user.uid;
+                
+                // --- LLAVE MAESTRA ADMIN ---
+                if (user.email === "serratoleyva@gmail.com") {
+                    document.getElementById('adminLink').style.display = 'inline-flex';
+                }
+
                 loadDashboard(user.uid);
             } else {
                 window.location.href = 'login.html';
             }
         });
 
-        // 2. CARGAR PANEL EN TIEMPO REAL (onSnapshot)
         function loadDashboard(uid) {
-            const docRef = doc(db, "users", uid);
-
-            // Escuchamos cambios para actualizar UI de inmediato
-            onSnapshot(docRef, (docSnap) => {
+            onSnapshot(doc(db, "users", uid), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-
-                    // Llenar Sidebar
                     document.getElementById('userName').innerText = data.name || "Profesional";
                     document.getElementById('userJob').innerText = data.job || "Especialidad";
                     document.getElementById('userCity').innerText = data.city || "México";
                     document.getElementById('userPhoto').src = data.profilePhoto || "https://via.placeholder.com/150";
                     
                     const rating = parseFloat(data.rating || 0);
-                    const starsHtml = "★".repeat(Math.round(rating)) + "☆".repeat(5 - Math.round(rating));
-                    document.getElementById('userRating').innerHTML = `${starsHtml} <span>${rating.toFixed(1)} (${data.reviewsCount || 0})</span>`;
+                    document.getElementById('userRating').innerHTML = "★".repeat(Math.round(rating)) + `☆`.repeat(5-Math.round(rating)) + ` <span>${rating.toFixed(1)}</span>`;
 
-                    // Banner de Verificación y Bloqueo de Galería
                     const banner = document.getElementById('statusBanner');
                     const badge = document.getElementById('idStatusBadge');
                     const btnUpload = document.getElementById('btnOpenPortfolioModal');
@@ -325,172 +233,98 @@
                         badge.innerHTML = `<i class="fa-solid fa-certificate"></i> VERIFICADO`;
                         badge.style.color = "#10b981"; badge.style.background = "#ecfdf5";
                         banner.className = "status-banner status-verified";
-                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil es verificado y público. ¡Ya eres visible en HonestWork!`;
+                        banner.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tu perfil es público. ¡Ya eres visible en HonestWork!`;
                         btnUpload.disabled = false; btnUpload.style.opacity = "1";
                     } else {
                         badge.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> PENDIENTE`;
-                        badge.style.color = "#92400e"; badge.style.background = "#fffbeb";
                         banner.className = "status-banner status-pending";
-                        banner.innerHTML = `<i class="fa-solid fa-shield-halved"></i> Manuel está revisando tu ID. No podrás subir fotos hasta ser verificado.`;
+                        banner.innerHTML = `<i class="fa-solid fa-shield-halved"></i> Manuel está revisando tu ID para activarte.`;
                         btnUpload.disabled = true; btnUpload.style.opacity = "0.5";
                     }
 
-                    // Pre-llenar Formulario de Edición
-                    document.getElementById('editName').value = data.name || '';
-                    document.getElementById('editJob').value = data.job || '';
-                    document.getElementById('editPhone').value = data.phone || '';
-                    document.getElementById('editCity').value = data.city || '';
-
-                    // Pintar Portafolio con Botón Eliminar
-                    renderPortfolio(data.workPhotos || [], docRef);
-
-                    // Pintar Reseñas (Copia limpia sin botones)
+                    renderPortfolio(data.workPhotos || []);
                     renderReviews(data.reviews || []);
                 }
             });
         }
 
-        // --- FUNCIONES DE DIBUJADO AESTHETIC ---
-        function renderPortfolio(photos, docRef) {
+        function renderPortfolio(photos) {
             const gallery = document.getElementById('workGallery');
-            gallery.innerHTML = "";
-            if (photos.length === 0) {
-                gallery.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#94a3b8;">Aún no hay evidencia.</p>';
-                return;
-            }
-            // Invertimos para ver la más nueva primero
-            [...photos].reverse().forEach(photo => {
-                const item = document.createElement('div');
-                item.className = 'portfolio-item';
-                item.innerHTML = `
-                    <img src="${photo.url}">
-                    <button class="btn-delete-img" onclick="deleteWorkPhoto('${photo.path}', '${photo.url}', '${photo.description}')">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                    <p class="gallery-desc">${photo.description}</p>
-                `;
-                gallery.appendChild(item);
+            gallery.innerHTML = photos.length ? "" : '<p style="text-align:center; grid-column:1/-1;">No hay fotos aún.</p>';
+            [...photos].reverse().forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'portfolio-item';
+                div.innerHTML = `<img src="${p.url}"><button class="btn-delete-img" onclick="deleteWorkPhoto('${p.path}','${p.url}','${p.description}')"><i class="fa-solid fa-trash"></i></button>`;
+                gallery.appendChild(div);
             });
         }
 
         function renderReviews(reviews) {
             const list = document.getElementById('reviewsList');
-            list.innerHTML = "";
-            if (reviews.length === 0) {
-                list.innerHTML = '<p>Sin reseñas de clientes.</p>';
-                return;
-            }
-            [...reviews].reverse().forEach(rev => {
-                const starsHtml = "⭐".repeat(rev.rating);
-                list.innerHTML += `
-                    <div class="review-item">
-                        <div class="review-header">
-                            <strong>${rev.name}</strong>
-                            <span style="font-size:0.8rem; color:#999;">${new Date(rev.date).toLocaleDateString()}</span>
-                        </div>
-                        <div class="stars">${starsHtml}</div>
-                        <p style="font-size:0.9rem; color:#555;">"${rev.comment}"</p>
-                    </div>
-                `;
+            list.innerHTML = reviews.length ? "" : '<p>Sin reseñas.</p>';
+            [...reviews].reverse().forEach(r => {
+                list.innerHTML += `<div style="background:#f8fafc; padding:15px; border-radius:15px; margin-bottom:10px;">
+                    <strong>${r.name}</strong> <span style="color:#f5b301;">${"⭐".repeat(r.rating)}</span>
+                    <p style="font-size:0.85rem; margin-top:5px;">${r.comment}</p>
+                </div>`;
             });
         }
 
-        // --- ACCIONES DE FORMULARIO (MODALES) ---
-        const modalEdit = document.getElementById('editProfileModal');
-        const modalPort = document.getElementById('portfolioModal');
+        // --- MODALES ---
+        const mEdit = document.getElementById('editProfileModal');
+        const mPort = document.getElementById('portfolioModal');
 
-        // Abrir/Cerrar Modales
-        document.getElementById('btnOpenEditModal').onclick = () => modalEdit.style.display = 'flex';
-        document.getElementById('btnCloseEditModal').onclick = () => modalEdit.style.display = 'none';
-        document.getElementById('btnOpenPortfolioModal').onclick = () => modalPort.style.display = 'flex';
-        document.getElementById('btnClosePortfolioModal').onclick = () => modalPort.style.display = 'none';
+        document.getElementById('btnOpenEditModal').onclick = () => mEdit.style.display = 'flex';
+        document.getElementById('btnCloseEditModal').onclick = () => mEdit.style.display = 'none';
+        document.getElementById('btnOpenPortfolioModal').onclick = () => mPort.style.display = 'flex';
+        document.getElementById('btnClosePortfolioModal').onclick = () => mPort.style.display = 'none';
 
-        // 1. Guardar Perfil
-        document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+        document.getElementById('editProfileForm').onsubmit = async (e) => {
             e.preventDefault();
-            document.getElementById('btnSaveProfile').innerText = "Guardando...";
-            const data = {
+            await updateDoc(doc(db, "users", currentUserId), {
                 name: document.getElementById('editName').value,
                 job: document.getElementById('editJob').value,
                 phone: document.getElementById('editPhone').value,
                 city: document.getElementById('editCity').value
-            };
-            try {
-                await updateDoc(doc(db, "users", currentUserId), data);
-                modalEdit.style.display = 'none';
-            } catch (error) { alert("Error al guardar."); }
-            document.getElementById('btnSaveProfile').innerText = "Guardar Cambios";
-        });
+            });
+            mEdit.style.display = 'none';
+        };
 
-        // 2. Subir Foto Portafolio
-        document.getElementById('portfolioForm').addEventListener('submit', async (e) => {
+        document.getElementById('portfolioForm').onsubmit = async (e) => {
             e.preventDefault();
+            const btn = document.getElementById('btnSavePhoto');
             const file = document.getElementById('newWorkPhoto').files[0];
             const desc = document.getElementById('newWorkDescription').value;
-            const btnSave = document.getElementById('btnSavePhoto');
+            btn.innerText = "Subiendo..."; btn.disabled = true;
 
-            if (!file) return;
+            const path = `public/${currentUserId}/works/${Date.now()}_${file.name}`;
+            const sRef = ref(storage, path);
+            await uploadBytes(sRef, file);
+            const url = await getDownloadURL(sRef);
 
-            btnSave.innerText = "Subiendo...";
-            btnSave.disabled = true;
+            await updateDoc(doc(db, "users", currentUserId), {
+                workPhotos: arrayUnion({ url, description: desc, path })
+            });
+            mPort.style.display = 'none';
+            btn.innerText = "Subir Evidencia"; btn.disabled = false;
+        };
 
-            try {
-                // Ruta: public/uid/works/timestamp_name.jpg
-                const path = `public/${currentUserId}/works/${Date.now()}_${file.name}`;
-                const storageRef = ref(storage, path);
-                
-                // 1. Upload a Storage
-                await uploadBytes(storageRef, file);
-                const url = await getDownloadURL(storageRef);
-
-                // 2. Guardar objeto en Firestore array
-                await updateDoc(doc(db, "users", currentUserId), {
-                    workPhotos: arrayUnion({ url, description: desc, path: path })
-                });
-
-                modalPort.style.display = 'none';
-                document.getElementById('portfolioForm').reset();
-
-            } catch (error) { console.error(error); alert("Error al subir."); }
-            btnSave.innerText = "Subir Foto";
-            btnSave.disabled = false;
-        });
-
-        // 3. Eliminar Foto Portafolio (Se expone al DOM)
         window.deleteWorkPhoto = async (path, url, description) => {
-            if(confirm("¿Estás seguro de eliminar esta foto de tu portafolio?")) {
-                try {
-                    // 1. Borrar de Firestore array (debe coincidir el objeto exacto)
-                    await updateDoc(doc(db, "users", currentUserId), {
-                        workPhotos: arrayRemove({ url, description, path })
-                    });
-                    // 2. Borrar archivo de Storage
-                    await deleteObject(ref(storage, path));
-                    // No hace falta reload, onSnapshot actualiza
-                } catch (e) { console.error(e); alert("Error al borrar."); }
+            if(confirm("¿Eliminar foto?")) {
+                await updateDoc(doc(db, "users", currentUserId), { workPhotos: arrayRemove({ url, description, path }) });
+                await deleteObject(ref(storage, path));
             }
-        }
+        };
 
-        // 4. Cambiar Foto de Perfil (Click en foto)
         document.getElementById('btnEditPhoto').onclick = () => document.getElementById('photoInput').click();
-        
-        document.getElementById('photoInput').addEventListener('change', async (e) => {
+        document.getElementById('photoInput').onchange = async (e) => {
             const file = e.target.files[0];
-            if(!file) return;
+            const sRef = ref(storage, `profilePictures/${currentUserId}/profile.jpg`);
+            await uploadBytes(sRef, file);
+            const url = await getDownloadURL(sRef);
+            await updateDoc(doc(db, "users", currentUserId), { profilePhoto: url });
+        };
 
-            try {
-                const path = `profilePictures/${currentUserId}/profile.jpg`;
-                const storageRef = ref(storage, path);
-                // 1. Upload
-                await uploadBytes(storageRef, file);
-                const url = await getDownloadURL(storageRef);
-                // 2. Update Firestore
-                await updateDoc(doc(db, "users", currentUserId), { profilePhoto: url });
-                // onSnapshot actualiza la foto en sidebar
-            } catch (e) { alert("Error al subir foto."); }
-        });
-
-        // Salir
         document.getElementById('btnLogout').onclick = () => signOut(auth);
     </script>
 </body>
