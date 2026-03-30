@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const idNumber = document.getElementById('idNumber').value.trim().toUpperCase();
             const password = document.getElementById('password').value;
             const idPhotoFile = document.getElementById('idPhoto').files[0];
+            const city = document.getElementById('city').value.trim();
 
             if (!idPhotoFile) {
                 throw new Error("Debes subir una foto de tu identificación.");
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: email,
                 phone: cleanPhone,      // Guardamos el teléfono real
                 job: jobTitle,
+                city: city,
                 idNumber: idNumber,
                 idDocumentPath: storagePath, 
                 profilePhoto: "https://via.placeholder.com/150", // Placeholder inicial
