@@ -1,37 +1,49 @@
+import { auth } from "./firebase-config.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 document.addEventListener('DOMContentLoaded', () => {
-    
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
 
-    // SIMULADOR DE BASE DE DATOS: Usuarios válidos
-    const usuariosRegistrados = [
-        { email: "juan@ejemplo.com", password: "password123" },
-        { email: "maria@ejemplo.com", password: "segura456" }
-    ];
-
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault(); // Evitamos que la página se recargue
 
+        // Capturamos los datos
         const emailIngresado = document.getElementById('email').value.trim();
         const passwordIngresado = document.getElementById('password').value;
 
-        // Buscamos si existe un usuario que coincida con ese correo Y esa contraseña
-        const usuarioValido = usuariosRegistrados.find(
-            user => user.email === emailIngresado && user.password === passwordIngresado
-        );
+        try {
+            // Ocultamos el error por si estaba visible de un intento anterior
+            if (loginError) loginError.style.display = 'none';
 
-        if (usuarioValido) {
-            // ¡Acceso concedido! 
-            loginError.style.display = 'none';
+            // 1. CONEXIÓN REAL CON FIREBASE
+            // Aquí Firebase revisa si el correo y contraseña existen en tu proyecto
+            const userCredential = await signInWithEmailAndPassword(auth, emailIngresado, passwordIngresado);
             
-            // En una app real, aquí guardarías un "Token" de sesión segura
-            console.log("Acceso autorizado para:", emailIngresado);
+            console.log("Acceso autorizado para:", userCredential.user.email);
             
-            // Redirigimos al trabajador a su panel de control
+            // 2. REDIRECCIÓN
+            // Si la contraseña es correcta, lo mandamos a su perfil
             window.location.href = 'profile.html';
-        } else {
-            // Acceso denegado: mostramos la alerta
-            loginError.style.display = 'block';
+
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            
+            // 3. MANEJO DE ERRORES REALES
+            if (loginError) {
+                loginError.style.display = 'block';
+                
+                // Traducimos los códigos de error de Firebase para el usuario
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    loginError.innerText = "La contraseña o el correo son incorrectos.";
+                } else if (error.code === 'auth/user-not-found') {
+                    loginError.innerText = "No existe ninguna cuenta registrada con este correo.";
+                } else if (error.code === 'auth/too-many-requests') {
+                    loginError.innerText = "Demasiados intentos fallidos. Intenta de nuevo más tarde.";
+                } else {
+                    loginError.innerText = "Error de conexión. Intenta de nuevo.";
+                }
+            }
             
             // Limpiamos solo el campo de la contraseña por comodidad
             document.getElementById('password').value = '';
