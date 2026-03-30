@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     const workPhotosInput = document.getElementById('workPhotos');
     const workGallery = document.getElementById('workGallery');
+    const userPhoto = document.getElementById('userPhoto'); // El círculo de la foto
+    const profilePhotoInput = document.getElementById('profilePhotoInput'); // El input oculto
 
     // 1. VIGILANTE DE SESIÓN (Auth)
     onAuthStateChanged(auth, (user) => {
@@ -33,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     fillData('userRating', userData.rating || "0.0");
                     fillData('userReviewsCount', userData.reviewsCount || "0");
 
-                    const userPhoto = document.getElementById('userPhoto');
                     if (userPhoto) userPhoto.src = userData.profilePhoto || "https://via.placeholder.com/150";
 
                     // --- LÓGICA DE LA GALERÍA ---
@@ -87,15 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 3. LÓGICA DE CARGA DE FOTOS (Storage)
+            // 3. LÓGICA DE CARGA DE FOTOS DE TRABAJOS (Portafolio)
             if (workPhotosInput) {
-                workPhotosInput.addEventListener('change', async (e) => {
+                // Usamos onchange para evitar que se dupliquen los eventos
+                workPhotosInput.onchange = async (e) => {
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    // Feedback visual al usuario
                     const originalText = statusBanner.innerHTML;
-                    statusBanner.innerHTML = "⏳ Subiendo imagen... por favor espera.";
+                    statusBanner.innerHTML = "⏳ Subiendo imagen de trabajo... por favor espera.";
 
                     try {
                         const storagePath = `public/${user.uid}/works/${Date.now()}_${file.name}`;
@@ -104,20 +105,63 @@ document.addEventListener('DOMContentLoaded', () => {
                         await uploadBytes(storageRef, file);
                         const downloadURL = await getDownloadURL(storageRef);
 
-                        // Actualizar el array en la base de datos
                         await updateDoc(doc(db, "users", user.uid), {
                             workPhotos: arrayUnion(downloadURL)
                         });
 
                         alert("¡Foto de trabajo añadida con éxito!");
                     } catch (error) {
-                        console.error("Error al subir foto:", error);
+                        console.error("Error al subir foto de trabajo:", error);
                         alert("Error al subir la imagen. Intenta de nuevo.");
                     } finally {
                         statusBanner.innerHTML = originalText;
-                        workPhotosInput.value = ""; // Limpiar el input
+                        workPhotosInput.value = ""; 
                     }
-                });
+                };
+            }
+
+            // ==========================================
+            // 4. LÓGICA PARA CAMBIAR FOTO DE PERFIL
+            // ==========================================
+            if (userPhoto && profilePhotoInput) {
+                // Al dar clic en la imagen, abre el buscador de archivos oculto
+                userPhoto.onclick = () => {
+                    profilePhotoInput.click();
+                };
+
+                // Cuando el usuario selecciona una foto...
+                profilePhotoInput.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    // Efecto visual de "cargando"
+                    userPhoto.style.opacity = "0.5";
+                    const originalText = statusBanner.innerHTML;
+                    statusBanner.innerHTML = "⏳ Actualizando foto de perfil...";
+
+                    try {
+                        // Subir a la carpeta pública de profilePictures
+                        const storagePath = `profilePictures/${user.uid}/${Date.now()}_${file.name}`;
+                        const storageRef = ref(storage, storagePath);
+                        
+                        await uploadBytes(storageRef, file);
+                        const downloadURL = await getDownloadURL(storageRef);
+
+                        // Actualizar el documento del usuario en Firestore
+                        await updateDoc(doc(db, "users", user.uid), {
+                            profilePhoto: downloadURL
+                        });
+
+                        alert("¡Foto de perfil actualizada con éxito!");
+                    } catch (error) {
+                        console.error("Error al subir foto de perfil:", error);
+                        alert("Error al subir la imagen de perfil.");
+                    } finally {
+                        userPhoto.style.opacity = "1";
+                        statusBanner.innerHTML = originalText;
+                        profilePhotoInput.value = ""; // Limpiar el input
+                    }
+                };
             }
 
         } else {
@@ -126,12 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 4. CERRAR SESIÓN
+    // 5. CERRAR SESIÓN
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+        logoutBtn.onclick = () => {
             signOut(auth).then(() => {
                 window.location.href = 'login.html';
             });
-        });
+        };
     }
 });
