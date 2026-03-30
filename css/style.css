@@ -2,255 +2,85 @@
    1. VARIABLES Y RESET GLOBAL
    ========================================= */
 :root {
-    --primary-color: #0056b3; /* Azul confianza */
+    --primary-color: #0056b3; 
     --primary-hover: #004494;
-    --success-color: #28a745; /* Verde verificado */
-    --warning-color: #ffc107; /* Amarillo revisión */
-    --danger-color: #dc3545;  /* Rojo error */
-    --text-main: #333333;
-    --text-muted: #6c757d;
-    --bg-body: #f4f7f6;       /* Fondo gris súper claro */
-    --bg-surface: #ffffff;    /* Fondo de tarjetas blanco puro */
+    --dark-navy: #1a202c;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;  
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --bg-body: #f7fafc;        
+    --bg-surface: #ffffff;    
     --border-color: #e2e8f0;
-    --radius: 8px;
+    --radius: 12px;
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    line-height: 1.6;
-}
+body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
 
-h1, h2, h3 {
-    color: #1a202c;
-}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
 /* =========================================
-   2. FORMULARIOS Y BOTONES (Login & Registro)
+   2. NAVEGACIÓN Y HEADER
    ========================================= */
-.register-container, .login-container {
-    max-width: 450px;
-    margin: 40px auto;
-    padding: 30px;
-    background: var(--bg-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-}
-
-.register-container header, .login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    font-size: 0.95em;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1em;
-    transition: border-color 0.3s;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
-}
-
-.form-group small {
-    display: block;
-    color: var(--text-muted);
-    font-size: 0.8em;
-    margin-top: 4px;
-}
-
-button[type="submit"], .btn-login, .btn-view {
-    width: 100%;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px;
-    font-size: 1.05em;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
-}
-
-button[type="submit"]:hover, .btn-login:hover, .btn-view:hover {
-    background-color: var(--primary-hover);
-}
-
-button[type="submit"]:active {
-    transform: scale(0.98);
-}
-/* Estilos para el botón de regresar */
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #555;
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 20px;
-    padding: 10px 15px;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: all 0.2s;
-    grid-column: 1 / -1; /* Hace que el botón ocupe todo el ancho de arriba */
-}
-
-.back-btn:hover {
-    background: #e2e2e2;
-    color: #000;
-}
+.hw-header { background: var(--bg-surface); padding: 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm); border-bottom: 1px solid var(--border-color); }
+.hw-nav { display: flex; justify-content: space-between; align-items: center; }
+.hw-logo { font-size: 1.5em; font-weight: 700; color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-mark { background: var(--primary-color); color: white; padding: 5px 10px; border-radius: 6px; }
 
 /* =========================================
-   3. DIRECTORIO DE TRABAJADORES (Workers.html)
+   3. BOTONES Y FORMULARIOS
    ========================================= */
-.search-bar {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-    background: var(--bg-surface);
-    padding: 15px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-}
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius); font-weight: 700; cursor: pointer; transition: all 0.3s; text-decoration: none; border: none; font-size: 1em; }
+.btn-primary { background: var(--primary-color); color: white; }
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+.btn-outline { border: 2px solid var(--primary-color); color: var(--primary-color); background: transparent; }
+.btn-outline:hover { background: var(--primary-color); color: white; }
+.btn-whatsapp { background: #25D366; color: white; width: 100%; }
+.btn-danger { background: var(--danger-color); color: white; }
 
-.workers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-.worker-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius);
-    padding: 25px 20px;
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.worker-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-}
-
-.worker-card img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-    border: 3px solid var(--bg-body);
-}
-
-.verified-badge {
-    color: var(--success-color);
-    font-size: 0.85em;
-    font-weight: bold;
-    margin: 8px 0;
-    display: inline-flex;
-    align-items: center;
-    background: #e8f5e9;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9em; color: var(--dark-navy); }
+.form-control { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 1em; transition: 0.3s; }
+.form-control:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1); }
 
 /* =========================================
-   4. PERFILES INDIVIDUALES Y PANEL (Profile & Worker.html)
+   4. INDEX: HERO Y SECCIONES
    ========================================= */
-.profile-container, .dashboard-container {
-    background: var(--bg-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-}
+.hero-impact { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070') center/cover; padding: 120px 20px; text-align: center; color: white; }
+.hero-impact h1 { font-size: 3.5em; font-weight: 800; margin-bottom: 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.hero-impact p { font-size: 1.2em; margin-bottom: 40px; opacity: 0.9; }
 
-.contact-btn {
-    background-color: #25D366; /* Verde WhatsApp */
-    color: white;
-    padding: 12px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    transition: background 0.3s;
-}
-
-.contact-btn:hover {
-    background-color: #1ebe57;
-}
-
-.status-banner {
-    padding: 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.status-pending { background-color: #fff3cd; color: #856404; }
-
-.status-verified { background-color: #d4edda; color: #155724; }
-
-.review-card {
-    background: var(--bg-body);
-    padding: 15px;
-    border-radius: var(--radius);
-    margin-bottom: 15px;
-    border-left: 4px solid var(--primary-color);
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background: var(--border-color);
-    margin: 25px 0;
-}
+.main-search-bar { background: white; padding: 10px; border-radius: 50px; max-width: 900px; margin: 0 auto; display: flex; gap: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+.search-input-group { flex: 1; display: flex; align-items: center; padding: 0 20px; border-right: 1px solid #eee; }
+.search-input-group:last-of-type { border-right: none; }
+.search-input-group input, .search-input-group select { border: none; width: 100%; padding: 10px; outline: none; font-size: 1em; }
+.btn-circle-search { background: var(--primary-color); color: white; width: 55px; height: 55px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.2em; transition: 0.3s; }
 
 /* =========================================
-   5. RESPONSIVE DESIGN (Móviles)
+   5. COMPONENTES: GALERÍA Y PERFIL
    ========================================= */
-@media (max-width: 600px) {
-    .search-bar {
-        flex-direction: column;
-    }
-    
-    .header-section {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .dashboard-container {
-        grid-template-columns: 1fr;
-    }
-}
+.dashboard-grid { display: grid; grid-template-columns: 300px 1fr; gap: 30px; margin: 40px 0; }
+.sidebar-profile { background: white; padding: 30px; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center; height: fit-content; }
+.sidebar-profile img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--bg-body); margin-bottom: 15px; }
+
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.gallery-item { background: white; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-color); transition: 0.3s; }
+.gallery-item img { width: 100%; height: 180px; object-fit: cover; }
+.gallery-desc { padding: 15px; font-size: 0.9em; color: var(--text-main); }
+
+/* =========================================
+   6. MODALES Y RESEÑAS
+   ========================================= */
+.modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
+.modal-content { background: white; padding: 40px; border-radius: var(--radius); width: 90%; max-width: 500px; position: relative; }
+
+.review-item { background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border-color); margin-bottom: 20px; }
+.review-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.stars { color: var(--warning-color); font-size: 1.1em; }
+
+.verification-status { padding: 15px; border-radius: var(--radius); font-weight: 700; text-align: center; margin-bottom: 25px; }
