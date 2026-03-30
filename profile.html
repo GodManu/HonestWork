@@ -44,7 +44,11 @@
             </div>
             
             <h3 id="userName" style="margin-bottom: 5px;">Cargando...</h3>
-            <p id="userJob" style="color: #666; margin-bottom: 25px; margin-top: 0;">Oficio</p>
+            <p id="userJob" style="color: #666; margin-top: 0; margin-bottom: 5px;">Oficio</p>
+            <p style="color: #888; font-size: 0.85em; margin-top: 0; margin-bottom: 15px;"><i class="fa-solid fa-location-dot"></i> <span id="userCity">Cargando...</span></p>
+            
+            <button id="btnEditProfile" style="background: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 20px; font-weight: bold;"><i class="fa-solid fa-pen"></i> Editar Info</button>
+
             <button id="logoutBtn" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
         </aside>
 
@@ -96,6 +100,29 @@
             </div>
 
         </main>
+    </div>
+
+    <div id="editProfileModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            <h2 style="margin-top: 0; margin-bottom: 20px; text-align: center;">Editar mi Información</h2>
+            
+            <label style="font-weight: bold; font-size: 0.9em;">Nombre completo:</label>
+            <input type="text" id="editName" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+            
+            <label style="font-weight: bold; font-size: 0.9em;">Oficio principal:</label>
+            <input type="text" id="editJob" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+
+            <label style="font-weight: bold; font-size: 0.9em;">Ciudad y Estado:</label>
+            <input type="text" id="editCity" placeholder="Ej: Cabo San Lucas, BCS" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+            
+            <label style="font-weight: bold; font-size: 0.9em;">Teléfono (WhatsApp):</label>
+            <input type="tel" id="editPhone" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+            
+            <div style="display: flex; gap: 10px;">
+                <button id="btnCancelEdit" style="flex: 1; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Cancelar</button>
+                <button id="btnSaveEdit" style="flex: 1; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Guardar Cambios</button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="js/profile.js"></script>
