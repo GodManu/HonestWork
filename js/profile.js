@@ -1,184 +1,151 @@
-import { db } from "./firebase-config.js";
-// Agregamos updateDoc y arrayUnion para poder guardar las reseñas
-import { doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { auth, db, storage } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, onSnapshot, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-document.addEventListener('DOMContentLoaded', async () => {
-    
-    // 1. OBTENER EL ID DEL TRABAJADOR DESDE LA URL
-    const params = new URLSearchParams(window.location.search);
-    const workerId = params.get('id');
+document.addEventListener('DOMContentLoaded', () => {
+    // Referencias HTML
+    const statusBanner = document.getElementById('verificationStatus');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const workGallery = document.getElementById('workGallery');
+    const userPhoto = document.getElementById('userPhoto'); 
+    const profilePhotoInput = document.getElementById('profilePhotoInput'); 
 
-    // Referencias a los elementos del HTML
-    const gallery = document.getElementById('workerGallery');
-    const whatsappBtn = document.getElementById('whatsappBtn');
-    const workerName = document.getElementById('workerName');
-    
-    // Referencias a los elementos de Reseñas
-    const reviewsList = document.getElementById('reviewsList');
-    const btnSubmitReview = document.getElementById('btnSubmitReview');
+    // Elementos para subir trabajos
+    const btnUploadWork = document.getElementById('btnUploadWork');
+    const fileInput = document.getElementById('newWorkPhoto');
+    const descInput = document.getElementById('newWorkDescription');
 
-    if (!workerId) {
-        window.location.href = 'workers.html';
-        return;
-    }
+    // Elementos para editar perfil
+    const btnEditProfile = document.getElementById('btnEditProfile');
+    const editProfileModal = document.getElementById('editProfileModal');
+    const btnCancelEdit = document.getElementById('btnCancelEdit');
+    const btnSaveEdit = document.getElementById('btnSaveEdit');
 
-    try {
-        // 2. CONSULTAR LOS DATOS EN FIRESTORE
-        const docRef = doc(db, "users", workerId);
-        const docSnap = await getDoc(docRef);
+    let currentUserData = {}; 
 
-        if (docSnap.exists()) {
-            const worker = docSnap.data();
-
-            if (worker.idStatus !== "verificado") {
-                document.body.innerHTML = `
-                    <div style="text-align:center; margin-top:100px; font-family:sans-serif;">
-                        <h1>Perfil no disponible</h1>
-                        <p>Este profesional no se encuentra activo en este momento.</p>
-                        <a href="workers.html" style="color:#007bff; text-decoration:none; font-weight:bold;">Volver al directorio</a>
-                    </div>
-                `;
-                return;
-            }
-
-            // 3. LLENAR INFORMACIÓN BÁSICA
-            workerName.innerText = worker.name || "Profesional";
-            document.getElementById('workerJob').innerText = worker.job || "Oficio no definido";
-            document.getElementById('workerPhoto').src = worker.profilePhoto || 'https://via.placeholder.com/150';
+    // 1. VIGILANTE DE SESIÓN
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const userRef = doc(db, "users", user.uid);
             
-            const rating = parseFloat(worker.rating) || 0;
-            const ratingHtml = `
-                <span style="color: #f5b301;">★</span> ${rating.toFixed(1)} 
-                <small style="color:#999; font-size: 0.7em;">(${worker.reviewsCount || 0} reseñas)</small>
-            `;
-            document.getElementById('workerRating').innerHTML = ratingHtml;
+            // 2. ESCUCHA EN TIEMPO REAL
+            onSnapshot(userRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    currentUserData = userData;
+                    const status = userData.idStatus; 
 
-            // 4. CONFIGURAR WHATSAPP
-            if (worker.phone && whatsappBtn) {
-                let cleanPhone = worker.phone.toString().replace(/\D/g, '');
-                if (cleanPhone.length === 10) cleanPhone = "52" + cleanPhone;
-                const mensaje = encodeURIComponent(`Hola ${worker.name}, te encontré en HonestWork y me gustaría pedirte un presupuesto para un trabajo de ${worker.job}.`);
-                whatsappBtn.href = `https://wa.me/${cleanPhone}?text=${mensaje}`;
-            } else if (whatsappBtn) {
-                whatsappBtn.style.display = 'none';
-            }
+                    // Llenar datos en pantalla
+                    const fillData = (id, text) => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = text;
+                    };
 
-            // 5. CARGAR LA GALERÍA DE TRABAJOS
-            if (gallery) {
-                gallery.innerHTML = ""; 
-                if (worker.workPhotos && worker.workPhotos.length > 0) {
-                    worker.workPhotos.forEach(work => {
-                        const isOldFormat = typeof work === 'string';
-                        const url = isOldFormat ? work : work.url;
-                        const desc = isOldFormat ? "Trabajo realizado" : work.description;
+                    fillData('userName', userData.name || "Usuario");
+                    fillData('userJob', userData.job || "No definido");
+                    fillData('userCity', userData.city || "México");
+                    fillData('userRating', userData.rating || "0.0");
+                    fillData('userReviewsCount', userData.reviewsCount || "0");
 
-                        const card = document.createElement('div');
-                        card.style.cssText = "border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: #fff; display: flex; flex-direction: column; box-shadow: 0 2px 5px rgba(0,0,0,0.05);";
-                        
-                        card.innerHTML = `
-                            <img src="${url}" style="width: 100%; height: 200px; object-fit: cover; cursor: pointer;" onclick="window.open('${url}', '_blank')">
-                            <div style="padding: 15px; flex-grow: 1;">
-                                <p style="color: #444; font-size: 0.95em; margin: 0;">${desc}</p>
-                            </div>
-                        `;
-                        gallery.appendChild(card);
-                    });
-                } else {
-                    gallery.innerHTML = `<p style="color: #999; grid-column: 1/-1; text-align: center;">Este profesional aún no ha subido fotos.</p>`;
-                }
-            }
+                    if (userPhoto) userPhoto.src = userData.profilePhoto || "https://via.placeholder.com/150";
 
-            // ==========================================
-            // 6. RENDERIZAR RESEÑAS EXISTENTES
-            // ==========================================
-            if (reviewsList) {
-                reviewsList.innerHTML = "";
-                if (!worker.reviews || worker.reviews.length === 0) {
-                    reviewsList.innerHTML = "<p style='color:#666; font-style:italic; text-align:center;'>Aún no hay reseñas. ¡Sé el primero en calificar a este profesional!</p>";
-                } else {
-                    // Volteamos el arreglo para mostrar la más nueva hasta arriba
-                    const reversedReviews = [...worker.reviews].reverse();
-                    
-                    reversedReviews.forEach(rev => {
-                        // Dibujar las estrellitas amarillas
-                        const stars = "⭐".repeat(rev.rating) + "☆".repeat(5 - rev.rating);
-                        const dateStr = rev.date ? new Date(rev.date).toLocaleDateString() : "Reciente";
-                        
-                        reviewsList.innerHTML += `
-                            <div style="background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px solid #eee;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                    <strong style="color: #333;">${rev.name}</strong>
-                                    <span style="color: #999; font-size: 0.85em;">${dateStr}</span>
-                                </div>
-                                <div style="color: #f5b301; margin-bottom: 10px; font-size: 0.9em;">${stars}</div>
-                                <p style="margin: 0; color: #555; font-size: 0.95em; line-height: 1.4;">"${rev.comment}"</p>
-                            </div>
-                        `;
-                    });
-                }
-            }
+                    // --- RENDER GALERÍA ---
+                    if (workGallery) {
+                        workGallery.innerHTML = ""; 
+                        if (userData.workPhotos && userData.workPhotos.length > 0) {
+                            userData.workPhotos.forEach(work => {
+                                const url = typeof work === 'string' ? work : work.url;
+                                const desc = typeof work === 'string' ? "Sin descripción" : work.description;
+                                const card = document.createElement('div');
+                                card.style = "position: relative; border: 1px solid #eee; border-radius: 8px; padding: 10px; background: white; display: flex; flex-direction: column;";
+                                card.innerHTML = `
+                                    <img src="${url}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+                                    <p style="font-size: 0.85em; color: #555; margin-bottom: 15px; flex-grow: 1;">${desc}</p>
+                                    <button class="btn-delete-work" data-work='${JSON.stringify(work)}' style="background: #dc3545; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Eliminar</button>
+                                `;
+                                workGallery.appendChild(card);
+                            });
 
-            // ==========================================
-            // 7. LÓGICA PARA ENVIAR UNA NUEVA RESEÑA
-            // ==========================================
-            if (btnSubmitReview) {
-                btnSubmitReview.onclick = async () => {
-                    const revName = document.getElementById('reviewerName').value.trim();
-                    const revRating = parseInt(document.getElementById('reviewRating').value);
-                    const revComment = document.getElementById('reviewComment').value.trim();
-
-                    if (!revName || !revComment) {
-                        alert("Por favor, ingresa tu nombre y un comentario para publicar la reseña.");
-                        return;
+                            // Botones eliminar
+                            document.querySelectorAll('.btn-delete-work').forEach(btn => {
+                                btn.onclick = async (e) => {
+                                    const workData = JSON.parse(e.currentTarget.getAttribute('data-work'));
+                                    if(confirm("¿Eliminar este trabajo?")) {
+                                        await updateDoc(userRef, { workPhotos: arrayRemove(workData) });
+                                        if(workData.path) await deleteObject(ref(storage, workData.path));
+                                    }
+                                };
+                            });
+                        }
                     }
 
-                    btnSubmitReview.innerText = "Publicando...";
-                    btnSubmitReview.disabled = true;
+                    // --- BANNER STATUS ---
+                    if (statusBanner) {
+                        if (status === "verificado") {
+                            if (btnUploadWork) btnUploadWork.disabled = false;
+                            statusBanner.className = 'status-banner status-verified';
+                            statusBanner.innerHTML = '✔️ Perfil Verificado. ¡Ya eres visible!';
+                        } else {
+                            if (btnUploadWork) btnUploadWork.disabled = true;
+                            statusBanner.className = 'status-banner status-pending';
+                            statusBanner.innerHTML = '⏳ Tu identificación está en revisión.';
+                        }
+                    }
+                }
+            });
 
+            // 3. SUBIR TRABAJOS
+            if (btnUploadWork) {
+                btnUploadWork.onclick = async () => {
+                    const file = fileInput.files[0];
+                    const description = descInput.value.trim();
+                    if (!file || !description) return alert("Faltan datos");
+
+                    btnUploadWork.disabled = true;
                     try {
-                        // Creamos el objeto de la reseña
-                        const newReview = {
-                            name: revName,
-                            rating: revRating,
-                            comment: revComment,
-                            date: new Date().toISOString()
-                        };
+                        const path = `public/${user.uid}/works/${Date.now()}_${file.name}`;
+                        const sRef = ref(storage, path);
+                        await uploadBytes(sRef, file);
+                        const url = await getDownloadURL(sRef);
 
-                        // 🧮 MATEMÁTICAS: Calcular el nuevo promedio
-                        const currentCount = parseInt(worker.reviewsCount) || 0;
-                        const currentRating = parseFloat(worker.rating) || 0;
-                        
-                        const newCount = currentCount + 1;
-                        const newAverage = ((currentRating * currentCount) + revRating) / newCount;
-
-                        // Guardamos todo en Firebase
-                        await updateDoc(docRef, {
-                            reviews: arrayUnion(newReview),     // Agrega la reseña a la lista
-                            rating: newAverage,                 // Actualiza las estrellas
-                            reviewsCount: newCount              // Sube el contador
+                        await updateDoc(userRef, {
+                            workPhotos: arrayUnion({ url, description, path })
                         });
+                        fileInput.value = ""; descInput.value = "";
+                        alert("¡Trabajo guardado!");
+                    } catch (e) { console.error(e); }
+                    btnUploadWork.disabled = false;
+                };
+            }
 
-                        alert("¡Gracias por tu reseña! Ayudas a mantener la confianza en la plataforma.");
-                        
-                        // Recargamos la página para que el cliente vea su comentario publicado y el nuevo promedio
-                        window.location.reload();
-
-                    } catch (error) {
-                        console.error("Error al publicar reseña:", error);
-                        alert("Hubo un error al enviar tu reseña. Intenta de nuevo.");
-                        btnSubmitReview.innerText = "Publicar Reseña";
-                        btnSubmitReview.disabled = false;
-                    }
+            // 4. EDITAR PERFIL (MODAL)
+            if (btnEditProfile) {
+                btnEditProfile.onclick = () => {
+                    document.getElementById('editName').value = currentUserData.name || '';
+                    document.getElementById('editJob').value = currentUserData.job || '';
+                    document.getElementById('editCity').value = currentUserData.city || '';
+                    document.getElementById('editPhone').value = currentUserData.phone || '';
+                    editProfileModal.style.display = 'flex';
+                };
+                btnCancelEdit.onclick = () => editProfileModal.style.display = 'none';
+                btnSaveEdit.onclick = async () => {
+                    await updateDoc(userRef, {
+                        name: document.getElementById('editName').value,
+                        job: document.getElementById('editJob').value,
+                        city: document.getElementById('editCity').value,
+                        phone: document.getElementById('editPhone').value
+                    });
+                    editProfileModal.style.display = 'none';
                 };
             }
 
         } else {
-            console.error("No se encontró el trabajador.");
-            window.location.href = 'workers.html';
+            window.location.href = 'login.html';
         }
+    });
 
-    } catch (error) {
-        console.error("Error al cargar perfil:", error);
-        alert("Hubo un problema al cargar la información. Intenta de nuevo.");
+    if (logoutBtn) {
+        logoutBtn.onclick = () => signOut(auth).then(() => window.location.href = 'login.html');
     }
 });
