@@ -7,12 +7,13 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
         :root {
             --primary: #0056b3;
             --primary-dark: #003d82;
-            --accent: #10b981;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --bg-light: #f8fafc;
@@ -31,109 +32,28 @@
             padding: 40px 20px;
         }
 
-        .register-card {
-            background: var(--white);
-            width: 100%;
-            max-width: 650px;
-            padding: 50px;
-            border-radius: var(--radius);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
-            border: 1px solid #f1f5f9;
-            text-align: center;
-        }
-
-        .logo-box {
-            background: var(--primary);
-            color: white;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            font-weight: 800;
-            margin: 0 auto 25px;
-        }
+        .register-card { background: var(--white); width: 100%; max-width: 650px; padding: 50px; border-radius: var(--radius); box-shadow: 0 40px 80px rgba(0,0,0,0.06); border: 1px solid #f1f5f9; text-align: center; }
+        .logo-box { background: var(--primary); color: white; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; margin: 0 auto 25px; }
 
         h1 { font-size: 2rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 10px; }
         p.subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 40px; font-weight: 500; }
 
-        /* Form Grid Pro */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            text-align: left;
-        }
-
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
         .full-width { grid-column: 1 / -1; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-left: 5px;
-        }
+        .form-group label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; margin-left: 5px; }
 
         .input-wrapper { position: relative; }
-        .input-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #cbd5e1;
-            font-size: 0.9rem;
-        }
+        .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #cbd5e1; font-size: 0.9rem; }
+        .input-wrapper input { width: 100%; padding: 14px 14px 14px 45px; border-radius: 16px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
+        .input-wrapper input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.05); }
 
-        .input-wrapper input {
-            width: 100%;
-            padding: 14px 14px 14px 45px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
-            outline: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .input-wrapper input:focus {
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.05);
-        }
-
-        .btn-register {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            padding: 16px;
-            border-radius: 100px;
-            border: none;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 30px;
-            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.15);
-            transition: 0.3s;
-        }
-
-        .btn-register:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
+        .btn-register { width: 100%; background: var(--primary); color: white; padding: 16px; border-radius: 100px; border: none; font-size: 0.9rem; font-weight: 700; cursor: pointer; margin-top: 30px; box-shadow: 0 10px 20px rgba(0, 86, 179, 0.15); transition: 0.3s; }
+        .btn-register:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
         .footer-link { margin-top: 30px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
         .footer-link a { color: var(--primary); text-decoration: none; font-weight: 800; }
 
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .register-card { padding: 30px 20px; }
-        }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .register-card { padding: 30px 20px; } }
     </style>
 </head>
 <body>
@@ -147,53 +67,29 @@
             <div class="form-grid">
                 <div class="form-group full-width">
                     <label>Nombre Completo</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" id="name" placeholder="Ej. Marco Lopez" required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-user"></i><input type="text" id="name" placeholder="Ej. Manuel Leyva" required></div>
                 </div>
-
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email" placeholder="correo@ejemplo.com" required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-envelope"></i><input type="email" id="email" placeholder="correo@ejemplo.com" required></div>
                 </div>
-
                 <div class="form-group">
                     <label>Teléfono (WhatsApp)</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-phone"></i>
-                        <input type="text" id="phone" placeholder="624 123 4567" required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-phone"></i><input type="text" id="phone" placeholder="624 123 4567" required></div>
                 </div>
-
                 <div class="form-group">
                     <label>Oficio / Especialidad</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-tools"></i>
-                        <input type="text" id="job" placeholder="Ej. Plomero, Electricista..." required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-tools"></i><input type="text" id="job" placeholder="Ej. Plomero, Electricista..." required></div>
                 </div>
-
                 <div class="form-group">
                     <label>Ciudad</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <input type="text" id="city" placeholder="Ej. Cabo San Lucas" required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-location-dot"></i><input type="text" id="city" placeholder="Ej. Cabo San Lucas" required></div>
                 </div>
-
                 <div class="form-group full-width">
                     <label>Contraseña</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" placeholder="Mínimo 6 caracteres" required>
-                    </div>
+                    <div class="input-wrapper"><i class="fa-solid fa-lock"></i><input type="password" id="password" placeholder="Mínimo 6 caracteres" required></div>
                 </div>
             </div>
-
             <button type="submit" class="btn-register" id="btnRegistrar">Crear mi cuenta profesional</button>
         </form>
 
@@ -206,6 +102,9 @@
         import { auth, db } from "./js/firebase-config.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // INICIALIZAR EMAILJS PARA EL CORREO DE BIENVENIDA
+        emailjs.init("TU_PUBLIC_KEY");
 
         const registerForm = document.getElementById('registerForm');
         const btnRegistrar = document.getElementById('btnRegistrar');
@@ -220,7 +119,7 @@
             const city = document.getElementById('city').value.trim();
             const password = document.getElementById('password').value;
 
-            btnRegistrar.innerText = "Registrando...";
+            btnRegistrar.innerText = "Registrando y preparando cuenta...";
             btnRegistrar.disabled = true;
 
             try {
@@ -228,14 +127,14 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // 2. Crear documento en Firestore con el campo MEMBERSHIP: BASIC
+                // 2. Crear documento en Firestore
                 await setDoc(doc(db, "users", user.uid), {
                     name: name,
                     email: email,
                     phone: phone,
                     job: job,
                     city: city,
-                    membership: "basic", // <--- CLAVE PARA EL NEGOCIO
+                    membership: "basic", 
                     idStatus: "pendiente",
                     profilePhoto: "",
                     rating: 0,
@@ -245,12 +144,24 @@
                     createdAt: new Date().toISOString()
                 });
 
-                alert("¡Bienvenido! Tu cuenta ha sido creada. Manuel verificará tu perfil pronto.");
+                // 3. ENVIAR CORREO DE BIENVENIDA AUTOMÁTICO
+                try {
+                    const welcomeParams = {
+                        user_name: name,
+                        user_email: email,
+                        admin_email: "serratoleyva@gmail.com"
+                    };
+                    await emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID_WELCOME", welcomeParams);
+                } catch (emailError) {
+                    console.error("El usuario se creó, pero falló el envío del correo:", emailError);
+                }
+
+                alert("¡Bienvenido! Tu cuenta ha sido creada y te hemos enviado un correo. Te estamos redirigiendo a tu panel.");
                 window.location.href = 'profile.html';
 
             } catch (error) {
                 console.error(error);
-                alert("Error: " + error.message);
+                alert("Error al registrar: " + error.message);
                 btnRegistrar.innerText = "Crear mi cuenta profesional";
                 btnRegistrar.disabled = false;
             }
