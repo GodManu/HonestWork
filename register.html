@@ -104,7 +104,7 @@
         import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // INICIALIZAR EMAILJS PARA EL CORREO DE BIENVENIDA
-        emailjs.init("TU_PUBLIC_KEY");
+        emailjs.init("bFqAE38DyZvv_vJ1_");
 
         const registerForm = document.getElementById('registerForm');
         const btnRegistrar = document.getElementById('btnRegistrar');
@@ -151,7 +151,7 @@
                         user_email: email,
                         admin_email: "serratoleyva@gmail.com"
                     };
-                    await emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID_WELCOME", welcomeParams);
+                    await emailjs.send("service_9m9bmgu", "template_33giu75", welcomeParams);
                 } catch (emailError) {
                     console.error("El usuario se creó, pero falló el envío del correo:", emailError);
                 }
