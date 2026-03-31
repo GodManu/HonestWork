@@ -310,7 +310,7 @@
             if (confirm("¿Has completado el pago?")) {
                 try {
                     await updateDoc(doc(db, "users", currentUserId), { membership: "pro", proSince: new Date().toISOString() });
-                    await emailjs.send("service_47i3v27", "template_57euj0m", { user_name: userData.name, user_email: userData.email, method: method, admin_email: "serratoleyva@gmail.com" });
+                    await emailjs.send("service_9m9bmgu", "template_xiquayn", { user_name: userData.name, user_email: userData.email, method: method, admin_email: "serratoleyva@gmail.com" });
                     alert("¡Bienvenido a HonestPro!");
                 } catch (e) { alert("Error al procesar."); }
             }
