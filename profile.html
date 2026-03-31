@@ -305,7 +305,7 @@
         document.getElementById('payPayPal').onclick = () => processMembershipPayment("PayPal");
 
         async function processMembershipPayment(method) {
-            const paymentURL = method === "Stripe" ? "TU_LINK_STRIPE" : "TU_LINK_PAYPAL";
+            const paymentURL = method === "Stripe" ? "https://buy.stripe.com/test_fZu14m9pO7YT30IeNn3F600" : "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6FT76206J1257300ENHF43WQ";
             window.open(paymentURL, '_blank');
             if (confirm("¿Has completado el pago?")) {
                 try {
